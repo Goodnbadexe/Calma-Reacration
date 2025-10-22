@@ -2,16 +2,17 @@ import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import VisionCounter from '@/components/VisionCounter'
+import AnimatedNumber from '@/components/ui/AnimatedNumber'
 import panoramaImage from '@/assets/Backgrounds/Abou-1-p-1600.jpg'
 import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
 import brandValuesImage from '@/assets/Images/About/Brand-Values-1.JPG'
 import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.JPG'
 import statsImage2 from '@/assets/Images/About/Stats130000-sqm.JPG'
-import brandmarkLogo from '@/assets/Logos/BRANDMARK_01.png'
-import fullLockupLogo from '@/assets/Logos/FULL-LOCKUP-07-p-3200.png'
+
+import fullLockupLogo from '@/assets/Logos/BRANDMARK_01-p-2000.png'
 import group270Logo from '@/assets/Images/About/Group-270.png'
 import possibilitiesIcon from '@/assets/Icons/500000-sqm-of-possibilities-unfolding..png'
-import calmaVideo from '@/assets/Backgrounds/Calma_TV.mp4'
+import heroImage from '@/assets/Backgrounds/About-Header-p-1600.jpg'
 import './About.css'
 
 export default function About() {
@@ -76,19 +77,18 @@ export default function About() {
         className="hero luxury-hero"
         style={{ y, opacity }}
       >
-        {/* Background video layer */}
+        {/* Background image layer */}
         <div className="hero-media" aria-hidden="true">
-          <video
+          <img
             className="hero-video"
-            src={calmaVideo}
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
+            src={heroImage}
+            alt="Calma Development Hero"
+            loading="eager"
           />
-          <div className="hero-overlay luxury-overlay" />
         </div>
+
+        {/* Overlay */}
+        <div className="hero-overlay luxury-overlay"></div>
 
         {/* Foreground content */}
         <motion.div 
@@ -142,11 +142,11 @@ export default function About() {
               <VisionCounter target={500000} heading="WHERE VISION TAKES SHAPE" label="SQM OF POSSIBILITIES" suffix="+" locale="en" />
               <motion.div className="panorama-stats" variants={staggerContainer}>
                 <motion.div className="stat-item" variants={fadeInLeft}>
-                  <span className="stat-number">28</span>
+                  <AnimatedNumber value={28} className="stat-number" delay={300} />
                   <span className="stat-label">Landmark Projects</span>
                 </motion.div>
                 <motion.div className="stat-item" variants={fadeInRight}>
-                  <span className="stat-number">2000+</span>
+                  <AnimatedNumber value="2000+" className="stat-number" delay={600} />
                   <span className="stat-label">Residents Served</span>
                 </motion.div>
               </motion.div>
@@ -193,9 +193,6 @@ export default function About() {
               </motion.div>
               <motion.div className="content-image" variants={fadeInRight}>
                 <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" />
-                <div className="image-overlay">
-                  <img src={brandmarkLogo} alt="Calma Logo" className="overlay-logo" />
-                </div>
               </motion.div>
             </motion.div>
           </div>
@@ -263,15 +260,15 @@ export default function About() {
                 </p>
                 <div className="community-stats">
                   <div className="community-stat">
-                    <span className="stat-number">77,097</span>
+                    <AnimatedNumber value="77,097" className="stat-number" delay={200} />
                     <span className="stat-label">SQM Land Area</span>
                   </div>
                   <div className="community-stat">
-                    <span className="stat-number">130,000+</span>
+                    <AnimatedNumber value="130,000+" className="stat-number" delay={400} />
                     <span className="stat-label">SQM Building Area</span>
                   </div>
                   <div className="community-stat">
-                    <span className="stat-number">700+</span>
+                    <AnimatedNumber value="700+" className="stat-number" delay={600} />
                     <span className="stat-label">Housing Units</span>
                   </div>
                 </div>
@@ -308,22 +305,22 @@ export default function About() {
                 </p>
                 <div className="culture-principles">
                   <div className="principle-item">
-                    <span className="principle-number">01</span>
+                    <AnimatedNumber value={1} className="principle-number" delay={100} formatter={(n) => `0${Math.floor(n)}`} />
                     <h3 className="principle-title">Precision</h3>
                     <p className="principle-description">Masterful attention to detail in every aspect of our work.</p>
                   </div>
                   <div className="principle-item">
-                    <span className="principle-number">02</span>
+                    <AnimatedNumber value={2} className="principle-number" delay={200} formatter={(n) => `0${Math.floor(n)}`} />
                     <h3 className="principle-title">Excellence</h3>
                     <p className="principle-description">Where perfection meets timelessness in every project.</p>
                   </div>
                   <div className="principle-item">
-                    <span className="principle-number">03</span>
+                    <AnimatedNumber value={3} className="principle-number" delay={300} formatter={(n) => `0${Math.floor(n)}`} />
                     <h3 className="principle-title">Innovation</h3>
                     <p className="principle-description">Advanced techniques that shape the future of development.</p>
                   </div>
                   <div className="principle-item">
-                    <span className="principle-number">04</span>
+                    <AnimatedNumber value={4} className="principle-number" delay={400} formatter={(n) => `0${Math.floor(n)}`} />
                     <h3 className="principle-title">Sustainability</h3>
                     <p className="principle-description">Creating developments that benefit future generations.</p>
                   </div>
@@ -348,46 +345,60 @@ export default function About() {
           viewport={{ once: true, amount: 0.3 }}
           variants={staggerContainer}
         >
-          <div className="section-inner luxury-section-inner">
-            <motion.div className="ceo-content" variants={staggerContainer}>
-              <motion.div className="ceo-header" variants={fadeInUp}>
-                <span className="section-badge platinum">CEO'S MESSAGE</span>
-                <h2 className="content-title luxury-content-title">
-                  WHERE 2,000 DREAMS FIND THEIR ADDRESS
-                </h2>
-              </motion.div>
-              
-              <motion.div className="ceo-message" variants={fadeInUp}>
-                <div className="message-content">
-                  <p className="message-greeting">Dear Valued Partners and Future Residents,</p>
-                  
-                  <p>
-                    When I founded CALMA, I envisioned more than just a real estate development company. I saw an 
-                    opportunity to redefine what it means to create spaces that truly matter – spaces where vision 
-                    takes shape and where potential flourishes.
-                  </p>
-                  
-                  <p>
-                    Today, as I reflect on our journey of 28 successfully delivered projects across the cities of 
-                    Riyadh and Jeddah, I'm reminded that our greatest achievement isn't measured in square meters 
-                    or construction milestones, but in the 2,000+ families who now call our developments home.
-                  </p>
-                  
-                  <p>
-                    This is more than real estate; this is the future of refined living. This is CALMA – committed to your calm.
-                  </p>
-                  
-                  <div className="ceo-signature">
-                    <p className="signature-name"><strong>Musab Al-Majed</strong></p>
-                    <p className="signature-title">Chief Executive Officer, CALMA</p>
-                  </div>
-                </div>
+          {/* Background Div */}
+          <div className="ceo-background-container">
+            {/* Main Text Div */}
+            <div className="ceo-main-content">
+
                 
-                <div className="ceo-image">
-                  <img src={fullLockupLogo} alt="Calma Full Logo" className="ceo-logo" />
-                </div>
+                <motion.div className="ceo-message" variants={fadeInUp}>
+                  <div className="message-content">
+                    <span className="section-badge platinum" style={{textAlign: 'center'}}>CEO'S MESSAGE</span>
+                    <h2 className="content-title luxury-content-title">
+                      WHERE 2,000 DREAMS FIND THEIR ADDRESS
+                    </h2>
+                    
+                    <p className="message-greeting">Dear Valued Partners and Future Residents,</p>
+                    
+                    <p>
+                      When I founded CALMA, I envisioned more than just a real estate development company. I saw an 
+                      opportunity to redefine what it means to create spaces that truly matter.
+                    </p>
+                    
+                    <p>
+                      Spaces where vision takes shape and where potential flourishes, creating lasting value for 
+                      our communities and stakeholders.
+                    </p>
+                    
+                    <p>
+                      Today, as I reflect on our journey of 28 successfully delivered projects across Riyadh and 
+                      Jeddah, I'm reminded of our true achievement.
+                    </p>
+                    
+                    <p>
+                      Our greatest success isn't measured in square meters or construction milestones, but in the 2,000+ 
+                      families who now call our developments home. This is more than real estate; this is the future of 
+                      refined living. This is CALMA – committed to your calm.
+                    </p>
+                  </div>
+                  
+                  <div className="ceo-info-side">
+                    <div className="ceo-signature">
+                      <img 
+                        src={fullLockupLogo} 
+                        alt="Calma Full Logo" 
+                        className="ceo-logo"
+                        loading="lazy"
+                        decoding="async"
+                        style={{ imageRendering: 'crisp-edges' }}
+                      />
+                      <p className="signature-name"><strong>Musab Al-Majed</strong></p>
+                      <p className="signature-title">Chief Executive Officer, CALMA</p>
+                    </div>
+                  </div>
+
               </motion.div>
-            </motion.div>
+            </div>
           </div>
         </motion.section>
 

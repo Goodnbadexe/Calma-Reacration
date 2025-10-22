@@ -110,7 +110,7 @@ body {
 .glass-nav .nav-actions { float: none; justify-self: end; display: flex; align-items: center; gap: 10px; grid-column: 3; margin-left: 0; }
 .logo { font-weight: 600; letter-spacing: 0.2px; color: #071e1f; }
 .nav-links { display: flex; align-items: center; gap: 18px; justify-content: center; }
-.nav-link { color: #071e1f; text-decoration: none; opacity: 0.8; font-weight: 500; transition: all 0.3s ease; }
+.nav-link { color: #071e1f; text-decoration: none; opacity: 0.8; font-weight: 500; transition: all 0.3s ease; cursor: pointer; }
 .nav-link:hover { opacity: 1; color: #63523d; }
 .nav-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
 
@@ -189,6 +189,7 @@ body {
   color: #071e1f; 
   text-decoration: none; 
   border-radius: 8px; 
+  cursor: pointer;
 }
 .dropdown-item:hover { background: rgba(7, 30, 31, 0.06); }
 
@@ -515,10 +516,7 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.overlay-logo {
-  height: 40px;
-  width: auto;
-}
+
 
 /* Content Sections */
 .luxury-content-section {
@@ -746,6 +744,41 @@ body {
   margin-bottom: 48px;
 }
 
+.floating-text-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.floating-text-main {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #071e1f;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, #071e1f 0%, #0a2a2c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.floating-text-sub {
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  color: #8b9499;
+  text-transform: uppercase;
+}
+
+.floating-text-logo:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
 .brand-hero-logo {
   height: 80px;
   width: auto;
@@ -767,31 +800,61 @@ body {
   line-height: 1.6;
 }
 
-.brand-logos {
+.brand-floating-text {
   display: flex;
-  justify-content: center;
+  gap: 3rem;
   align-items: center;
-  gap: 48px;
+  justify-content: center;
+  margin-top: 2rem;
   flex-wrap: wrap;
 }
 
-.brand-logo {
-  height: 60px;
-  width: auto;
+.floating-text-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   opacity: 0.8;
   transition: all 0.3s ease;
-  filter: grayscale(20%);
+  padding: 1.5rem;
+  border: 1px solid rgba(139, 148, 153, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
 }
 
-.brand-logo:hover {
+.floating-text-brand {
+  font-size: 1.8rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: #071e1f;
+  margin-bottom: 0.5rem;
+}
+
+.floating-text-tagline {
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  color: #8b9499;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.floating-text-item:hover {
   opacity: 1;
-  filter: grayscale(0%);
-  transform: scale(1.05);
+  transform: translateY(-3px);
+  border-color: rgba(139, 148, 153, 0.4);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.brand-logo.primary {
-  height: 80px;
+.floating-text-item.primary {
+  border-color: rgba(7, 30, 31, 0.3);
 }
+
+.floating-text-item.primary:hover {
+  border-color: rgba(7, 30, 31, 0.5);
+}
+
+
 
 /* CTA Buttons */
 .cta-row {
@@ -1416,4 +1479,63 @@ body {
   .project-content p {
     font-size: 1rem;
   }
+}
+
+/* Splash Overlay Styles */
+.splash-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #071e1f;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.splash-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.splash-overlay.closing {
+  opacity: 0;
+}
+
+.splash-media {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.splash-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.splash-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(172, 181, 179, 0.3);
+  border-top: 3px solid #acb5b3;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

@@ -101,20 +101,48 @@ export default function NavBar() {
         </Link>
 
         <div className="nav-links" aria-label={isArabic ? 'التنقل الرئيسي' : 'Primary navigation'}>
-          <span className="nav-link" onClick={() => { showSplash(); setTimeout(() => navigate(isArabic ? '/ar' : '/'), 100); }}>{isArabic ? 'الرئيسية' : 'Home'}</span>
-          <span className="nav-link" onClick={async () => { await showSplash(); navigate('/about'); }}>{isArabic ? 'عن كالما' : 'About Calma'}</span>
+          <span className="nav-link" onClick={() => { 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            showSplash(); 
+            setTimeout(() => navigate(isArabic ? '/ar' : '/'), 100); 
+          }}>{isArabic ? 'الرئيسية' : 'Home'}</span>
+          <span className="nav-link" onClick={async () => { 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            await showSplash(); 
+            navigate('/about'); 
+          }}>{isArabic ? 'عن كالما' : 'About Calma'}</span>
           <details className="dropdown">
             <summary className="dropdown-trigger">
               {isArabic ? 'المشاريع' : 'Projects'} <span aria-hidden>▾</span>
             </summary>
             <div className="dropdown-menu">
-              <span className="dropdown-item" onClick={async () => { await showSplash(); navigate('/projects'); }}>{isArabic ? 'كل المشاريع' : 'All Projects'}</span>
-              <span className="dropdown-item" onClick={async () => { await showSplash(); navigate('/projects/commercials'); }}>{isArabic ? 'تجارية' : 'Commercials'}</span>
-              <span className="dropdown-item" onClick={async () => { await showSplash(); navigate('/projects/residential'); }}>{isArabic ? 'سكنية' : 'Residential'}</span>
-              <span className="dropdown-item" onClick={async () => { await showSplash(); navigate('/projects/calma-tower'); }}>{isArabic ? 'برج كالما' : 'Calma Tower'}</span>
+              <span className="dropdown-item" onClick={async () => { 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                await showSplash(); 
+                navigate('/projects'); 
+              }}>{isArabic ? 'كل المشاريع' : 'All Projects'}</span>
+              <span className="dropdown-item" onClick={async () => { 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                await showSplash(); 
+                navigate('/projects/commercials'); 
+              }}>{isArabic ? 'تجارية' : 'Commercials'}</span>
+              <span className="dropdown-item" onClick={async () => { 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                await showSplash(); 
+                navigate('/projects/residential'); 
+              }}>{isArabic ? 'سكنية' : 'Residential'}</span>
+              <span className="dropdown-item" onClick={async () => { 
+                window.scrollTo({ top: 0, behavior: 'smooth' }); 
+                await showSplash(); 
+                navigate('/projects/calma-tower'); 
+              }}>{isArabic ? 'برج كالما' : 'Calma Tower'}</span>
             </div>
           </details>
-          <span className="nav-link" onClick={async () => { await showSplash(); navigate('/news'); }}>{isArabic ? 'الأخبار' : 'News'}</span>
+          <span className="nav-link" onClick={async () => { 
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+            await showSplash(); 
+            navigate('/news'); 
+          }}>{isArabic ? 'الأخبار' : 'News'}</span>
         </div>
 
         {/* Right-aligned: Actions */}

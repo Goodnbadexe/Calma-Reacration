@@ -6,11 +6,10 @@ import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
 import brandValuesImage from '@/assets/Images/About/Brand-Values-1.JPG'
 import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.JPG'
 import statsImage2 from '@/assets/Images/About/Stats130000-sqm.JPG'
-import brandmarkLogo from '@/assets/Logos/BRANDMARK_01.png'
-import fullLockupLogo from '@/assets/Logos/FULL-LOCKUP-07-p-3200.png'
-import group270Logo from '@/assets/Images/About/Group-270.png'
+
 import { Button } from '@/components/ui/button'
 import VisionCounter from '@/components/VisionCounter'
+import AnimatedNumber from '@/components/ui/AnimatedNumber'
 import calmaVideo from '@/assets/Backgrounds/Calma_TV.mp4'
 
 export default function App() {
@@ -126,11 +125,11 @@ export default function App() {
               <VisionCounter target={2000} heading="RESIDENTS SERVED" label="PREMIUM HOMES" suffix="+" locale="en" />
               <motion.div className="panorama-stats" variants={staggerContainer}>
                 <motion.div className="stat-item" variants={fadeInLeft}>
-                  <span className="stat-number">28</span>
+                  <AnimatedNumber value={28} className="stat-number" delay={200} />
                   <span className="stat-label">Landmark Projects</span>
                 </motion.div>
                 <motion.div className="stat-item" variants={fadeInRight}>
-                  <span className="stat-number">500K+</span>
+                  <AnimatedNumber value="500K+" className="stat-number" delay={400} />
                   <span className="stat-label">Square Meters</span>
                 </motion.div>
               </motion.div>
@@ -177,9 +176,6 @@ export default function App() {
               </motion.div>
               <motion.div className="content-image" variants={fadeInRight}>
                 <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" />
-                <div className="image-overlay">
-                  <img src={brandmarkLogo} alt="Calma Logo" className="overlay-logo" />
-                </div>
               </motion.div>
             </motion.div>
           </div>
@@ -330,16 +326,25 @@ export default function App() {
           <div className="section-inner luxury-section-inner">
             <motion.div className="brand-showcase" variants={staggerContainer}>
               <motion.div className="brand-content" variants={fadeInUp}>
-                <img src={group270Logo} alt="Calma Excellence" className="brand-hero-logo" />
+                <div className="floating-text-logo luxury-floating-text">
+                  <span className="floating-text-main">CALMA</span>
+                  <span className="floating-text-sub">EXCELLENCE</span>
+                </div>
                 <h2 className="brand-title">Excellence in Every Square Foot</h2>
                 <p className="brand-description">
                   We envision a future where architectural excellence and sustainable development converge 
                   to transform Saudi Arabia's urban horizons.
                 </p>
               </motion.div>
-              <motion.div className="brand-logos" variants={fadeInUp}>
-                <img src={fullLockupLogo} alt="Calma Full Logo" className="brand-logo primary" />
-                <img src={brandmarkLogo} alt="Calma Brandmark" className="brand-logo secondary" />
+              <motion.div className="brand-floating-text" variants={fadeInUp}>
+                <div className="floating-text-item primary">
+                  <span className="floating-text-brand">CALMA</span>
+                  <span className="floating-text-tagline">LUXURY DEVELOPMENT</span>
+                </div>
+                <div className="floating-text-item secondary">
+                  <span className="floating-text-brand">CALMA</span>
+                  <span className="floating-text-tagline">ARCHITECTURAL EXCELLENCE</span>
+                </div>
               </motion.div>
             </motion.div>
           </div>
@@ -361,7 +366,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <div className="stat-number">28</div>
+              <AnimatedNumber value={28} className="stat-number" delay={100} />
               <div className="stat-label">Successfully Delivered Projects</div>
               <div className="stat-sublabel">Across Riyadh & Jeddah</div>
             </motion.div>
@@ -373,7 +378,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <div className="stat-number">2,000+</div>
+              <AnimatedNumber value="2,000+" className="stat-number" delay={300} />
               <div className="stat-label">Families Call Us Home</div>
               <div className="stat-sublabel">Dreams Find Their Address</div>
             </motion.div>
@@ -385,7 +390,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="stat-number">77,097</div>
+              <AnimatedNumber value="77,097" className="stat-number" delay={200} />
               <div className="stat-label">SQM Total Land Area</div>
               <div className="stat-sublabel">Premium Development Space</div>
             </motion.div>
@@ -397,7 +402,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 0.8 }}
               viewport={{ once: true }}
             >
-              <div className="stat-number">130,000+</div>
+              <AnimatedNumber value="130,000+" className="stat-number" delay={400} />
               <div className="stat-label">SQM Building Area</div>
               <div className="stat-sublabel">Architectural Excellence</div>
             </motion.div>
@@ -409,7 +414,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 1.0 }}
               viewport={{ once: true }}
             >
-              <div className="stat-number">700+</div>
+              <AnimatedNumber value="700+" className="stat-number" delay={600} />
               <div className="stat-label">Housing Units Delivered</div>
               <div className="stat-sublabel">Diverse Residential Offerings</div>
             </motion.div>
@@ -421,7 +426,7 @@ export default function App() {
               transition={{ duration: 0.8, delay: 1.2 }}
               viewport={{ once: true }}
             >
-              <div className="stat-number">500,000</div>
+              <AnimatedNumber value={500000} className="stat-number" delay={800} />
               <div className="stat-label">SQM of Possibilities</div>
               <div className="stat-sublabel">Unfolding Across Saudi Arabia</div>
             </motion.div>

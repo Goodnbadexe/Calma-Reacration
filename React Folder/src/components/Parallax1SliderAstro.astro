@@ -1,600 +1,84 @@
 ---
-// Parallax1SliderAstro.astro - Enhanced Astro component for independent editing
-export interface Props {
-  title?: string
-  description?: string
-  features?: string[]
-  images?: string[]
-  className?: string
-  slideCount?: number
-  enableAutoPlay?: boolean
-  autoPlayDelay?: number
-}
-
-const {
-  title = "Parallax.",
-  description = "Weird parallax effect but kinda exemplifies why you might want it.",
-  features = ["Infinite", "Snap", "Parallax", "current"],
-  images = [],
-  className = "",
-  slideCount = 18,
-  enableAutoPlay = false,
-  autoPlayDelay = 5000
-} = Astro.props
-
-// Default high-quality images with proper error handling
-const defaultImages = [
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1571055107559-3e67626fa8be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-]
-
-// Generate slides with proper validation
-const slideImages = images.length > 0 ? images : defaultImages
-const actualSlideCount = Math.min(slideCount, slideImages.length)
-const slides = Array.from({ length: actualSlideCount }, (_, i) => ({
-  id: i,
-  image: slideImages[i % slideImages.length],
-  title: `Project ${i + 1}`
-}))
+const { index = 1, class: className, ...rest } = Astro.props
+const slides = Array.from({ length: 10 + Math.random() * 10 }, (_, i) => i)
 ---
 
-<div class={`parallax1-slider-astro relative ${className}`} data-component="parallax1-slider">
-  <!-- Header Section with Enhanced Typography -->
-  <div class="text-center mb-8 px-4">
-    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light mb-4 text-slate-800 leading-tight" 
-        style="font-family: 'Bluteau Arabic Sans', sans-serif;">
-      {title}
-    </h2>
-    <p class="text-base sm:text-lg md:text-xl text-slate-600 mb-6 max-w-2xl mx-auto leading-relaxed">
-      {description}
-    </p>
-    <div class="flex justify-center gap-2 flex-wrap max-w-lg mx-auto">
-      {features.map((feature) => (
-        <span class="px-3 py-1.5 bg-slate-100 text-slate-700 rounded-full text-sm font-medium 
-                     hover:bg-slate-200 transition-colors duration-200">
-          {feature}
-        </span>
-      ))}
-    </div>
-  </div>
-
-  <!-- Enhanced Slider Container -->
-  <div class="slider-container relative overflow-hidden">
-    <div class="slider-track flex transition-transform duration-300 ease-out"
-         data-slider-track>
-      {slides.map((slide) => (
-        <div class="slide flex-shrink-0 aspect-[3/4] w-[85vw] sm:w-[70vw] md:w-[45vw] lg:w-[30vw] xl:w-[25vw] p-1"
-             data-slide-id={slide.id}>
-          <div class="slide-content relative h-full w-full p-4 sm:p-6 md:p-8 border-2 border-slate-800 bg-white 
-                      hover:shadow-lg transition-shadow duration-300">
-            <div class="slide-inner flex h-full w-full items-center justify-center border-2 border-slate-600 
-                        overflow-hidden bg-slate-50 relative group">
-              <div class="image-container overflow-hidden w-full h-full relative">
-                <img 
-                  src={slide.image}
-                  alt={slide.title}
-                  class="slide-image w-full h-full object-cover transition-transform duration-500 
-                         group-hover:scale-105"
-                  loading="lazy"
-                  data-slide-image
-                />
-                <div class="slide-overlay absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center 
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <p class="slide-number text-white font-medium text-lg transform translate-y-full 
-                           transition-transform duration-500 ease-out group-hover:translate-y-0">
-                    {slide.id + 1}
-                  </p>
-                </div>
+<div data-example="parallax1" class="relative">
+  <!-- slider -->
+  <div
+    {...rest}
+    tabindex="0"
+    data-slider
+    class:list={[
+      "py-sm flex w-screen overflow-x-hidden",
+      className,
+      "px-[calc(50%-40vw)] md:px-[calc(50%-15vw)]",
+      "py-xl focus:outline-none",
+    ]}
+  >
+    {
+      slides.map((slide, i) => (
+        <div class="flex aspect-[3/4] w-[80vw] shrink-0 items-center justify-center p-1 md:w-[30vw]">
+          <div class="relative h-full w-full p-8 outline outline-gray-800">
+            <div
+              data-p
+              class="flex h-full w-full items-center justify-center outline outline-gray-600"
+            >
+              <div class="overflow-hidden">
+                <p class="">{i}</p>
               </div>
             </div>
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-
-  <!-- Navigation Controls -->
-  <div class="slider-controls flex justify-center gap-4 mt-8">
-    <button class="nav-btn nav-prev px-4 py-2 bg-slate-800 text-white rounded-lg 
-                   hover:bg-slate-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            data-nav="prev" aria-label="Previous slide">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-      </svg>
-    </button>
-    <button class="nav-btn nav-next px-4 py-2 bg-slate-800 text-white rounded-lg 
-                   hover:bg-slate-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            data-nav="next" aria-label="Next slide">
-      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-      </svg>
-    </button>
-  </div>
-
-  <!-- Slide Indicators -->
-  <div class="slide-indicators flex justify-center gap-2 mt-4">
-    {slides.map((_, index) => (
-      <button class="indicator w-2 h-2 rounded-full bg-slate-300 hover:bg-slate-400 
-                     transition-colors duration-200 data-[active]:bg-slate-800"
-              data-indicator={index} aria-label={`Go to slide ${index + 1}`}>
-      </button>
-    ))}
+      ))
+    }
   </div>
 </div>
 
+<script>
+  import Core from "~/wip/slider"
+  import gsap from "~/js/gsap"
+
+  class ControlsSlider extends Core {
+    constructor(container: HTMLElement) {
+      super(container.querySelector("[data-slider]"))
+
+      this.parallaxy = [...container.querySelectorAll("[data-p]")]
+
+      this.onSlideChange(0, 0)
+      gsap.ticker.add(this.update.bind(this))
+    }
+
+    onSlideChange = (current, previous) => {
+      // console.log(current, previous)
+      if (this.items[previous]) {
+        this.items[previous].children[0].classList.remove("active")
+      }
+      this.items[current].children[0].classList.add("active")
+    }
+
+    onUpdate = ({ parallaxValues }) => {
+      this.parallaxy.forEach((p, i) => {
+        p.style.transform = `translateY(${Math.sin(parallaxValues[i] * 1.5) * 10}%)`
+      })
+    }
+  }
+
+  new ControlsSlider(
+    document.querySelector("[data-example='parallax1']") as HTMLElement
+  )
+</script>
+
 <style>
-  .parallax1-slider-astro {
-    --slide-gap: 0.5rem;
-    --slide-padding: 1rem;
-    --border-radius: 0.5rem;
-    --transition-duration: 0.3s;
+  [data-p] > div > p {
+    transform: translateY(120%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.1s;
   }
 
-  .slider-container {
-    padding-left: calc(50% - 40vw);
-    padding-right: calc(50% - 40vw);
-    cursor: grab;
-  }
-
-  .slider-container:active {
-    cursor: grabbing;
-  }
-
-  .slider-track {
-    gap: var(--slide-gap);
-    will-change: transform;
-  }
-
-  .slide {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-  }
-
-  .slide-image {
-    will-change: transform;
-  }
-
-  .slide.active .slide-content {
-    border-color: #1e293b;
-    box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
-
-  .slide.active .slide-inner {
-    border-color: #334155;
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 640px) {
-    .slider-container {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-    
-    .slide {
-      width: 85vw;
-    }
-  }
-
-  @media (min-width: 641px) and (max-width: 768px) {
-    .slide {
-      width: 70vw;
-    }
-  }
-
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .slide {
-      width: 45vw;
-    }
-  }
-
-  @media (min-width: 1025px) and (max-width: 1280px) {
-    .slide {
-      width: 30vw;
-    }
-  }
-
-  @media (min-width: 1281px) {
-    .slide {
-      width: 25vw;
-    }
-  }
-
-  /* Parallax animation styles */
-  .slide[data-parallax] {
-    transform: translateY(var(--parallax-y, 0));
-  }
-
-  /* Loading state */
-  .slide-image[data-loading="true"] {
-    background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-  }
-
-  @keyframes loading {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  /* Error state */
-  .slide-image[data-error="true"] {
-    background: #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64748b;
-    font-size: 0.875rem;
-  }
-
-  .slide-image[data-error="true"]::before {
-    content: "Image unavailable";
+  .active > [data-p] > div > p {
+    transform: translateY(0%);
+    transition: transform 0.5s ease-out;
+    transition-delay: 0.3s;
   }
 </style>
-
-<script>
-  // Enhanced Parallax1Slider functionality with error handling and performance optimization
-  class Parallax1SliderAstro {
-    constructor(container) {
-      this.container = container
-      this.track = container.querySelector('[data-slider-track]')
-      this.slides = container.querySelectorAll('[data-slide-id]')
-      this.indicators = container.querySelectorAll('[data-indicator]')
-      this.prevBtn = container.querySelector('[data-nav="prev"]')
-      this.nextBtn = container.querySelector('[data-nav="next"]')
-      
-      // State management
-      this.currentIndex = 0
-      this.isAnimating = false
-      this.isDragging = false
-      this.startX = 0
-      this.currentX = 0
-      this.velocity = 0
-      this.lastTime = 0
-      this.lastX = 0
-      
-      // Configuration
-      this.slideWidth = 0
-      this.maxIndex = this.slides.length - 1
-      this.snapThreshold = 50
-      this.velocityThreshold = 0.5
-      this.dampingFactor = 0.85
-      this.parallaxIntensity = 0.3
-      
-      // Auto-play configuration
-      this.autoPlay = container.dataset.autoPlay === 'true'
-      this.autoPlayDelay = parseInt(container.dataset.autoPlayDelay) || 5000
-      this.autoPlayTimer = null
-      
-      this.init()
-    }
-
-    init() {
-      try {
-        this.calculateDimensions()
-        this.setupEventListeners()
-        this.setupImageErrorHandling()
-        this.updateSlideStates()
-        this.startAutoPlay()
-        
-        // Performance optimization: Use ResizeObserver for responsive updates
-        if (window.ResizeObserver) {
-          this.resizeObserver = new ResizeObserver(() => {
-            this.calculateDimensions()
-            this.updatePosition(false)
-          })
-          this.resizeObserver.observe(this.container)
-        }
-        
-        console.log('Parallax1SliderAstro initialized successfully')
-      } catch (error) {
-        console.error('Error initializing Parallax1SliderAstro:', error)
-        this.handleError(error)
-      }
-    }
-
-    calculateDimensions() {
-      if (this.slides.length > 0) {
-        const firstSlide = this.slides[0]
-        const rect = firstSlide.getBoundingClientRect()
-        this.slideWidth = rect.width + parseFloat(getComputedStyle(this.track).gap || '8')
-      }
-    }
-
-    setupEventListeners() {
-      // Navigation buttons
-      this.prevBtn?.addEventListener('click', () => this.goToPrevious())
-      this.nextBtn?.addEventListener('click', () => this.goToNext())
-      
-      // Indicators
-      this.indicators.forEach((indicator, index) => {
-        indicator.addEventListener('click', () => this.goToSlide(index))
-      })
-      
-      // Touch and mouse events
-      this.track.addEventListener('mousedown', this.handleStart.bind(this))
-      this.track.addEventListener('touchstart', this.handleStart.bind(this), { passive: false })
-      
-      document.addEventListener('mousemove', this.handleMove.bind(this))
-      document.addEventListener('touchmove', this.handleMove.bind(this), { passive: false })
-      
-      document.addEventListener('mouseup', this.handleEnd.bind(this))
-      document.addEventListener('touchend', this.handleEnd.bind(this))
-      
-      // Keyboard navigation
-      this.container.addEventListener('keydown', this.handleKeydown.bind(this))
-      
-      // Pause auto-play on hover
-      this.container.addEventListener('mouseenter', () => this.pauseAutoPlay())
-      this.container.addEventListener('mouseleave', () => this.resumeAutoPlay())
-    }
-
-    setupImageErrorHandling() {
-      this.slides.forEach((slide, index) => {
-        const img = slide.querySelector('[data-slide-image]')
-        if (img) {
-          img.setAttribute('data-loading', 'true')
-          
-          img.addEventListener('load', () => {
-            img.removeAttribute('data-loading')
-            img.removeAttribute('data-error')
-          })
-          
-          img.addEventListener('error', () => {
-            img.removeAttribute('data-loading')
-            img.setAttribute('data-error', 'true')
-            console.warn(`Failed to load image for slide ${index + 1}`)
-          })
-        }
-      })
-    }
-
-    handleStart(e) {
-      if (this.isAnimating) return
-      
-      this.isDragging = true
-      this.startX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX
-      this.currentX = this.startX
-      this.lastX = this.startX
-      this.lastTime = Date.now()
-      this.velocity = 0
-      
-      this.pauseAutoPlay()
-      this.track.style.cursor = 'grabbing'
-    }
-
-    handleMove(e) {
-      if (!this.isDragging) return
-      
-      e.preventDefault()
-      const clientX = e.type === 'mousemove' ? e.clientX : e.touches[0].clientX
-      const deltaX = clientX - this.startX
-      const currentTime = Date.now()
-      const deltaTime = currentTime - this.lastTime
-      
-      if (deltaTime > 0) {
-        this.velocity = (clientX - this.lastX) / deltaTime
-        this.lastX = clientX
-        this.lastTime = currentTime
-      }
-      
-      this.currentX = clientX
-      this.updatePosition(true, deltaX)
-    }
-
-    handleEnd() {
-      if (!this.isDragging) return
-      
-      this.isDragging = false
-      this.track.style.cursor = 'grab'
-      
-      const deltaX = this.currentX - this.startX
-      const shouldSnap = Math.abs(deltaX) > this.snapThreshold || Math.abs(this.velocity) > this.velocityThreshold
-      
-      if (shouldSnap) {
-        if (deltaX > 0 || this.velocity > this.velocityThreshold) {
-          this.goToPrevious()
-        } else if (deltaX < 0 || this.velocity < -this.velocityThreshold) {
-          this.goToNext()
-        } else {
-          this.updatePosition(false)
-        }
-      } else {
-        this.updatePosition(false)
-      }
-      
-      this.resumeAutoPlay()
-    }
-
-    handleKeydown(e) {
-      switch (e.key) {
-        case 'ArrowLeft':
-          e.preventDefault()
-          this.goToPrevious()
-          break
-        case 'ArrowRight':
-          e.preventDefault()
-          this.goToNext()
-          break
-        case ' ':
-          e.preventDefault()
-          this.toggleAutoPlay()
-          break
-      }
-    }
-
-    goToSlide(index, animate = true) {
-      if (this.isAnimating || index === this.currentIndex) return
-      
-      const clampedIndex = Math.max(0, Math.min(index, this.maxIndex))
-      this.currentIndex = clampedIndex
-      this.updatePosition(animate)
-      this.updateSlideStates()
-    }
-
-    goToNext() {
-      const nextIndex = this.currentIndex >= this.maxIndex ? 0 : this.currentIndex + 1
-      this.goToSlide(nextIndex)
-    }
-
-    goToPrevious() {
-      const prevIndex = this.currentIndex <= 0 ? this.maxIndex : this.currentIndex - 1
-      this.goToSlide(prevIndex)
-    }
-
-    updatePosition(animate = true, offset = 0) {
-      if (!this.track) return
-      
-      const translateX = -(this.currentIndex * this.slideWidth) + offset
-      
-      if (animate && !this.isDragging) {
-        this.isAnimating = true
-        this.track.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-        
-        setTimeout(() => {
-          this.isAnimating = false
-          this.track.style.transition = ''
-        }, 300)
-      } else {
-        this.track.style.transition = ''
-      }
-      
-      this.track.style.transform = `translateX(${translateX}px)`
-      this.updateParallaxEffect()
-    }
-
-    updateParallaxEffect() {
-      this.slides.forEach((slide, index) => {
-        const distance = Math.abs(index - this.currentIndex)
-        const parallaxY = distance * this.parallaxIntensity * 10
-        slide.style.setProperty('--parallax-y', `${parallaxY}px`)
-        slide.setAttribute('data-parallax', distance <= 2 ? 'true' : 'false')
-      })
-    }
-
-    updateSlideStates() {
-      // Update slides
-      this.slides.forEach((slide, index) => {
-        slide.classList.toggle('active', index === this.currentIndex)
-      })
-      
-      // Update indicators
-      this.indicators.forEach((indicator, index) => {
-        indicator.setAttribute('data-active', index === this.currentIndex ? 'true' : 'false')
-      })
-      
-      // Update navigation buttons
-      if (this.prevBtn) {
-        this.prevBtn.disabled = false // Always enabled for infinite scroll
-      }
-      if (this.nextBtn) {
-        this.nextBtn.disabled = false // Always enabled for infinite scroll
-      }
-    }
-
-    startAutoPlay() {
-      if (!this.autoPlay) return
-      
-      this.autoPlayTimer = setInterval(() => {
-        this.goToNext()
-      }, this.autoPlayDelay)
-    }
-
-    pauseAutoPlay() {
-      if (this.autoPlayTimer) {
-        clearInterval(this.autoPlayTimer)
-        this.autoPlayTimer = null
-      }
-    }
-
-    resumeAutoPlay() {
-      if (this.autoPlay && !this.autoPlayTimer) {
-        this.startAutoPlay()
-      }
-    }
-
-    toggleAutoPlay() {
-      this.autoPlay = !this.autoPlay
-      if (this.autoPlay) {
-        this.startAutoPlay()
-      } else {
-        this.pauseAutoPlay()
-      }
-    }
-
-    handleError(error) {
-      console.error('Parallax1SliderAstro Error:', error)
-      
-      // Fallback: Show error message to user
-      const errorDiv = document.createElement('div')
-      errorDiv.className = 'slider-error p-4 bg-red-50 border border-red-200 rounded-lg text-red-700'
-      errorDiv.innerHTML = `
-        <p class="font-medium">Slider Error</p>
-        <p class="text-sm">The slider encountered an error and may not function properly.</p>
-      `
-      
-      this.container.insertBefore(errorDiv, this.container.firstChild)
-    }
-
-    destroy() {
-      // Cleanup
-      this.pauseAutoPlay()
-      
-      if (this.resizeObserver) {
-        this.resizeObserver.disconnect()
-      }
-      
-      // Remove event listeners
-      document.removeEventListener('mousemove', this.handleMove.bind(this))
-      document.removeEventListener('touchmove', this.handleMove.bind(this))
-      document.removeEventListener('mouseup', this.handleEnd.bind(this))
-      document.removeEventListener('touchend', this.handleEnd.bind(this))
-    }
-  }
-
-  // Initialize all Parallax1Slider instances
-  document.addEventListener('DOMContentLoaded', () => {
-    const sliders = document.querySelectorAll('[data-component="parallax1-slider"]')
-    
-    sliders.forEach(slider => {
-      try {
-        new Parallax1SliderAstro(slider)
-      } catch (error) {
-        console.error('Failed to initialize Parallax1SliderAstro:', error)
-      }
-    })
-  })
-
-  // Handle page visibility changes for performance
-  document.addEventListener('visibilitychange', () => {
-    const sliders = document.querySelectorAll('[data-component="parallax1-slider"]')
-    
-    sliders.forEach(slider => {
-      const instance = slider._parallax1Instance
-      if (instance) {
-        if (document.hidden) {
-          instance.pauseAutoPlay()
-        } else {
-          instance.resumeAutoPlay()
-        }
-      }
-    })
-  })
-</script>

@@ -1,5 +1,6 @@
 import SmoothSlider from '../../components/SmoothSlider'
 import ParallaxSlider from '../../components/ParallaxSlider'
+import Parallax1Slider from '../../components/Parallax1Slider'
 import { 
   ParallaxText, 
   ParallaxContainer, 
@@ -86,6 +87,39 @@ export default function Residential() {
         showDots={true}
         className="residential-slider"
       />
+      
+      {/* Parallax1 Component - Title Section */}
+      <section className="w-full">
+        <Parallax1Slider 
+          title="Residential Projects"
+          description="Discover our collection of luxury residential developments and custom homes."
+          features={["Luxury Living", "Custom Design", "Quality Craftsmanship", "Timeless"]}
+          className="min-h-screen"
+          slideCount={12}
+          enableAutoPlay={true}
+          autoPlayDelay={6000}
+          onSlideChange={(index) => {
+            console.log('Residential slide changed to:', index)
+          }}
+          onError={(error) => {
+            console.error('Residential slider error:', error)
+          }}
+          images={[
+            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+          ]}
+        />
+      </section>
       
       {/* Parallax Background Section */}
       <ParallaxBackground

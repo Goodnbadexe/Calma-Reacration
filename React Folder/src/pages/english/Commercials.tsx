@@ -1,5 +1,6 @@
 import React from 'react'
 import ParallaxSlider from '../../components/ParallaxSlider'
+import Parallax1Slider from '../../components/Parallax1Slider'
 import { 
   ParallaxText, 
   ParallaxContainer, 
@@ -86,6 +87,39 @@ export default function Commercials() {
         parallax={true}
         className="commercials-slider"
       />
+      
+      {/* Parallax1 Component - Title Section */}
+      <section className="py-20 bg-gradient-to-b from-white to-slate-50">
+        <Parallax1Slider
+          title="Commercial Projects"
+          description="Explore our portfolio of commercial developments and architectural achievements."
+          features={["Modern Design", "Sustainable", "Innovative", "Premium"]}
+          className="max-w-7xl mx-auto"
+          slideCount={12}
+          enableAutoPlay={true}
+          autoPlayDelay={6000}
+          onSlideChange={(index) => {
+            console.log('Commercial slide changed to:', index)
+          }}
+          onError={(error) => {
+            console.error('Commercial slider error:', error)
+          }}
+          images={[
+            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1571055107559-3e67626fa8be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+            'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+          ]}
+        />
+      </section>
       
       {/* Additional content section with parallax elements */}
       <section className="py-20 relative overflow-hidden">

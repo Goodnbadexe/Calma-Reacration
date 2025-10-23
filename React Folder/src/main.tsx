@@ -11,6 +11,7 @@ import CalmaTower from './pages/english/CalmaTower'
 import About from './pages/english/About'
 import News from './pages/english/News'
 import Register from './pages/english/Register'
+import TestSlider from './pages/test-slider'
 import { SplashProvider } from '@/components/system/SplashProvider'
 import AppLayout from '@/layouts/AppLayout'
 
@@ -29,6 +30,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="/projects/commercials" element={<Commercials />} />
             <Route path="/projects/residential" element={<Residential />} />
             <Route path="/projects/calma-tower" element={<CalmaTower />} />
+            <Route path="/test-slider" element={<TestSlider />} />
           </Route>
         </Routes>
       </SplashProvider>

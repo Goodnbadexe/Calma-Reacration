@@ -14,6 +14,7 @@ export default function NavBar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [isHidden, setIsHidden] = useState(false)
   const lastScrollY = useRef(0)
+  const dropdownRef = useRef<HTMLDetailsElement>(null)
 
   useEffect(() => {
     const computeTransparency = () => {
@@ -66,6 +67,35 @@ export default function NavBar() {
     }
   }, [drawerOpen])
 
+  // Click outside handler to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        closeDropdown()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  // Function to close dropdown menu
+  const closeDropdown = () => {
+    if (dropdownRef.current) {
+      dropdownRef.current.open = false
+    }
+  }
+
+  // Enhanced navigation function that closes dropdown
+  const handleDropdownNavigation = async (path: string) => {
+    closeDropdown()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    await showSplash()
+    navigate(path)
+  }
+
   return (
     <>
     <header
@@ -111,31 +141,23 @@ export default function NavBar() {
             await showSplash(); 
             navigate('/about'); 
           }}>{isArabic ? 'عن كالما' : 'About Calma'}</span>
-          <details className="dropdown">
+          <details ref={dropdownRef} className="dropdown">
             <summary className="dropdown-trigger">
               {isArabic ? 'المشاريع' : 'Projects'} <span aria-hidden>▾</span>
             </summary>
             <div className="dropdown-menu">
-              <span className="dropdown-item" onClick={async () => { 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                await showSplash(); 
-                navigate('/projects'); 
-              }}>{isArabic ? 'كل المشاريع' : 'All Projects'}</span>
-              <span className="dropdown-item" onClick={async () => { 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                await showSplash(); 
-                navigate('/projects/commercials'); 
-              }}>{isArabic ? 'تجارية' : 'Commercials'}</span>
-              <span className="dropdown-item" onClick={async () => { 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                await showSplash(); 
-                navigate('/projects/residential'); 
-              }}>{isArabic ? 'سكنية' : 'Residential'}</span>
-              <span className="dropdown-item" onClick={async () => { 
-                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                await showSplash(); 
-                navigate('/projects/calma-tower'); 
-              }}>{isArabic ? 'برج كالما' : 'Calma Tower'}</span>
+              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects')}>
+                {isArabic ? 'كل المشاريع' : 'All Projects'}
+              </span>
+              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/commercials')}>
+                {isArabic ? 'تجارية' : 'Commercials'}
+              </span>
+              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/residential')}>
+                {isArabic ? 'سكنية' : 'Residential'}
+              </span>
+              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/calma-tower')}>
+                {isArabic ? 'برج كالما' : 'Calma Tower'}
+              </span>
             </div>
           </details>
           <span className="nav-link" onClick={async () => { 

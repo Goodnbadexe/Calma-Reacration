@@ -85,14 +85,24 @@ export default function App() {
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
+          style={{
+            marginTop: '25rem',
+          }}
         >
           <motion.div className="hero-badge" variants={fadeInUp}>
             <span className="badge-text">LUXURY REAL ESTATE EXCELLENCE</span>
           </motion.div>
-          <motion.h1 className="hero-title luxury-title shimmer-text" variants={fadeInUp}>
+          <motion.h1 className="hero-title luxury-title shimmer-text" variants={fadeInUp} 
+            style={{
+              fontSize: '3.5rem',
+            }}
+          >
             WHERE VISION TAKES SHAPE
           </motion.h1>
-          <motion.p className="hero-subtitle" variants={fadeInUp}>
+          <motion.p className="hero-subtitle" variants={fadeInUp} style={{
+            fontSize: '1.0em',
+            fontStyle: 'italic',
+          }}>
             Crafting distinguished properties that redefine luxury living across the Kingdom
           </motion.p>
           <motion.div className="hero-actions" variants={fadeInUp}>
@@ -285,7 +295,7 @@ export default function App() {
             </motion.div>
             <motion.div className="cards luxury-cards" variants={staggerContainer}>
               <motion.article className="card luxury-card residential" variants={fadeInUp}>
-                <div className="card-icon">🏡</div>
+                <div className="card-icon">🛜</div>
                 <h3>Residential Excellence</h3>
                 <p>Refined homes designed for sophisticated living with premium amenities and architectural distinction.</p>
                 <div className="card-stats">

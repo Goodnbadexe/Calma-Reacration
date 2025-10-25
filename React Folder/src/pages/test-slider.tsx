@@ -23,12 +23,12 @@ const TestSlider: React.FC = () => {
             console.error('Test slider error:', error)
           }}
           images={[
-            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+            '/src/assets/Images/About/Asset-1.JPG',
+            '/src/assets/Images/About/Asset-2.JPG',
+            '/src/assets/Images/About/Asset-3.JPG',
+            '/src/assets/Images/About/Asset-4.JPG',
+            '/src/assets/Images/About/Asset-5.jpg',
+            '/src/assets/Images/About/Asset-6.JPG'
           ]}
         />
       </div>

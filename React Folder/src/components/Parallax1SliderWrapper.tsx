@@ -74,26 +74,26 @@ export const Parallax1SliderWrapper: React.FC<Parallax1SliderWrapperProps> = ({
   }, [title, description, features, images, className, slideCount, enableAutoPlay, autoPlayDelay])
 
   const initializeSlider = async (element: HTMLElement) => {
-    // Default high-quality images
+    // Default high-quality images from local assets
     const defaultImages = [
-      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1571055107559-3e67626fa8be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+      '/src/assets/Images/About/Asset-1.JPG',
+      '/src/assets/Images/About/Asset-2.JPG',
+      '/src/assets/Images/About/Asset-3.JPG',
+      '/src/assets/Images/About/Asset-4.JPG',
+      '/src/assets/Images/About/Asset-5.jpg',
+      '/src/assets/Images/About/Asset-6.JPG',
+      '/src/assets/Images/About/Asset-9.JPG',
+      '/src/assets/Images/About/Asset-12.jpg',
+      '/src/assets/Images/About/Asset-14.jpg',
+      '/src/assets/Images/About/Hero-1.JPG',
+      '/src/assets/Images/About/Hero-2.JPG',
+      '/src/assets/Images/About/Commercial-BG.jpg',
+      '/src/assets/Images/About/Asset-1_1.JPG',
+      '/src/assets/Images/About/Asset-2_1.JPG',
+      '/src/assets/Images/About/Asset-3_1.JPG',
+      '/src/assets/Images/About/Asset-4_1.JPG',
+      '/src/assets/Images/About/Asset-5_1.jpg',
+      '/src/assets/Images/About/Asset-5_2.jpg'
     ]
 
     const slideImages = images.length > 0 ? images : defaultImages

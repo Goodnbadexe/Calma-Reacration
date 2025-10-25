@@ -17,7 +17,7 @@ const commercialSlides = [
     title: 'Corporate Tower',
     subtitle: 'Business Excellence Redefined',
     description: 'A landmark commercial tower featuring state-of-the-art office spaces, premium amenities, and sustainable design that sets new standards for corporate environments and business success.',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/src/assets/Images/About/Asset-1.JPG',
     parallaxElements: [
       { content: 'CORPORATE', speed: 0.4, position: { x: 15, y: 25 } },
       { content: 'TOWER', speed: -0.5, position: { x: 80, y: 70 } },
@@ -29,7 +29,7 @@ const commercialSlides = [
     title: 'Retail Plaza',
     subtitle: 'Premium Shopping Destination',
     description: 'An upscale retail complex designed to create memorable shopping experiences with luxury boutiques, fine dining, and entertainment venues in an architecturally stunning environment.',
-    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/src/assets/Images/About/Asset-2.JPG',
     parallaxElements: [
       { content: 'RETAIL', speed: 0.3, position: { x: 70, y: 30 } },
       { content: 'PLAZA', speed: -0.4, position: { x: 20, y: 60 } },
@@ -41,7 +41,7 @@ const commercialSlides = [
     title: 'Innovation Hub',
     subtitle: 'Future of Work Spaces',
     description: 'A cutting-edge workspace designed for the modern economy, featuring flexible layouts, collaborative zones, and technology infrastructure that empowers innovation and creativity.',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2069&q=80',
+    image: '/src/assets/Images/About/Asset-3.JPG',
     parallaxElements: [
       { content: 'INNOVATION', speed: 0.5, position: { x: 5, y: 40 } },
       { content: 'HUB', speed: -0.3, position: { x: 75, y: 25 } },
@@ -53,7 +53,7 @@ const commercialSlides = [
     title: 'Mixed-Use Complex',
     subtitle: 'Integrated Urban Living',
     description: 'A sophisticated development combining commercial, residential, and recreational spaces to create a vibrant community where people live, work, and play in perfect harmony.',
-    image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80',
+    image: '/src/assets/Images/About/Asset-4.JPG',
     parallaxElements: [
       { content: 'MIXED-USE', speed: 0.4, position: { x: 60, y: 35 } },
       { content: 'COMPLEX', speed: -0.6, position: { x: 15, y: 20 } },
@@ -65,7 +65,7 @@ const commercialSlides = [
     title: 'Business Park',
     subtitle: 'Corporate Campus Excellence',
     description: 'A prestigious business park offering world-class facilities, landscaped environments, and flexible spaces that adapt to the evolving needs of modern enterprises and their teams.',
-    image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=2126&q=80',
+    image: '/src/assets/Images/About/Asset-5.jpg',
     parallaxElements: [
       { content: 'BUSINESS', speed: 0.6, position: { x: 10, y: 65 } },
       { content: 'PARK', speed: -0.4, position: { x: 70, y: 40 } },
@@ -77,24 +77,14 @@ const commercialSlides = [
 export default function Commercials() {
   return (
     <main className="commercials-page">
-      <ParallaxSlider
-        slides={commercialSlides}
-        autoPlay={true}
-        autoPlayDelay={6000}
-        infinite={true}
-        showControls={true}
-        showDots={true}
-        parallax={true}
-        className="commercials-slider"
-      />
-      
       {/* Parallax1 Component - Title Section */}
       <section className="py-20 bg-gradient-to-b from-white to-slate-50">
-        <Parallax1Slider
+        <div className="w-full">
+          <Parallax1Slider
           title="Commercial Projects"
           description="Explore our portfolio of commercial developments and architectural achievements."
           features={["Modern Design", "Sustainable", "Innovative", "Premium"]}
-          className="max-w-7xl mx-auto"
+          className="w-full"
           slideCount={12}
           enableAutoPlay={true}
           autoPlayDelay={6000}
@@ -105,21 +95,32 @@ export default function Commercials() {
             console.error('Commercial slider error:', error)
           }}
           images={[
-            'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1441986300917-64674bd600d8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1571055107559-3e67626fa8be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-            'https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+            '/src/assets/Images/About/Asset-1.JPG',
+            '/src/assets/Images/About/Asset-2.JPG',
+            '/src/assets/Images/About/Asset-3.JPG',
+            '/src/assets/Images/About/Asset-4.JPG',
+            '/src/assets/Images/About/Asset-5.jpg',
+            '/src/assets/Images/About/Asset-6.JPG',
+            '/src/assets/Images/About/Asset-9.JPG',
+            '/src/assets/Images/About/Asset-12.jpg',
+            '/src/assets/Images/About/Asset-14.jpg',
+            '/src/assets/Images/About/Hero-1.JPG',
+            '/src/assets/Images/About/Hero-2.JPG',
+            '/src/assets/Images/About/Commercial-BG.jpg'
           ]}
         />
+        </div>
       </section>
+      
+      <ParallaxSlider
+        slides={commercialSlides}
+        autoPlay={true}
+        autoPlayDelay={6000}
+        infinite={true}
+        showControls={true}
+        showDots={true}
+        className="commercials-slider"
+      />
       
       {/* Additional content section with parallax elements */}
       <section className="py-20 relative overflow-hidden">
@@ -140,7 +141,7 @@ export default function Commercials() {
               </h2>
             </ParallaxText>
             <ParallaxReveal direction="up" delay={0.2}>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+              <p className="text-xl text-slate-600 leading-relaxed">
                 Discover our portfolio of exceptional commercial developments, designed to elevate 
                 business environments and create lasting impressions.
               </p>

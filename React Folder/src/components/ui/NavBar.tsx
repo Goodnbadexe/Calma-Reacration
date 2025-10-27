@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
+import { createPortal } from 'react-dom'
 import logoC from '@/assets/Logos/BRANDMARK_01-p-2000.png'
 import { Button } from '@/components/ui/button'
 import { Phone, MessageCircle, Menu } from 'lucide-react'
@@ -15,6 +16,8 @@ export default function NavBar() {
   const [isHidden, setIsHidden] = useState(false)
   const lastScrollY = useRef(0)
   const dropdownRef = useRef<HTMLDetailsElement>(null)
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 })
 
   useEffect(() => {
     let ticking = false
@@ -109,7 +112,8 @@ export default function NavBar() {
   // Click outside handler to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const target = event.target as HTMLElement
+      if (dropdownOpen && !target.closest('.dropdown-portal') && !target.closest('.dropdown-trigger')) {
         closeDropdown()
       }
     }
@@ -118,13 +122,24 @@ export default function NavBar() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
+  }, [dropdownOpen])
 
   // Function to close dropdown menu
   const closeDropdown = () => {
-    if (dropdownRef.current) {
-      dropdownRef.current.open = false
+    setDropdownOpen(false)
+  }
+
+  // Function to toggle dropdown and calculate position
+  const toggleDropdown = (event: React.MouseEvent) => {
+    event.preventDefault()
+    if (!dropdownOpen) {
+      const rect = (event.target as HTMLElement).getBoundingClientRect()
+      setDropdownPosition({
+        top: rect.bottom + 8,
+        left: rect.left
+      })
     }
+    setDropdownOpen(!dropdownOpen)
   }
 
   // Enhanced navigation function that closes dropdown
@@ -158,7 +173,7 @@ export default function NavBar() {
             alignItems: 'center',
             gap: 12,
             textDecoration: 'none',
-            color: '#fff',
+            color: '#071e1f',
           }}
         >
           <img
@@ -180,25 +195,13 @@ export default function NavBar() {
             await showSplash(); 
             navigate('/about'); 
           }}>{isArabic ? 'عن كالما' : 'About Calma'}</span>
-          <details ref={dropdownRef} className="dropdown">
-            <summary className="dropdown-trigger">
-              {isArabic ? 'المشاريع' : 'Projects'} <span aria-hidden>▾</span>
-            </summary>
-            <div className="dropdown-menu">
-              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects')}>
-                {isArabic ? 'كل المشاريع' : 'All Projects'}
-              </span>
-              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/commercials')}>
-                {isArabic ? 'تجارية' : 'Commercials'}
-              </span>
-              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/residential')}>
-                {isArabic ? 'سكنية' : 'Residential'}
-              </span>
-              <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/calma-tower')}>
-                {isArabic ? 'برج كالما' : 'Calma Tower'}
-              </span>
-            </div>
-          </details>
+          <button 
+            className="dropdown-trigger nav-link" 
+            onClick={toggleDropdown}
+            style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+          >
+            {isArabic ? 'المشاريع' : 'Projects'} <span aria-hidden>▾</span>
+          </button>
           <span className="nav-link" onClick={async () => { 
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
             await showSplash(); 
@@ -287,6 +290,40 @@ export default function NavBar() {
           </div>
         </div>
       </div>
+    )}
+    
+    {/* Portal-based dropdown menu */}
+    {dropdownOpen && createPortal(
+      <div 
+        className="dropdown-portal"
+        style={{
+          position: 'fixed',
+          top: dropdownPosition.top,
+          left: dropdownPosition.left,
+          zIndex: 9999,
+          minWidth: '200px',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          borderRadius: '8px',
+          padding: '8px 0',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+        }}
+      >
+        <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects')}>
+          {isArabic ? 'كل المشاريع' : 'All Projects'}
+        </span>
+        <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/commercials')}>
+          {isArabic ? 'تجارية' : 'Commercials'}
+        </span>
+        <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/residential')}>
+          {isArabic ? 'سكنية' : 'Residential'}
+        </span>
+        <span className="dropdown-item" onClick={() => handleDropdownNavigation('/projects/calma-tower')}>
+          {isArabic ? 'برج كالما' : 'Calma Tower'}
+        </span>
+      </div>,
+      document.body
     )}
     </>
   )

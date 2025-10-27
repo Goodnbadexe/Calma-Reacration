@@ -17,26 +17,39 @@ export default function NavBar() {
   const dropdownRef = useRef<HTMLDetailsElement>(null)
 
   useEffect(() => {
+    let ticking = false
+    
     const computeTransparency = () => {
-      const firstSection = document.getElementById('panorama') || document.querySelector('.hero') as HTMLElement | null
-      const header = document.querySelector('header.glass-nav') as HTMLElement | null
-      if (!firstSection) {
-        setIsTransparent(false)
-        return
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const firstSection = document.getElementById('panorama') || document.querySelector('.hero') as HTMLElement | null
+          const header = document.querySelector('header.glass-nav') as HTMLElement | null
+          
+          if (!firstSection) {
+            setIsTransparent(false)
+            ticking = false
+            return
+          }
+          
+          const sectionTop = firstSection.offsetTop
+          const sectionHeight = firstSection.offsetHeight
+          const scrollY = window.scrollY
+          const headerHeight = header?.offsetHeight ?? 0
+          const sectionBottom = sectionTop + sectionHeight
+          
+          // Keep header transparent only while overlapping the first section (hero/panorama)
+          // Add a small buffer for smoother transition
+          const overlappingFirst = scrollY < (sectionBottom - headerHeight - 20)
+          setIsTransparent(overlappingFirst)
+          ticking = false
+        })
+        ticking = true
       }
-      const sectionTop = firstSection.offsetTop
-      const sectionHeight = firstSection.offsetHeight
-      const scrollY = window.scrollY
-      const headerHeight = header?.offsetHeight ?? 0
-      const sectionBottom = sectionTop + sectionHeight
-      // Keep header transparent only while overlapping the first section (hero/panorama)
-      const overlappingFirst = scrollY < (sectionBottom - headerHeight)
-      setIsTransparent(overlappingFirst)
     }
 
     computeTransparency()
-    window.addEventListener('scroll', computeTransparency)
-    window.addEventListener('resize', computeTransparency)
+    window.addEventListener('scroll', computeTransparency, { passive: true })
+    window.addEventListener('resize', computeTransparency, { passive: true })
     return () => {
       window.removeEventListener('scroll', computeTransparency)
       window.removeEventListener('resize', computeTransparency)
@@ -46,24 +59,50 @@ export default function NavBar() {
   // Hide header on scroll down, show on scroll up (disabled on mobile and when drawer is open)
   useEffect(() => {
     lastScrollY.current = window.scrollY
+    let ticking = false
+    let scrollTimeout: NodeJS.Timeout
+    
     const handleScroll = () => {
-      const header = document.querySelector('header.glass-nav') as HTMLElement | null
-      const current = window.scrollY
-      const delta = current - lastScrollY.current
-      const nearTop = current < 24
-      const isMobile = window.innerWidth < 760
-      const headerHeight = header?.offsetHeight ?? 0
-      let hide = false
-      if (!isMobile && !drawerOpen) {
-        if (delta > 8 && current > headerHeight + 8) hide = true
-        if (delta < -8 || nearTop) hide = false
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const header = document.querySelector('header.glass-nav') as HTMLElement | null
+          const current = window.scrollY
+          const delta = current - lastScrollY.current
+          const nearTop = current < 80
+          const isMobile = window.innerWidth < 768
+          const headerHeight = header?.offsetHeight ?? 0
+          let hide = false
+          
+          // Clear any existing timeout
+          clearTimeout(scrollTimeout)
+          
+          if (!isMobile && !drawerOpen) {
+            // Improved scroll detection with better thresholds
+            if (delta > 3 && current > headerHeight + 30) {
+              hide = true
+            } else if (delta < -3 || nearTop) {
+              hide = false
+            }
+            
+            // Add a small delay to prevent flickering during rapid scrolling
+            scrollTimeout = setTimeout(() => {
+              setIsHidden(hide)
+            }, 10)
+          } else {
+            setIsHidden(false) // Always show on mobile or when drawer is open
+          }
+          
+          lastScrollY.current = current
+          ticking = false
+        })
+        ticking = true
       }
-      setIsHidden(hide)
-      lastScrollY.current = current
     }
-    window.addEventListener('scroll', handleScroll)
+    
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', handleScroll)
+      clearTimeout(scrollTimeout)
     }
   }, [drawerOpen])
 

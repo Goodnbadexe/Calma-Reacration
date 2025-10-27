@@ -1,0 +1,108 @@
+/* CALMA Luxury Real Estate Color Palette */
+:root {
+  /* Primary Brand Colors */
+  --color-primary: #071e1f;           /* Deep Charcoal - Primary brand color */
+  --color-primary-light: #1a3334;     /* Lighter charcoal variant */
+  --color-primary-dark: #000f10;      /* Darker charcoal variant */
+  
+  /* Secondary Brand Colors */
+  --color-secondary: #63523d;         /* Warm Bronze - Secondary brand color */
+  --color-secondary-light: #8b7355;   /* Light bronze variant */
+  --color-secondary-dark: #4a3d2e;    /* Dark bronze variant */
+  
+  /* Accent Colors */
+  --color-accent: #d4cfbc;            /* Warm Cream - Accent color */
+  --color-accent-light: #edebe2;      /* Light cream variant */
+  --color-accent-dark: #c4bfa8;       /* Darker cream variant */
+  
+  /* Neutral Colors */
+  --color-neutral-100: #ffffff;       /* Pure white */
+  --color-neutral-200: #f8f9fa;       /* Off white */
+  --color-neutral-300: #edebe2;       /* Light cream */
+  --color-neutral-400: #d4cfbc;       /* Medium cream */
+  --color-neutral-500: #acb5b3;       /* Sage green */
+  --color-neutral-600: #8b9499;       /* Medium gray */
+  --color-neutral-700: #63523d;       /* Bronze */
+  --color-neutral-800: #071e1f;       /* Dark charcoal */
+  --color-neutral-900: #000000;       /* Pure black */
+  
+  /* Semantic Colors */
+  --color-success: #22c55e;           /* Success green */
+  --color-warning: #f59e0b;           /* Warning amber */
+  --color-error: #ef4444;             /* Error red */
+  --color-info: #3b82f6;              /* Info blue */
+  
+  /* Background Colors */
+  --color-bg-primary: linear-gradient(135deg, #edebe2 0%, #ffffff 25%, #d4cfbc 75%, #acb5b3 100%);
+  --color-bg-secondary: linear-gradient(135deg, #071e1f 0%, #1a3334 100%);
+  --color-bg-accent: linear-gradient(135deg, #63523d 0%, #8b7355 100%);
+  --color-bg-glass: rgba(237, 235, 226, 0.1);
+  --color-bg-glass-solid: rgba(237, 235, 226, 0.95);
+  
+  /* Text Colors */
+  --color-text-primary: #071e1f;      /* Primary text */
+  --color-text-secondary: #63523d;    /* Secondary text */
+  --color-text-muted: #8b9499;        /* Muted text */
+  --color-text-inverse: #ffffff;      /* Inverse text */
+  --color-text-accent: #d4cfbc;       /* Accent text */
+  
+  /* Border Colors */
+  --color-border-primary: rgba(7, 30, 31, 0.16);
+  --color-border-secondary: rgba(99, 82, 61, 0.16);
+  --color-border-light: rgba(7, 30, 31, 0.08);
+  --color-border-medium: rgba(7, 30, 31, 0.12);
+  --color-border-strong: rgba(7, 30, 31, 0.24);
+  
+  /* Shadow Colors */
+  --color-shadow-light: rgba(7, 30, 31, 0.08);
+  --color-shadow-medium: rgba(7, 30, 31, 0.15);
+  --color-shadow-strong: rgba(7, 30, 31, 0.25);
+  
+  /* Interactive States */
+  --color-hover-light: rgba(7, 30, 31, 0.06);
+  --color-hover-medium: rgba(7, 30, 31, 0.12);
+  --color-focus: rgba(99, 82, 61, 0.5);
+  --color-active: rgba(7, 30, 31, 0.18);
+  
+  /* Gold Accents for Luxury Feel */
+  --color-gold: #d4af37;              /* Classic gold */
+  --color-gold-light: #f4e4a6;        /* Light gold */
+  --color-gold-dark: #b8941f;         /* Dark gold */
+  
+  /* Sage Green Variants */
+  --color-sage: #acb5b3;              /* Primary sage */
+  --color-sage-light: #c8d0ce;        /* Light sage */
+  --color-sage-dark: #8b9499;         /* Dark sage */
+}
+
+/* Dark Mode Variants (Optional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg-primary: linear-gradient(135deg, #071e1f 0%, #1a3334 25%, #63523d 75%, #8b7355 100%);
+    --color-text-primary: #edebe2;
+    --color-text-secondary: #d4cfbc;
+    --color-text-muted: #acb5b3;
+    --color-bg-glass: rgba(7, 30, 31, 0.8);
+    --color-bg-glass-solid: rgba(7, 30, 31, 0.95);
+  }
+}
+
+/* Utility Classes for Quick Color Application */
+.text-primary { color: var(--color-text-primary); }
+.text-secondary { color: var(--color-text-secondary); }
+.text-muted { color: var(--color-text-muted); }
+.text-inverse { color: var(--color-text-inverse); }
+.text-accent { color: var(--color-text-accent); }
+.text-gold { color: var(--color-gold); }
+
+.bg-primary { background: var(--color-bg-primary); }
+.bg-secondary { background: var(--color-bg-secondary); }
+.bg-accent { background: var(--color-bg-accent); }
+.bg-glass { background: var(--color-bg-glass); }
+.bg-neutral-100 { background-color: var(--color-neutral-100); }
+.bg-neutral-200 { background-color: var(--color-neutral-200); }
+.bg-neutral-800 { background-color: var(--color-neutral-800); }
+
+.border-primary { border-color: var(--color-border-primary); }
+.border-secondary { border-color: var(--color-border-secondary); }
+.border-light { border-color: var(--color-border-light); }

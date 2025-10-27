@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import VisionCounter from '@/components/VisionCounter'
@@ -8,6 +8,14 @@ import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
 import brandValuesImage from '@/assets/Images/About/Brand-Values-1.jpg'
 import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.jpg'
 import statsImage2 from '@/assets/Images/About/Stats130000-sqm.jpg'
+
+// Additional images for rotation
+import asset1Image from '@/assets/Images/About/Asset-1.JPG'
+import asset2Image from '@/assets/Images/About/Asset-2.JPG'
+import asset3Image from '@/assets/Images/About/Asset-3.JPG'
+import asset4Image from '@/assets/Images/About/Asset-4.JPG'
+import asset5Image from '@/assets/Images/About/Asset-5.jpg'
+import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 
 import fullLockupLogo from '@/assets/Logos/BRANDMARK_01-p-2000.png'
 import group270Logo from '@/assets/Images/About/Group-270.png'
@@ -20,6 +28,42 @@ export default function About() {
   const { scrollYProgress } = useScroll()
   const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
   const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.7])
+
+  // Image rotation state
+  const [currentImageSet, setCurrentImageSet] = useState(0)
+  
+  // Define image sets for rotation
+  const imageSets = [
+    {
+      primary: brandValuesImage,
+      secondary: statsImage1,
+      tertiary: statsImage2
+    },
+    {
+      primary: asset1Image,
+      secondary: asset2Image,
+      tertiary: asset3Image
+    },
+    {
+      primary: asset4Image,
+      secondary: asset5Image,
+      tertiary: asset6Image
+    },
+    {
+      primary: aboutHeaderImage,
+      secondary: asset1Image,
+      tertiary: asset2Image
+    }
+  ]
+
+  // Auto-rotate images every 8 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageSet((prev) => (prev + 1) % imageSets.length)
+    }, 8000)
+
+    return () => clearInterval(interval)
+  }, [imageSets.length])
 
   // Animation variants
   const fadeInUp = {
@@ -211,14 +255,29 @@ export default function About() {
               <motion.div className="showcase-content" variants={fadeInLeft}>
                 <span className="section-badge gold">EXCELLENCE</span>
                 <h2 className="content-title luxury-content-title">
-                  MASTERFULLY CRAFTED. UNIQUELY YOURS.
+                  MASTERFULLY CRAFTED.<br />
+                  UNIQUELY YOURS.
                 </h2>
                 <p className="content-body luxury-content-body">
-                  CALMA represents the pinnacle of real estate excellence, where visionary development meets 
-                  uncompromising standards. Our portfolio of prestigious projects doesn't just raise skylines – 
-                  it elevates lifestyles. As we expand our footprint across the KSA, we're setting new benchmarks 
-                  in luxury development, creating landmarks that inspire and endure.
+                  CALMA represents the pinnacle of real estate excellence. Where visionary development 
+                  meets uncompromising standards, we don't just raise skylines—we elevate lifestyles. 
+                  Expanding across the KSA, we set new benchmarks in luxury development, creating 
+                  landmarks that inspire and endure for generations.
                 </p>
+                <div className="excellence-highlights">
+                  <div className="highlight-item">
+                    <span className="highlight-number">28+</span>
+                    <span className="highlight-text">Delivered Projects</span>
+                  </div>
+                  <div className="highlight-item">
+                    <span className="highlight-number">2,000+</span>
+                    <span className="highlight-text">Families Served</span>
+                  </div>
+                  <div className="highlight-item">
+                    <span className="highlight-number">3</span>
+                    <span className="highlight-text">Major Cities</span>
+                  </div>
+                </div>
                 <div className="cta-row">
                   <a className="button-link" href="/projects">
                     <Button variant="secondary" className="luxury-button">
@@ -229,9 +288,33 @@ export default function About() {
               </motion.div>
               <motion.div className="showcase-images" variants={fadeInRight}>
                 <div className="image-grid">
-                  <img src={brandValuesImage} alt="Brand Values" className="grid-image primary" />
-                  <img src={statsImage1} alt="Development Stats" className="grid-image secondary" />
-                  <img src={statsImage2} alt="Project Scale" className="grid-image tertiary" />
+                  <motion.img 
+                    key={`primary-${currentImageSet}`}
+                    src={imageSets[currentImageSet].primary} 
+                    alt="Excellence Showcase" 
+                    className="grid-image primary"
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                  />
+                  <motion.img 
+                    key={`secondary-${currentImageSet}`}
+                    src={imageSets[currentImageSet].secondary} 
+                    alt="Development Excellence" 
+                    className="grid-image secondary"
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                  />
+                  <motion.img 
+                    key={`tertiary-${currentImageSet}`}
+                    src={imageSets[currentImageSet].tertiary} 
+                    alt="Project Innovation" 
+                    className="grid-image tertiary"
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
+                  />
                 </div>
               </motion.div>
             </motion.div>

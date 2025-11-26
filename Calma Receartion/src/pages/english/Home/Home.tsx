@@ -19,18 +19,23 @@ import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 
 //import React from 'react'
 import { motion } from 'framer-motion'
+import { useSplash } from '@/components/system/SplashProvider'
 
 import fullLockupLogo from '@/assets/Logos/BRANDMARK_01-p-2000.png'
 //import group270Logo from '@/assets/Images/About/Group-270.png'
 import possibilitiesIcon from '@/assets/Icons/500000-sqm-of-possibilities-unfolding..png'
 //import heroImage from '@/assets/Backgrounds/About-Header-p-1600.jpg'
+import calmaTV from '@/assets/Videos/Calma_TV.mp4'
+import { homeEn } from '@/pages/content/home.en'
 import './Home.css'
 
 export default function EnglishHome() {
   const panoRef = useRef<HTMLElement | null>(null)
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null)
+  const [heroReady, setHeroReady] = useState(false)
+  // keep src stable; signal splash readiness on media load
   const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 1], ['0%', '50%'])
-  const opacity = useTransform(scrollYProgress, [0, 0.3], [1, 0.7])
+  const { signalReady } = useSplash()
 
   // Image rotation state
   const [currentImageSet, setCurrentImageSet] = useState(0)
@@ -68,13 +73,37 @@ export default function EnglishHome() {
     return () => clearInterval(interval)
   }, [imageSets.length])
 
+  useEffect(() => {
+    const el = heroVideoRef.current
+    if (!el) return
+    const onMeta = () => setHeroReady(true)
+    el.addEventListener('loadedmetadata', onMeta, { once: true })
+    return () => { el.removeEventListener('loadedmetadata', onMeta) }
+  }, [])
+
+  useEffect(() => {
+    const el = heroVideoRef.current
+    if (!el) return
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && heroReady) {
+          try { el.play() } catch {}
+        } else {
+          try { el.pause() } catch {}
+        }
+      })
+    }, { threshold: 0.2 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [heroReady])
+
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 60 },
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.8, ease: "circOut" }
     }
   }
 
@@ -83,7 +112,7 @@ export default function EnglishHome() {
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.8, ease: "circOut" }
     }
   }
 
@@ -92,7 +121,7 @@ export default function EnglishHome() {
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }
+      transition: { duration: 0.8, ease: "circOut" }
     }
   }
 
@@ -118,25 +147,46 @@ export default function EnglishHome() {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
+      {/* Hero Section with Video */}
       <motion.section 
-        className="hero-section"
+        className="hero luxury-hero"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
+        {/* Background video */}
+        <div className="hero-media">
+          <video 
+            ref={heroVideoRef}
+            className="hero-video"
+            src={calmaTV}
+            muted
+            playsInline
+            preload="metadata"
+            poster={aboutHeaderImage}
+            aria-label="Calma TV hero video"
+            onLoadedData={() => {
+              try { heroVideoRef.current?.play() } catch {}
+              signalReady()
+            }}
+          />
+        </div>
+        <div className="hero-overlay luxury-overlay" />
+
+        {/* Hero content */}
         <motion.div 
-          className="hero-content"
+          className="hero-content luxury-hero-content"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <h1 className="hero-title">Welcome to Calma</h1>
-          <p className="hero-subtitle">
-            Crafting exceptional real estate experiences with luxury, innovation, and unparalleled quality
+          <div className="hero-badge"><span className="badge-text">CALMA REAL ESTATE</span></div>
+          <h1 className="hero-title luxury-title">{homeEn.heroTitle}</h1>
+          <p className="hero-subtitle luxury-subtitle">
+            {homeEn.heroSubtitle}
           </p>
           <motion.button 
-            className="hero-button"
+            className="hero-button luxury-button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -223,21 +273,18 @@ export default function EnglishHome() {
                 </p>
                 <div className="content-features">
                   <div className="feature-item">
-                    <span className="feature-icon">🏗️</span>
                     <span className="feature-text">Sustainable Development</span>
                   </div>
                   <div className="feature-item">
-                    <span className="feature-icon">🌟</span>
                     <span className="feature-text">Premium Quality</span>
                   </div>
                   <div className="feature-item">
-                    <span className="feature-icon">🏙️</span>
                     <span className="feature-text">Urban Innovation</span>
                   </div>
                 </div>
               </motion.div>
               <motion.div className="content-image" variants={fadeInRight}>
-                <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" />
+                <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" loading="lazy" decoding="async" />
               </motion.div>
             </motion.div>
           </div>
@@ -294,6 +341,8 @@ export default function EnglishHome() {
                     src={imageSets[currentImageSet].primary} 
                     alt="Excellence Showcase" 
                     className="grid-image primary"
+                    loading="lazy"
+                    decoding="async"
                     initial={{ opacity: 0, scale: 1.1 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.2, ease: "easeOut" }}
@@ -303,6 +352,8 @@ export default function EnglishHome() {
                     src={imageSets[currentImageSet].secondary} 
                     alt="Development Excellence" 
                     className="grid-image secondary"
+                    loading="lazy"
+                    decoding="async"
                     initial={{ opacity: 0, scale: 1.1 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
@@ -312,6 +363,8 @@ export default function EnglishHome() {
                     src={imageSets[currentImageSet].tertiary} 
                     alt="Project Innovation" 
                     className="grid-image tertiary"
+                    loading="lazy"
+                    decoding="async"
                     initial={{ opacity: 0, scale: 1.1 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}

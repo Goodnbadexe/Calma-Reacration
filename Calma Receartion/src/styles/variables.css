@@ -152,8 +152,8 @@
   --z-toast: 1080;
 
   /* Breakpoints (for JS usage) */
-  --breakpoint-xs: 475px;
-  --breakpoint-sm: 640px;
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 430px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;

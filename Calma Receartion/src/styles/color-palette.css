@@ -145,6 +145,8 @@
 .text-inverse { color: var(--color-text-inverse); }
 .text-accent { color: var(--color-text-accent); }
 .text-gold { color: var(--color-gold); }
+ .text-on-light { color: var(--color-text-on-light); }
+ .text-on-dark { color: var(--color-text-on-dark); }
 
 .bg-primary { background: var(--color-bg-primary); }
 .bg-secondary { background: var(--color-bg-secondary); }

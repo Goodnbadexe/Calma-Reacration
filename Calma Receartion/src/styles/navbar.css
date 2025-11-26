@@ -71,9 +71,9 @@
   justify-content: space-between;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 12px 32px;
-  height: auto; /* Remove fixed height to prevent awkward spacing */
-  min-height: 70px; /* Use min-height instead */
+  padding: 10px 24px;
+  height: auto;
+  min-height: 56px;
   background: transparent;
 }
 
@@ -95,8 +95,8 @@
 }
 
 .glass-nav .logo img {
-  width: 36px;
-  height: 36px;
+  width: 30px;
+  height: 30px;
   transition: var(--transition-luxury);
   filter: drop-shadow(var(--shadow-subtle));
 }
@@ -115,17 +115,17 @@
 .glass-nav .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 20px;
 }
 
 .glass-nav .nav-link {
   position: relative;
   color: var(--color-sage-green);
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
   transition: var(--transition-luxury);
-  padding: 8px 16px;
+  padding: 6px 12px;
   text-decoration: none;
   border: none;
   background: none;
@@ -188,7 +188,7 @@
 .glass-nav .nav-actions {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .glass-nav .nav-actions .icon {
@@ -739,7 +739,8 @@
   }
   
   .glass-nav .section-inner {
-    padding: 12px 24px;
+    padding: 8px 16px;
+    min-height: 52px;
   }
   
   .glass-nav {
@@ -751,17 +752,17 @@
 
 @media (max-width: 480px) {
   .glass-nav .section-inner {
-    padding: 8px 20px;
-    height: 60px;
+    padding: 6px 14px;
+    height: 52px;
   }
   
   .glass-nav .logo {
-    font-size: 20px;
+    font-size: 18px;
   }
   
   .glass-nav .logo img {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
   
   .glass-nav {

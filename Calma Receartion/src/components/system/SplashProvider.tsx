@@ -1,8 +1,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
 type SplashContextValue = {
-  // Show the splash overlay and resolve once the splash finishes closing
   showSplash: (text?: string) => Promise<void>
+  signalReady: () => void
 }
 
 const SplashContext = createContext<SplashContextValue | null>(null)
@@ -21,6 +21,7 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
   const splashRef = useRef<HTMLVideoElement | null>(null)
   const warmRef = useRef<HTMLVideoElement | null>(null)
   const [clipUrl, setClipUrl] = useState<string | null>(null)
+  const imgRef = useRef<HTMLImageElement | null>(null)
 
   const fadeMs = 1000
   const resolveRef = useRef<(() => void) | null>(null)
@@ -70,9 +71,9 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
     // Return a promise that resolves when splash has fully closed
     return new Promise<void>((resolve) => {
       resolveRef.current = resolve
-      // Always close after fade-in completes (exactly 1s)
+      // Fallback close if destination never signals readiness
       if (timerRef.current) { window.clearTimeout(timerRef.current) }
-      timerRef.current = window.setTimeout(() => startClosing(), fadeMs)
+      timerRef.current = window.setTimeout(() => startClosing(), 4000)
     })
   }, [allMedia, clipUrl])
 
@@ -125,7 +126,7 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  const value = useMemo(() => ({ showSplash }), [showSplash])
+  const value = useMemo(() => ({ showSplash, signalReady }), [showSplash, signalReady])
 
   return (
     <SplashContext.Provider value={value}>
@@ -149,6 +150,7 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
             />
           ) : (
             <img
+              ref={imgRef}
               key={`splash-${clipUrl}`}
               className="splash-media"
               src={clipUrl}
@@ -166,3 +168,8 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
     </SplashContext.Provider>
   )
 }
+  const signalReady = useCallback(() => {
+    // Destination page calls when critical content is ready
+    if (!visible || closing) return
+    startClosing()
+  }, [visible, closing, startClosing])

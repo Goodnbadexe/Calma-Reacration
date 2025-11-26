@@ -241,7 +241,7 @@ export default function NavBar() {
   const handleDropdownNavigation = async (path: string) => {
     closeDropdown()
     window.scrollTo({ top: 0, behavior: 'smooth' })
-    await showSplash()
+    showSplash()
     navigate(path)
   }
 
@@ -291,7 +291,7 @@ export default function NavBar() {
             onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
               showSplash(); 
-              setTimeout(() => navigate(isArabic ? '/ar' : '/'), 100); 
+              navigate(isArabic ? '/ar' : '/'); 
             }}
           >
             {tr('nav.home', 'Home', 'الرئيسية')}
@@ -299,9 +299,9 @@ export default function NavBar() {
           
           <button 
             className="nav-link" 
-            onClick={async () => { 
+            onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
-              await showSplash(); 
+              showSplash(); 
               navigate(isArabic ? '/ar/about' : '/about'); 
             }}
           >
@@ -324,9 +324,9 @@ export default function NavBar() {
           
           <button 
             className="nav-link" 
-            onClick={async () => { 
+            onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
-              await showSplash(); 
+              showSplash(); 
               navigate(isArabic ? '/ar/news' : '/news'); 
             }}
           >
@@ -336,9 +336,9 @@ export default function NavBar() {
           {/* Always show Contact (English routes to register for now) */}
           <button 
             className="nav-link" 
-            onClick={async () => { 
+            onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
-              await showSplash(); 
+              showSplash(); 
               navigate(isArabic ? '/ar/contact' : '/register'); 
             }}
           >
@@ -368,7 +368,7 @@ export default function NavBar() {
             <MessageCircle className="icon" />
           </Button>
 
-          <Button className="rounded-full register-button" onClick={() => { showSplash(); setTimeout(() => navigate('/register'), 100) }}>
+          <Button className="rounded-full register-button" onClick={() => { showSplash(); navigate('/register') }}>
             {isArabic ? 'سجل اهتمامك' : 'Register Your Interest'}
           </Button>
 
@@ -378,7 +378,7 @@ export default function NavBar() {
             className="language-toggle"
             onClick={() => { 
               showSplash(); 
-              setTimeout(() => toggleLanguage(), 100);
+              toggleLanguage();
             }}
             aria-label={tr('language.switchTo', 'Switch language', 'تبديل اللغة')}
             title={tr('language.switchTo', 'Switch language', 'تبديل اللغة')}
@@ -432,7 +432,7 @@ export default function NavBar() {
               onClick={() => { 
                 setDrawerOpen(false); 
                 showSplash(); 
-                setTimeout(() => navigate(isArabic ? '/ar' : '/'), 100); 
+                navigate(isArabic ? '/ar' : '/'); 
               }}
             >
               {t('nav.home')}
@@ -443,7 +443,7 @@ export default function NavBar() {
               onClick={() => { 
                 setDrawerOpen(false); 
                 showSplash(); 
-                setTimeout(() => navigate(isArabic ? '/ar/about' : '/about'), 100); 
+                navigate(isArabic ? '/ar/about' : '/about'); 
               }}
             >
               {t('nav.about')}
@@ -456,7 +456,7 @@ export default function NavBar() {
                 onClick={() => { 
                   setDrawerOpen(false); 
                   showSplash(); 
-                  setTimeout(() => navigate(isArabic ? '/ar/projects' : '/projects'), 100); 
+                  navigate(isArabic ? '/ar/projects' : '/projects'); 
                 }}
               >
                 {t('nav.allProjects')}
@@ -468,7 +468,7 @@ export default function NavBar() {
                      onClick={() => { 
                        setDrawerOpen(false); 
                        showSplash(); 
-                       setTimeout(() => navigate('/projects/commercials'), 100); 
+                       navigate('/projects/commercials'); 
                      }}
                    >
                      {t('nav.commercials')}
@@ -478,7 +478,7 @@ export default function NavBar() {
                      onClick={() => { 
                        setDrawerOpen(false); 
                        showSplash(); 
-                       setTimeout(() => navigate('/projects/residential'), 100); 
+                       navigate('/projects/residential'); 
                      }}
                    >
                      {t('nav.residential')}
@@ -488,7 +488,7 @@ export default function NavBar() {
                      onClick={() => { 
                        setDrawerOpen(false); 
                        showSplash(); 
-                       setTimeout(() => navigate('/projects/calma-tower'), 100); 
+                       navigate('/projects/calma-tower'); 
                      }}
                    >
                      {t('nav.calmaTower')}
@@ -497,26 +497,26 @@ export default function NavBar() {
                )}
              </div>
              
-             <button 
-               className="nav-link" 
-               onClick={async () => { 
-                 setDrawerOpen(false); 
-                 await showSplash(); 
-                 navigate(isArabic ? '/ar/news' : '/news'); 
-               }}
-             >
+            <button 
+              className="nav-link" 
+              onClick={() => { 
+                setDrawerOpen(false); 
+                showSplash(); 
+                navigate(isArabic ? '/ar/news' : '/news'); 
+              }}
+            >
                {t('nav.news')}
              </button>
              
              {isArabic && (
-               <button 
-                 className="nav-link" 
-                 onClick={() => { 
-                   setDrawerOpen(false); 
-                   showSplash(); 
-                   setTimeout(() => navigate('/ar/contact'), 100); 
-                 }}
-               >
+              <button 
+                className="nav-link" 
+                onClick={() => { 
+                  setDrawerOpen(false); 
+                  showSplash(); 
+                  navigate('/ar/contact'); 
+                }}
+              >
                  {t('nav.contact')}
                </button>
              )}
@@ -559,9 +559,9 @@ export default function NavBar() {
             </div>
             <Button 
               className="register-button" 
-              onClick={async () => { 
+              onClick={() => { 
                 setDrawerOpen(false); 
-                await showSplash(); 
+                showSplash(); 
                 navigate('/register');
               }}
             >

@@ -18,8 +18,13 @@ import Register from './pages/english/Register/Register'
 // Arabic Pages
 import ArabicHome from './pages/arabic/الرئيسية/الرئيسية'
 import ArabicAbout from './pages/arabic/عن كالما/عن كالما'
-import ArabicProjects from './pages/arabic/المشاريع/المشاريع'
+import ArabicProjects from './pages/arabic/المشاريع/عرض المشاريع'
 import ArabicContact from './pages/arabic/تواصل معنا/تواصل معنا'
+import ArabicNews from './pages/arabic/الأخبار/الأخبار'
+import ArabicRegister from './pages/arabic/التسجيل/التسجيل'
+import ArabicCommercials from './pages/arabic/المشاريع/تجارية'
+import ArabicResidential from './pages/arabic/المشاريع/سكنية'
+import ArabicCalmaTower from './pages/arabic/المشاريع/برج كالما'
 
 // Test and System Components
 import { SplashProvider } from '@/components/system/SplashProvider'
@@ -49,6 +54,16 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/ar/عن كالـما" element={<ArabicAbout />} />
                 <Route path="/ar/المشاريع" element={<ArabicProjects />} />
                 <Route path="/ar/تواصل معنا" element={<ArabicContact />} />
+                {/* Arabic slug aliases for improved usability */}
+                <Route path="/ar/about" element={<ArabicAbout />} />
+                <Route path="/ar/projects" element={<ArabicProjects />} />
+                <Route path="/ar/contact" element={<ArabicContact />} />
+                <Route path="/ar/news" element={<ArabicNews />} />
+                <Route path="/ar/التسجيل" element={<ArabicRegister />} />
+                {/* Arabic projects subroutes mirroring EN */}
+                <Route path="/ar/projects/commercials" element={<ArabicCommercials />} />
+                <Route path="/ar/projects/residential" element={<ArabicResidential />} />
+                <Route path="/ar/projects/calma-tower" element={<ArabicCalmaTower />} />
 
                 {/* Test Routes */}
               </Route>

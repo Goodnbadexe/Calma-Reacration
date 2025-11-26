@@ -10,6 +10,7 @@
 @import './styles/accessibility.css';
 @import './styles/dark-mode.css';
 @import './styles/rtl-enhanced.css';
+@import './styles/fluid-grid.css';
 
 /* Tailwind base styles imported via PostCSS – keep this comment to silence the “unknown at-rule” warning */
 /* Tailwind components layer – processed by PostCSS, silence “unknown at-rule” warning */
@@ -235,12 +236,12 @@ body {
 .glass-nav {
   position: fixed;
   top: 8px;
-  left: 12px;
-  right: 12px;
+  left: 10px;
+  right: 10px;
   z-index: 110;
   margin: 0;
   display: block;
-  padding: 12px 20px;
+  padding: 8px 14px;
   max-width: none;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 999px;
@@ -1767,7 +1768,7 @@ body {
     margin-top: 32px;
   }
   
-  .glass-nav { left: 8px; right: 8px; padding: 8px 10px; }
+  .glass-nav { left: 8px; right: 8px; padding: 6px 10px; }
   .glass-nav .section-inner { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr); align-items: center; }
   .glass-nav .logo, .glass-nav .nav-actions, .glass-nav .nav-links { float: none; }
   .glass-nav .nav-links { justify-content: center; width: auto; }
@@ -1853,7 +1854,7 @@ body {
   .glass-nav { 
     left: 8px; 
     right: 8px; 
-    padding: 8px 12px; 
+    padding: 6px 12px; 
     top: 8px;
     position: fixed;
   }
@@ -1861,7 +1862,7 @@ body {
   .burger-button { display: inline-flex; }
   .glass-nav .section-inner { 
     grid-template-columns: auto 1fr auto; 
-    gap: 12px; 
+    gap: 10px; 
   }
 }
 

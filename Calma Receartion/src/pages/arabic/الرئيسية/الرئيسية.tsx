@@ -2,8 +2,41 @@ import './الرئيسية.css'
 import panoramaImage from '../../../assets/Backgrounds/Abou-1-p-1600.jpg'
 import { Button } from '../../../components/ui/button'
 import VisionCounter from '../../../components/ui/VisionCounter'
+import calmaTV from '../../../assets/Videos/Calma_TV.mp4'
+import { useEffect, useRef, useState } from 'react'
+import { useSplash } from '../../../components/system/SplashProvider'
 
 export default function ArabicHome() {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [videoReady, setVideoReady] = useState(false)
+  const { signalReady } = useSplash()
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    const onMeta = () => setVideoReady(true)
+    el.addEventListener('loadedmetadata', onMeta, { once: true })
+    return () => {
+      el.removeEventListener('loadedmetadata', onMeta)
+    }
+  }, [])
+
+  useEffect(() => {
+    const el = videoRef.current
+    if (!el) return
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && videoReady) {
+          try { el.play() } catch {}
+        } else {
+          try { el.pause() } catch {}
+        }
+      })
+    }, { threshold: 0.2 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [videoReady])
+
   return (
     <div className="page" dir="rtl" lang="ar">
       {/* Skip to main content for accessibility */}
@@ -11,15 +44,30 @@ export default function ArabicHome() {
         انتقل إلى المحتوى الرئيسي
       </a>
 
-      {/* Hero Section - Creating Spaces with Purpose */}
-      <section className="hero" dir="rtl" role="banner">
-        <div className="hero-content" style={{ marginTop: '350px' }}>
+      {/* Hero Section - Creating Spaces with Purpose (with background video) */}
+      <section className="hero luxury-hero" dir="rtl" role="banner">
+        <div className="hero-media">
+          <video
+            ref={videoRef}
+            className="hero-video"
+            src={calmaTV}
+            muted
+            playsInline
+            preload="metadata"
+            aria-label="فيديو مقدمة كالما"
+            onLoadedData={() => {
+              try { videoRef.current?.play() } catch {}
+              signalReady()
+            }}
+          />
+        </div>
+        <div className="hero-overlay luxury-overlay" />
+        <div className="hero-content luxury-hero-content" style={{ marginTop: 0 }}>
           <h1 className="hero-title slide-in-right">
             نخلق مساحات هادفة لتأخذ الرؤية شكلها الحقيقي.
           </h1>
           <p className="hero-subtitle slide-in-right" style={{ animationDelay: '0.2s' }}>
-            في كالما، لا نكتفي بتطوير العقارات بل نتصور أسلوب حياة عصرية جديد. نضع الاستدامة في صميم التصميم ونلتزم بابتكار مجتمعات تنبض بالحياة وذلك عن طريق مشاريعنا الواعدة قيد التنفيذ ومن خلال مشاريعنا الرائدة الأخرى. 
-            نمزج التطور بالإرث، ونبني اليوم على أُسس تليق بالغد. لنُقدم مساحات تتجاوز التوقعات وتمنح كل ساكن شعورًا بالانتماء والرؤية.
+            في كالما، لا نكتفي بتطوير العقارات بل نتصور أسلوب حياة عصري جديد. نضع الاستدامة في صميم التصميم ونلتزم بابتكار مجتمعات تنبض بالحياة وذلك عن طريق مشاريعنا الواعدة قيد التنفيذ ومن خلال مشاريعنا الرائدة الأخرى. نمزج التطور بالإرث، ونبني اليوم على أُسس تليق بالغد، لنُقدم مساحات تتجاوز التوقعات وتمنح كل ساكن شعورًا بالانتماء والتميّز.
           </p>
         </div>
         <Button 
@@ -73,8 +121,124 @@ export default function ArabicHome() {
           </div>
         </section>
 
-        {/* Section 2: Masterfully Crafted */}
-        <section className="section content-section" dir="rtl" aria-labelledby="crafted-heading">
+        {/* Excellence Section - MASTERFULLY CRAFTED */}
+        <section className="section content-section luxury-content-section" dir="rtl" aria-labelledby="excellence-heading">
+          <div className="section-inner luxury-section-inner">
+            <div className="content-showcase">
+              <div className="showcase-content">
+                <span className="section-badge gold">التميّز</span>
+                <h2 id="excellence-heading" className="content-title luxury-content-title">
+                  مُتقن الصنع.<br />
+                  فريد لك.
+                </h2>
+                <p className="content-body luxury-content-body">
+                  تمثل CALMA ذروة التميز في التطوير العقاري؛ حيث تلتقي الرؤية الطموحة بمعايير لا تقبل المساومة.
+                  لا نرفع الأفق العمراني فحسب، بل نرتقي بأسلوب الحياة. ومع توسّعنا في مختلف مدن المملكة، نضع معايير جديدة للفخامة والابتكار.
+                </p>
+                <div className="excellence-highlights">
+                  <div className="highlight-item">
+                    <span className="highlight-number">28+</span>
+                    <span className="highlight-text">مشاريع مُسلّمة</span>
+                  </div>
+                  <div className="highlight-item">
+                    <span className="highlight-number">2,000+</span>
+                    <span className="highlight-text">عائلة مخدومة</span>
+                  </div>
+                  <div className="highlight-item">
+                    <span className="highlight-number">3</span>
+                    <span className="highlight-text">مدن رئيسية</span>
+                  </div>
+                </div>
+                <div className="cta-row">
+                  <a className="button-link" href="/ar/projects">
+                    <Button variant="secondary" className="luxury-button">اكتشف مشاريعنا</Button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Leadership Section */}
+        <section className="section content-section luxury-community-section" dir="rtl" aria-labelledby="leadership-heading">
+          <div className="section-inner luxury-section-inner">
+            <div className="community-content">
+              <div className="community-text">
+                <span className="section-badge silver">القيادة</span>
+                <h2 id="leadership-heading" className="content-title luxury-content-title">قيادة رؤيوية وتقدميّة</h2>
+                <p className="content-body luxury-content-body">
+                  في CALMA، القيادة لا تقتصر على إنجاز المشاريع؛ بل تتخطاها إلى ابتكار حلول معمارية وتقنيات رقمية تُعزّز تجربة التطوير بأسرها.
+                </p>
+                <div className="community-stats">
+                  <div className="community-stat">
+                    <span className="stat-number">77,097</span>
+                    <span className="stat-label">متر مربع أرض</span>
+                  </div>
+                  <div className="community-stat">
+                    <span className="stat-number">130,000+</span>
+                    <span className="stat-label">متر مربع بناء</span>
+                  </div>
+                  <div className="community-stat">
+                    <span className="stat-number">700+</span>
+                    <span className="stat-label">وحدة سكنية</span>
+                  </div>
+                </div>
+                <div className="cta-row">
+                  <a className="button-link" href="/ar/about#culture">
+                    <Button variant="secondary" className="luxury-button">استكشف ثقافتنا</Button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CEO Message Section */}
+        <section className="section ceo-message-section luxury-ceo-section" dir="rtl" aria-labelledby="ceo-heading">
+          <div className="ceo-background-container">
+            <div className="ceo-main-content">
+              <div className="ceo-message">
+                <div className="message-content">
+                  <span className="section-badge platinum" style={{textAlign:'center'}}>رسالة الرئيس التنفيذي</span>
+                  <h2 id="ceo-heading" className="content-title luxury-content-title">حيث تجد 2000+ أسرة عنوانها</h2>
+                  <p>
+                    عندما أسّست CALMA، لم أرها مجرد شركة تطوير عقاري؛ بل رؤية لإعادة تعريف المساحات التي تصنع الفرق الحقيقي.
+                  </p>
+                  <p>
+                    مساحات تتشكّل فيها الرؤية وتزدهر الإمكانيات، لتصنع قيمة دائمة للمجتمع وأصحاب المصلحة.
+                  </p>
+                  <p>
+                    واليوم، ومع 28 مشروعًا مُسلّمًا في الرياض وجدة، نفتخر بأن إنجازنا الحقيقي يُقاس بالعائلات التي وجدت في مشاريعنا وطنًا.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* Section 2: المشاريع الأبرز - شريط شرائح مبسّط */}
+        <section className="section" aria-labelledby="featured-heading" dir="rtl">
+          <div className="section-inner">
+            <h2 id="featured-heading" className="slide-in-right">المشروع الأبرز</h2>
+            <div className="cards rtl-flex-reverse">
+              <article className="card slide-in-right" style={{ animationDelay: '0.1s' }}>
+                <h3>YS190</h3>
+                <p>حي الياسمين — وحدات سكنية بتصميم عصري.</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.2s' }}>
+                <h3>YS200</h3>
+                <p>حي الياسمين — أدوار سكنية بمعايير عالية.</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.3s' }}>
+                <h3>برج كالما</h3>
+                <p>حي الصحافة — معلم يواكب الفخامة والتميّز.</p>
+              </article>
+            </div>
+            <span aria-live="polite">Slide 2 of 4.</span>
+          </div>
+        </section>
+
+        {/* Section 3: مُصمم بإتقان بطابع فريد مثلك. */}
+        <section className="section content-section text-on-light" dir="rtl" aria-labelledby="crafted-heading">
           <div className="section-inner">
             <h2 id="crafted-heading" className="content-title slide-in-right">
               مُصمم بإتقان بطابع فريد مثلك.
@@ -101,7 +265,7 @@ export default function ArabicHome() {
         </section>
 
         {/* Section 3: Building Tomorrow's Communities */}
-        <section className="section content-section" dir="rtl" aria-labelledby="communities-heading">
+        <section className="section content-section text-on-light" dir="rtl" aria-labelledby="communities-heading">
           <div className="section-inner">
             <h2 id="communities-heading" className="content-title slide-in-right">
               نبني مجتمعات الغد.
@@ -132,18 +296,47 @@ export default function ArabicHome() {
             <h2 id="projects-heading" className="slide-in-right">المشاريع</h2>
             <div className="cards rtl-flex-reverse">
               <article className="card slide-in-right" style={{ animationDelay: '0.1s' }}>
-                <h3>سكنية</h3>
-                <p>منازل راقية تجمع بين الفخامة والراحة.</p>
+                <h3>شقق — Calma Tower</h3>
+                <p>حي الصحافة</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.15s' }}>
+                <h3>تاون هاوس وأدوار — GH220</h3>
+                <p>حي الغدير</p>
               </article>
               <article className="card slide-in-right" style={{ animationDelay: '0.2s' }}>
-                <h3>تجارية</h3>
-                <p>مساحات أعمال عصرية تلبي احتياجات المستقبل.</p>
+                <h3>فلل — HT210</h3>
+                <p>حي حطين</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.25s' }}>
+                <h3>أدوار — RM240</h3>
+                <p>حي الرمال</p>
               </article>
               <article className="card slide-in-right" style={{ animationDelay: '0.3s' }}>
-                <h3>برج كالما</h3>
-                <p>معلم مميز يعيد تعريف الأناقة المعمارية.</p>
+                <h3>تاون هاوس — NK250</h3>
+                <p>حي النخيل</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.35s' }}>
+                <h3>أدوار — SA230</h3>
+                <p>حي الصفا</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.4s' }}>
+                <h3>فلل — YS190</h3>
+                <p>حي الياسمين</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.45s' }}>
+                <h3>أدوار — YS200</h3>
+                <p>حي الياسمين</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.5s' }}>
+                <h3>أدوار — JN130</h3>
+                <p>حي الجنادرية</p>
+              </article>
+              <article className="card slide-in-right" style={{ animationDelay: '0.55s' }}>
+                <h3>تاون هاوس — HT260</h3>
+                <p>حي حطين</p>
               </article>
             </div>
+            <span aria-live="polite">Slide 2 of 10.</span>
           </div>
         </section>
 

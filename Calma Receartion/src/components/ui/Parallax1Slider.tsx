@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react'
 import Core from 'smooothy'
-import { resolveAssetUrl, resolveAssetUrls } from '@/utils/assetResolver'
+import { resolveAssetUrls } from '@/utils/assetResolver'
 
 interface Parallax1SliderProps {
   title?: string
@@ -31,7 +31,7 @@ const Parallax1Slider: React.FC<Parallax1SliderProps> = ({
   const sliderRef = useRef<HTMLDivElement>(null)
   const sliderInstanceRef = useRef<Core | null>(null)
   const parallaxElementsRef = useRef<HTMLElement[]>([])
-  const autoPlayTimerRef = useRef<number | null>(null)
+  const autoPlayTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const animationFrameRef = useRef<number | null>(null)
   
   const [currentSlide, setCurrentSlide] = useState(0)

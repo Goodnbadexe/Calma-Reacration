@@ -1,13 +1,12 @@
 import { useRef, useState, useEffect } from 'react'
-import { useScroll, useTransform } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import VisionCounter from '@/components/ui/VisionCounter'
 import AnimatedNumber from '@/components/ui/AnimatedNumber'
 import panoramaImage from '@/assets/Backgrounds/Abou-1-p-1600.jpg'
 import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
-import brandValuesImage from '@/assets/Images/About/Brand-Values-1.jpg'
-import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.jpg'
-import statsImage2 from '@/assets/Images/About/Stats130000-sqm.jpg'
+import brandValuesImage from '@/assets/Images/About/Brand-Values-1.JPG'
+import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.JPG'
+import statsImage2 from '@/assets/Images/About/Stats130000-sqm.JPG'
 
 // Additional images for rotation
 import asset1Image from '@/assets/Images/About/Asset-1.JPG'
@@ -18,7 +17,7 @@ import asset5Image from '@/assets/Images/About/Asset-5.jpg'
 import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 
 //import React from 'react'
-import { motion } from 'framer-motion'
+import { motion, circOut, easeInOut } from 'framer-motion'
 import { useSplash } from '@/components/system/SplashProvider'
 
 import fullLockupLogo from '@/assets/Logos/BRANDMARK_01-p-2000.png'
@@ -34,7 +33,6 @@ export default function EnglishHome() {
   const heroVideoRef = useRef<HTMLVideoElement | null>(null)
   const [heroReady, setHeroReady] = useState(false)
   // keep src stable; signal splash readiness on media load
-  const { scrollYProgress } = useScroll()
   const { signalReady } = useSplash()
 
   // Image rotation state
@@ -42,26 +40,9 @@ export default function EnglishHome() {
   
   // Define image sets for rotation
   const imageSets = [
-    {
-      primary: brandValuesImage,
-      secondary: statsImage1,
-      tertiary: statsImage2
-    },
-    {
-      primary: asset1Image,
-      secondary: asset2Image,
-      tertiary: asset3Image
-    },
-    {
-      primary: asset4Image,
-      secondary: asset5Image,
-      tertiary: asset6Image
-    },
-    {
-      primary: aboutHeaderImage,
-      secondary: asset1Image,
-      tertiary: asset2Image
-    }
+    { primary: brandValuesImage, secondary: statsImage1, tertiary: statsImage2 },
+    { primary: asset1Image, secondary: asset2Image, tertiary: asset3Image },
+    { primary: asset4Image, secondary: asset5Image, tertiary: asset6Image }
   ]
 
   // Auto-rotate images every 5 seconds
@@ -103,7 +84,7 @@ export default function EnglishHome() {
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: "circOut" }
+      transition: { duration: 0.8, ease: circOut }
     }
   }
 
@@ -112,7 +93,7 @@ export default function EnglishHome() {
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: "circOut" }
+      transition: { duration: 0.8, ease: circOut }
     }
   }
 
@@ -121,7 +102,7 @@ export default function EnglishHome() {
     visible: { 
       opacity: 1, 
       x: 0,
-      transition: { duration: 0.8, ease: "circOut" }
+      transition: { duration: 0.8, ease: circOut }
     }
   }
 
@@ -141,7 +122,7 @@ export default function EnglishHome() {
     transition: {
       duration: 3,
       repeat: Infinity,
-      ease: "easeInOut"
+      ease: easeInOut
     }
   }
 

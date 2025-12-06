@@ -4,6 +4,8 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter, Routes, Route } from 'react-router-dom'
+import { SplashProvider } from '@/components/system/SplashProvider'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 
 import EnglishHome from '@/pages/english/Home/Home'
 import About from '@/pages/english/About/About'
@@ -11,10 +13,14 @@ import About from '@/pages/english/About/About'
 function TestRouter({ initialPath }: { initialPath: string }) {
   return (
     <MemoryRouter initialEntries={[initialPath]}>
-      <Routes>
-        <Route path="/" element={<EnglishHome />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
+      <LanguageProvider defaultLanguage="en">
+        <SplashProvider>
+          <Routes>
+            <Route path="/" element={<EnglishHome />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </SplashProvider>
+      </LanguageProvider>
     </MemoryRouter>
   )
 }
@@ -22,7 +28,7 @@ function TestRouter({ initialPath }: { initialPath: string }) {
 describe('Basic route rendering', () => {
   it('renders Home at /', () => {
     render(<TestRouter initialPath="/" />)
-    expect(screen.getByText(/Ready to Find Your Dream Home/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Where Vision Takes Shape/i, level: 1 })).toBeInTheDocument()
   })
 
   it('renders About at /about', () => {

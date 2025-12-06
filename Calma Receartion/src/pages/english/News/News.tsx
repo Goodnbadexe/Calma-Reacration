@@ -84,17 +84,22 @@ export default function News() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate API call to LinkedIn
     const fetchLinkedInPosts = async () => {
       setLoading(true);
-      // Simulate network delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setLinkedInPosts(mockLinkedInPosts);
-      setLoading(false);
-    };
+      try {
+        const res = await fetch('/api/linkedin')
+        if (!res.ok) throw new Error('LinkedIn feed unavailable')
+        const data = await res.json()
+        setLinkedInPosts(data as LinkedInPost[])
+      } catch (err) {
+        setLinkedInPosts(mockLinkedInPosts)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-    fetchLinkedInPosts();
-  }, []);
+    fetchLinkedInPosts()
+  }, [])
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {

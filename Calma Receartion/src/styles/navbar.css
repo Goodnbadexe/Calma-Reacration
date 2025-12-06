@@ -69,7 +69,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 1200px;
+  max-width: 1440px;
+  width: 100%;
   margin: 0 auto;
   padding: 10px 24px;
   height: auto;
@@ -414,12 +415,8 @@
 /* Enhanced dropdown portal */
 .dropdown-portal {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-  pointer-events: none;
+  z-index: 9999;
+  pointer-events: auto;
 }
 
 .dropdown-menu {

@@ -8,7 +8,6 @@ import heroImage1 from '@/assets/Images/About/Hero-1.JPG'
 import heroImage2 from '@/assets/Images/About/Hero-2.JPG'
 import visionBgImage from '@/assets/Images/About/CTA-BG.JPG'
 import ceoMessageBg from '@/assets/Images/About/CTA.JPG'
-import corporateCultureBg from '@/assets/Images/About/Brand-Values-1.JPG'
 import asset1Image from '@/assets/Images/About/Asset-1.JPG'
 import asset2Image from '@/assets/Images/About/Asset-2.JPG'
 import asset3Image from '@/assets/Images/About/Asset-3.JPG'
@@ -49,7 +48,7 @@ export default function AboutImproved() {
   const galleryInView = useInView(galleryRef, { once: true, margin: "-100px" })
 
   // State for dynamic content
-  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [, setCurrentImageIndex] = useState(0)
 
   // Brand values data from documentation
   const brandValues = [

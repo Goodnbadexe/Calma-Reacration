@@ -263,8 +263,6 @@ export const createScrollTriggeredTimeline = (section: HTMLElement) => {
  * Interactive magnetic attraction effect for buttons
  */
 export const createMagneticEffect = (button: HTMLElement) => {
-  const strength = 50
-  
   const handleMouseMove = (e: MouseEvent) => {
     const rect = button.getBoundingClientRect()
     const x = e.clientX - rect.left - rect.width / 2

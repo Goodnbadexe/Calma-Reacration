@@ -4,7 +4,7 @@
 type AssetModule = { default: string }
 
 // Eagerly import all assets under src/assets so we can resolve by path
-const assetModules = import.meta.glob('/src/assets/**/*', { eager: true }) as Record<string, AssetModule>
+const assetModules = import.meta.glob('/src/assets/**/*.{png,jpg,jpeg,webp,gif,svg,mp4,webm}', { eager: true }) as Record<string, AssetModule>
 
 export function resolveAssetUrl(input: string): string {
   if (!input) return input

@@ -4,17 +4,21 @@
 import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
+import { SplashProvider } from '@/components/system/SplashProvider'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 import EnglishHome from '@/pages/english/Home/Home'
 
 describe('EnglishHome page', () => {
   it('renders hero content', () => {
     render(
       <MemoryRouter>
-        <EnglishHome />
+        <LanguageProvider defaultLanguage="en">
+          <SplashProvider>
+            <EnglishHome />
+          </SplashProvider>
+        </LanguageProvider>
       </MemoryRouter>
     )
-    // Assert a known text appears on the page (kept generic)
-    // This text is present in the CTA section
-    expect(screen.getByText(/Ready to Find Your Dream Home/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /Where Vision Takes Shape/i, level: 1 })).toBeInTheDocument()
   })
 })

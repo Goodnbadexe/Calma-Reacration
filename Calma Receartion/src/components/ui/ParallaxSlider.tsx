@@ -45,13 +45,13 @@ const ParallaxSlider: React.FC<ParallaxSliderProps> = ({
   const parallaxY = useTransform(x, [-100, 100], [-20, 20])
 
   useEffect(() => {
-    let interval: number
+    let interval: ReturnType<typeof setInterval> | undefined
     if (isPlaying && autoPlay) {
       interval = setInterval(() => {
         setCurrentSlide(prev => infinite ? (prev + 1) % slides.length : Math.min(prev + 1, slides.length - 1))
       }, autoPlayDelay)
     }
-    return () => clearInterval(interval)
+    return () => { if (interval) clearInterval(interval) }
   }, [isPlaying, autoPlay, autoPlayDelay, slides.length, infinite])
 
   const goToSlide = (index: number) => {

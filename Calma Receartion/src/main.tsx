@@ -10,9 +10,10 @@ import EnglishHome from './pages/english/Home/Home'
 import AboutImproved from './pages/english/About/AboutImproved'
 import News from './pages/english/News/News'
 import RealEstateShowcase from './pages/english/Projects/Projects'
-import Commercials from './pages/english/Projects/Commercials'
-import Residential from './pages/english/Projects/Residential'
-import CalmaTower from './pages/english/Projects/CalmaTower'
+import Office from './pages/english/Projects/Office'
+import TownHouse from './pages/english/Projects/TownHouse'
+import Villa from './pages/english/Projects/Villa'
+import Floor from './pages/english/Projects/Floor'
 import Register from './pages/english/Register/Register'
 
 // Arabic Pages
@@ -44,9 +45,10 @@ createRoot(document.getElementById('root')!).render(
                 <Route path="/about" element={<AboutImproved />} />
                 <Route path="/news" element={<News />} />
                 <Route path="/projects" element={<RealEstateShowcase />} />
-                <Route path="/projects/commercials" element={<Commercials />} />
-                <Route path="/projects/residential" element={<Residential />} />
-                <Route path="/projects/calma-tower" element={<CalmaTower />} />
+                <Route path="/projects/office" element={<Office />} />
+                <Route path="/projects/townhouse" element={<TownHouse />} />
+                <Route path="/projects/villa" element={<Villa />} />
+                <Route path="/projects/floor" element={<Floor />} />
                 <Route path="/register" element={<Register />} />
 
                 {/* Arabic Routes */}

@@ -36,7 +36,7 @@ export function useSmoothSliderControls({
     isScrolling: false
   })
   
-  const autoPlayRef = useRef<number | null>(null)
+  const autoPlayRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const sliderRef = useRef<HTMLDivElement>(null)
 
   // Enhanced keyboard controls with accessibility

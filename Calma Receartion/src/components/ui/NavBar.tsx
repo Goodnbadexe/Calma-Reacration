@@ -184,8 +184,9 @@ export default function NavBar() {
       const navRect = navRef.current?.getBoundingClientRect()
       
       // Position dropdown centered under the trigger with a compact width
-      const baseWidth = 200
-      const centeredLeft = rect.left + rect.width / 2 - baseWidth / 2
+      const baseWidth = 300
+      const centeredLeftRaw = rect.left + rect.width / 2 - baseWidth / 2
+      const centeredLeft = Math.max(16, Math.min(centeredLeftRaw, (window.innerWidth - baseWidth - 16)))
       setDropdownPosition({
         top: (navRect?.bottom || rect.bottom) - 2,
         left: Math.max(centeredLeft, 16),
@@ -263,10 +264,9 @@ export default function NavBar() {
         className="section-inner"
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr auto 1fr',
+          gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          gap: 16,
-          // Grid respects dir; in RTL the first column is right, third is left
+          gap: 20,
         }}
       >
         {/* Left-aligned: Logo */}
@@ -584,32 +584,49 @@ export default function NavBar() {
           zIndex: 9999,
           minWidth: `${dropdownPosition.width}px`,
           width: `${dropdownPosition.width}px`,
-          background: 'rgba(255, 255, 255, 0.96)',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255, 255, 255, 0.2)',
+          background: 'var(--color-bg-glass-solid)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid var(--color-border-medium)',
           borderRadius: '10px',
           padding: '6px 0',
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 12px 24px rgba(7, 30, 31, 0.12)',
+          overflow: 'hidden',
           opacity: 0,
           transform: 'scale(0.8) translateY(-10px)'
         }}
       >
-        <span className="dropdown-item" style={{ display: 'block', padding: '10px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects' : '/projects')}>
-          {tr('nav.allProjects', 'All Projects', 'كل المشاريع')}
-        </span>
-        {!isArabic && (
-          <>
-            <span className="dropdown-item" style={{ display: 'block', padding: '10px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation('/projects/commercials')}>
-              {tr('nav.commercials', 'Commercials', 'تجارية')}
-            </span>
-            <span className="dropdown-item" style={{ display: 'block', padding: '10px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation('/projects/residential')}>
-              {tr('nav.residential', 'Residential', 'سكنية')}
-            </span>
-            <span className="dropdown-item" style={{ display: 'block', padding: '10px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation('/projects/calma-tower')}>
-              {tr('nav.calmaTower', 'Calma Tower', 'برج كالما')}
-            </span>
-          </>
-        )}
+        <nav role="menu" aria-label={tr('nav.projects', 'Projects', 'المشاريع')}>
+          <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+            <li>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '10px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects' : '/projects')}>
+                {tr('nav.allProjects', 'All Projects', 'كل المشاريع')}
+              </button>
+            </li>
+            <li style={{ borderTop: '1px solid var(--color-border-light)' }}>
+              <div style={{ fontSize: 12, opacity: 0.7, padding: '6px 12px' }}>{isArabic ? 'النوع' : 'Unit Types'}</div>
+            </li>
+            <li>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/calma-tower' : '/projects/villa')}>
+                {isArabic ? 'فلل' : 'Villa'}
+              </button>
+            </li>
+            <li>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects' : '/projects/floor')}>
+                {isArabic ? 'أدوار' : 'Floor'}
+              </button>
+            </li>
+            <li>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/residential' : '/projects/townhouse')}>
+                {isArabic ? 'تاون هاوس' : 'Town House'}
+              </button>
+            </li>
+            <li>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/commercials' : '/projects/office')}>
+                {isArabic ? 'مكتبي' : 'Office'}
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>,
       document.body
     )}

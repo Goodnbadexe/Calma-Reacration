@@ -32,9 +32,9 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
 
   // Collect all video URLs from assets at build time
   const allMedia = useMemo(() => {
-    const videos = import.meta.glob('@/assets/Videos/*.{mp4,webm}', { eager: true }) as Record<string, any>
-    const images = import.meta.glob('@/assets/Images/*.{png,jpg,jpeg,webp,gif,svg}', { eager: true }) as Record<string, any>
-    const splash = import.meta.glob('@/assets/Splash/*.{mp4,webm,png,jpg,jpeg,webp,gif,svg}', { eager: true }) as Record<string, any>
+    const videos = import.meta.glob('/src/assets/Videos/*.{mp4,webm}', { eager: true }) as Record<string, any>
+    const images = import.meta.glob('/src/assets/Images/*.{png,jpg,jpeg,webp,gif,svg}', { eager: true }) as Record<string, any>
+    const splash = import.meta.glob('/src/assets/Splash/*.{mp4,webm,png,jpg,jpeg,webp,gif,svg}', { eager: true }) as Record<string, any>
     const extract = (mods: Record<string, any>) => Object.values(mods).map((m) => (typeof m === 'string' ? m : m?.default)).filter(Boolean) as string[]
     const splashUrls = extract(splash)
     // Prefer images to minimize load; fall back to videos
@@ -105,6 +105,11 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
     }, fadeMs)
   }, [])
 
+  const signalReady = useCallback(() => {
+    if (!visible || closing) return
+    startClosing()
+  }, [visible, closing, startClosing])
+
   useEffect(() => {
     return () => {
       if (timerRef.current) {
@@ -168,8 +173,3 @@ export function SplashProvider({ children }: { children: React.ReactNode }) {
     </SplashContext.Provider>
   )
 }
-  const signalReady = useCallback(() => {
-    // Destination page calls when critical content is ready
-    if (!visible || closing) return
-    startClosing()
-  }, [visible, closing, startClosing])

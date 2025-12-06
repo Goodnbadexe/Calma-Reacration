@@ -15,13 +15,11 @@ const projectOrder = [11]
 export default function عرضالمشاريعAR() {
   const [scrollProgress, setScrollProgress] = useState(0)
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const svgRef = useRef<SVGSVGElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
   const [isSliderActive, setIsSliderActive] = useState(false)
   const [sliderValue, setSliderValue] = useState(0)
-  const [isSidebarActive, setIsSidebarActive] = useState(false)
 
   function scrollToProject(projectId: number) {
     const idx = projectOrder.indexOf(projectId)
@@ -104,7 +102,7 @@ export default function عرضالمشاريعAR() {
               if (!project) return null
               const isActive = projectId === currentProjectId
               return (
-                <button key={projectId} data-project-id={projectId} onClick={() => handleProjectClick(projectId)} onMouseEnter={() => setHoveredProject(projectId)} onMouseLeave={() => setHoveredProject(null)} className={`w-full text-right p-3 rounded-lg transition-all ${isActive ? 'bg-primary/20 border-2 border-primary' : 'bg-secondary/30'}`}> 
+                <button key={projectId} data-project-id={projectId} onClick={() => handleProjectClick(projectId)} className={`w-full text-right p-3 rounded-lg transition-all ${isActive ? 'bg-primary/20 border-2 border-primary' : 'bg-secondary/30'}`}> 
                   <div className="flex items-center gap-3 justify-end">
                     <div className="flex-1 min-w-0">
                       <p className={`font-mono text-sm ${isActive ? 'text-primary font-bold text-base' : 'text-foreground'}`}>{project.name}</p>

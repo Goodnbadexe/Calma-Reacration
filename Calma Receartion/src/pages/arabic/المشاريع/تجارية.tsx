@@ -1,7 +1,7 @@
 import ParallaxSlider from '@/components/ui/ParallaxSlider'
 import Parallax1Slider from '@/components/ui/Parallax1Slider'
 import { resolveAssetUrl, resolveAssetUrls } from '@/utils/assetResolver'
-import { ParallaxText, ParallaxContainer, ParallaxListItem, ParallaxReveal, ParallaxBackground, ParallaxGrid } from '@/components/ui/ParallaxElements'
+import { ParallaxText, ParallaxContainer, ParallaxReveal, ParallaxBackground, ParallaxGrid } from '@/components/ui/ParallaxElements'
 import '../../../styles/smooth-slider.css'
 
 const commercialSlides = [
@@ -110,4 +110,3 @@ export default function ArabicCommercials() {
     </main>
   )
 }
-

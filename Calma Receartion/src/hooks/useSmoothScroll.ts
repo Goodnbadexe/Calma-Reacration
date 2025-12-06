@@ -11,8 +11,8 @@ interface ScrollToOptions extends SmoothScrollOptions {
 }
 
 export const useSmoothScroll = () => {
-  const isScrolling = useRef(false);
-  const animationFrame = useRef<number>();
+  const isScrolling = useRef<boolean>(false);
+  const animationFrame = useRef<number | null>(null);
 
   // Easing functions
   const easingFunctions = {
@@ -128,8 +128,8 @@ export const useIntersectionAnimation = (
   options: IntersectionObserverInit = {},
   animationCallback?: (isIntersecting: boolean, entry: IntersectionObserverEntry) => void
 ) => {
-  const elementRef = useRef<HTMLElement>(null);
-  const observerRef = useRef<IntersectionObserver>();
+  const elementRef = useRef<HTMLElement | null>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     const element = elementRef.current;

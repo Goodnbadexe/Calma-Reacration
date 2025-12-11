@@ -1,0 +1,113 @@
+/* Footer Styles - Neutral Luxury Palette */
+.site-footer {
+  background: var(--color-primary-950);
+  color: #ffffff;
+  padding: 20px 0 16px;
+  border-top: 1px solid rgba(26, 26, 26, 0.12);
+}
+.footer-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.footer-logo {
+  height: 16px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.08));
+}
+.footer-title {
+  font-weight: 700;
+  font-size: 18px;
+}
+.footer-subtitle {
+  font-weight: 500;
+  font-size: 14px;
+  color: #ffffff;
+}
+.footer-text {
+  font-weight: 400;
+  font-size: 14px;
+  color: #ffffff;
+  max-width: 65ch;
+}
+.footer-heading {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+.footer-links {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.footer-links a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  opacity: 0.9;
+}
+.footer-links a:hover {
+  opacity: 1;
+  color: var(--color-accent);
+}
+.footer-social {
+  display: flex;
+  gap: 8px;
+}
+.footer-icon {
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  transition: all 0.2s ease;
+}
+.footer-icon:hover {
+  color: #ffffff;
+  border-color: rgba(212, 175, 55, 0.6);
+  transform: translateY(-2px);
+}
+.footer-bottom {
+  max-width: 1440px;
+  margin: 8px auto 0;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer-rule {
+  display: block;
+  height: 1px;
+  flex: 1;
+  margin-right: 16px;
+  background: linear-gradient(90deg, var(--color-gold), transparent);
+}
+.footer-note {
+  font-size: 12px;
+  color: #ffffff;
+}
+@media (max-width: 768px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}

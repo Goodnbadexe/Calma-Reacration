@@ -1112,26 +1112,7 @@ export default function SmoothSlider({
 
 
 
-  // Expose control methods globally for external access
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      (window as any).sliderControls = {
-        scrollTo,
-        scrollBy,
-        scrollToNext,
-        scrollToPrev,
-        getCurrentIndex: () => sliderCore.current?.getCurrentIndex() || 0,
-        getTotalSlides: () => slides.length,
-        getProgress: () => sliderCore.current?.getProgress() || 0
-      }
-    }
-    
-    return () => {
-      if (typeof window !== 'undefined') {
-        delete (window as any).sliderControls
-      }
-    }
-  }, [scrollTo, scrollBy, scrollToNext, scrollToPrev, slides.length])
+  // Remove window globals; consumers should use component refs/props instead
 
   // Simplified and precise wheel handling (Smooothy-inspired)
   useEffect(() => {
@@ -1622,8 +1603,9 @@ export default function SmoothSlider({
             className="w-16 h-2 bg-white/20 rounded-full overflow-hidden"
           >
             <motion.div
-              className="h-full bg-gradient-to-r from-blue-400 to-purple-500 rounded-full"
+              className="h-full rounded-full"
               style={{
+                background: 'linear-gradient(to right, rgba(255,255,255,0.85), rgba(197,164,109,0.9))',
                 scaleX: useTransform(speed, (s) => Math.min(Math.abs(s) / 200, 1)),
                 transformOrigin: "left"
               }}
@@ -1674,8 +1656,9 @@ export default function SmoothSlider({
         
         {/* Main progress with luxury gradient */}
         <motion.div
-          className="h-full bg-gradient-to-r from-white/80 via-blue-200/90 to-purple-200/90 rounded-full shadow-lg"
+          className="h-full rounded-full shadow-lg"
           style={{
+            background: 'linear-gradient(to right, rgba(255,255,255,0.85), rgba(212,180,131,0.9))',
             scaleX: useTransform(progressTransform, (p) => Math.max(0, Math.min(1, p / 100))),
             transformOrigin: "left"
           }}

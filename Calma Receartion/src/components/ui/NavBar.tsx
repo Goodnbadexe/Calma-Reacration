@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Menu, Globe, X, ChevronDown, Phone, MessageCircle } from 'lucide-react'
 import { useSplash } from '@/components/system/SplashProvider'
 import { useLanguage } from '@/contexts/LanguageContext'
-import anime from 'animejs'
 import { createMagneticEffect } from '@/utils/helpers'
 
 export default function NavBar() {
@@ -70,87 +69,17 @@ export default function NavBar() {
     }
   }, [])
 
-  // Initialize animations and magnetic effects
+  // Initialize magnetic effects
   useEffect(() => {
-    // Initial navbar entrance animation
-    if (navRef.current && anime) {
-      anime({
-        targets: navRef.current,
-        translateY: [-100, 0],
-        opacity: [0, 1],
-        duration: 800,
-        easing: 'easeOutExpo',
-        delay: 200
-      })
-    }
-
-    // Stagger animation for nav links
-    if (linksRef.current && anime) {
-      anime({
-        targets: linksRef.current.children,
-        translateY: [-20, 0],
-        opacity: [0, 1],
-        duration: 600,
-        delay: anime.stagger(100, {start: 500}),
-        easing: 'easeOutQuart'
-      })
-    }
-
-    // Logo animation
-    if (logoRef.current && anime) {
-      anime({
-        targets: logoRef.current,
-        scale: [0.5, 1],
-        opacity: [0, 1],
-        duration: 800,
-        easing: 'easeOutElastic',
-        delay: 300
-      })
-    }
-
-    // Actions animation
-    if (actionsRef.current && anime) {
-      anime({
-        targets: actionsRef.current.children,
-        scale: [0.8, 1],
-        opacity: [0, 1],
-        duration: 600,
-        delay: anime.stagger(80, {start: 600}),
-        easing: 'easeOutBack'
-      })
-    }
-
-    // Magnetic effect for buttons
     createMagneticEffect('.action-button', 0.3)
   }, [])
 
-  // Animate navbar visibility changes
-  useEffect(() => {
-    if (navRef.current && anime) {
-      anime({
-        targets: navRef.current,
-        translateY: isHidden ? -100 : 0,
-        opacity: isHidden ? 0 : 1,
-        duration: 400,
-        easing: 'easeOutQuart'
-      })
-    }
-  }, [isHidden])
+  // Navbar visibility is controlled via CSS classes
 
-  // Animate transparency changes
+  // Transparency changes: toggle CSS classes synchronously
   useEffect(() => {
-    if (navRef.current && anime) {
-      anime({
-        targets: navRef.current,
-        duration: 300,
-        easing: 'easeOutQuart',
-        complete: () => {
-          // Trigger CSS class change after animation
-          navRef.current?.classList.toggle('nav-transparent', isTransparent)
-          navRef.current?.classList.toggle('nav-solid', !isTransparent)
-        }
-      })
-    }
+    navRef.current?.classList.toggle('nav-transparent', isTransparent)
+    navRef.current?.classList.toggle('nav-solid', !isTransparent)
   }, [isTransparent])
 
   // Removed hide-on-scroll behavior to ensure consistent, predictable navbar visibility
@@ -194,47 +123,9 @@ export default function NavBar() {
       })
       setDropdownOpen(true)
       
-      // Animate dropdown entrance with improved glass effect
-      setTimeout(() => {
-        if (dropdownRef.current && anime) {
-          anime({
-            targets: dropdownRef.current,
-            scale: [0.95, 1],
-            opacity: [0, 1],
-            translateY: [-8, 0],
-            duration: 400,
-            easing: 'easeOutCubic'
-          })
-          
-          // Animate dropdown items with stagger
-          const items = dropdownRef.current.querySelectorAll('.dropdown-item')
-          if (items.length > 0 && anime) {
-            anime({
-              targets: items,
-              translateY: [-12, 0],
-              opacity: [0, 1],
-              duration: 300,
-              delay: anime.stagger(60, {start: 150}),
-              easing: 'easeOutQuart'
-            })
-          }
-        }
-      }, 10)
+      // Dropdown appears immediately without JS animations
     } else {
-      // Animate dropdown exit
-      if (dropdownRef.current && anime) {
-        anime({
-          targets: dropdownRef.current,
-          scale: [1, 0.95],
-          opacity: [1, 0],
-          translateY: [0, -8],
-          duration: 250,
-          easing: 'easeInCubic',
-          complete: () => setDropdownOpen(false)
-        })
-      } else {
-        setDropdownOpen(false)
-      }
+      setDropdownOpen(false)
     }
   }
 
@@ -584,15 +475,14 @@ export default function NavBar() {
           zIndex: 9999,
           minWidth: `${dropdownPosition.width}px`,
           width: `${dropdownPosition.width}px`,
-          background: 'var(--color-bg-glass-solid)',
-          backdropFilter: 'blur(12px)',
-          border: '1px solid var(--color-border-medium)',
+          background: '#FFFFFF',
+          border: '1px solid rgba(26, 26, 26, 0.12)',
           borderRadius: '10px',
           padding: '6px 0',
           boxShadow: '0 12px 24px rgba(7, 30, 31, 0.12)',
           overflow: 'hidden',
-          opacity: 0,
-          transform: 'scale(0.8) translateY(-10px)'
+          opacity: 1,
+          transform: 'none'
         }}
       >
         <nav role="menu" aria-label={tr('nav.projects', 'Projects', 'المشاريع')}>

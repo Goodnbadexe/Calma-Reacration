@@ -83,7 +83,7 @@ export default function AboutImproved() {
     { number: "28", label: "Successfully Delivered Projects", suffix: "+", image: asset1Image },
     { number: "2000", label: "Families Call Our Developments Home", suffix: "+", image: asset2Image },
     { number: "700", label: "Housing Units Delivered", suffix: "+", image: asset5Image },
-    { number: "500000", label: "SQM of Possibilities Unfolding", suffix: "", image: asset6Image }
+    { number: "500000", label: "m² of Possibilities Unfolding", suffix: "", image: asset6Image }
   ]
 
   // Project showcase gallery
@@ -153,6 +153,8 @@ export default function AboutImproved() {
                   src={image} 
                   alt={`Calma Project ${index + 1}`}
                   className="hero-gallery-image"
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/70 via-primary/50 to-transparent" />
               </motion.div>

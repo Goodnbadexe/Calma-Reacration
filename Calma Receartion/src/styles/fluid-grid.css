@@ -2,7 +2,7 @@
 
 :root {
   /* Container sizing */
-  --container-max: 1200px;
+  --container-max: 1280px;
   --container-padding: clamp(16px, 4vw, 32px);
 
   /* Grid spacing and column behavior */
@@ -61,7 +61,7 @@
 }
 
 @media (min-width: 768px) {
-  :root { --container-max: 1100px; }
+  :root { --container-max: 1280px; }
 }
 
 @media (min-width: 1024px) {
@@ -69,15 +69,15 @@
 }
 
 @media (min-width: 1280px) {
-  :root { --container-max: 1440px; }
+  :root { --container-max: 1280px; }
 }
 
 @media (min-width: 1600px) {
-  :root { --container-max: 1600px; }
+  :root { --container-max: 1280px; }
 }
 
 @media (min-width: 1920px) {
-  :root { --container-max: 1800px; }
+  :root { --container-max: 1280px; }
 }
 
 /* RTL support: no change needed for grid itself, but ensure logical properties are respected */

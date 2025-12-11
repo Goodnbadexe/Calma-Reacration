@@ -1,0 +1,72 @@
+.featured-carousel {
+  width: 100%;
+  display: grid;
+  align-content: center;
+  row-gap: 32px;
+}
+.featured-carousel .showcase-header {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 3vw, 40px);
+  text-align: center;
+}
+.carousel-container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 3vw, 40px);
+  overflow: hidden;
+  cursor: grab;
+  display: grid;
+  place-items: center;
+}
+.carousel-container:active { cursor: grabbing; }
+.carousel-track {
+  display: flex;
+  align-items: stretch;
+  will-change: transform;
+}
+.carousel-item {
+  flex: 0 0 auto;
+  height: 100%;
+}
+.card-active .project-showcase-card {
+  transform: translateZ(0);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  box-shadow: var(--shadow-luxury);
+}
+.card-inactive .project-showcase-card {
+  transform: translateZ(0);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+.project-image {
+  position: relative;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.carousel-item .project-showcase-card {
+  height: 520px;
+}
+.carousel-controls {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) and (min-width: 768px) {
+  .carousel-container { padding: 0 clamp(16px, 3vw, 28px); }
+}
+@media (max-width: 767px) {
+  .carousel-container { padding: 0 16px; }
+}

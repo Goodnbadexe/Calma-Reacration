@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import './styles/navbar.css'
@@ -6,26 +6,26 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 
 // English Pages
-import EnglishHome from './pages/english/Home/Home'
-import AboutImproved from './pages/english/About/AboutImproved'
-import News from './pages/english/News/News'
-import RealEstateShowcase from './pages/english/Projects/Projects'
-import Office from './pages/english/Projects/Office'
-import TownHouse from './pages/english/Projects/TownHouse'
-import Villa from './pages/english/Projects/Villa'
-import Floor from './pages/english/Projects/Floor'
-import Register from './pages/english/Register/Register'
+const EnglishHome = lazy(() => import('./pages/english/Home/Home'))
+const AboutImproved = lazy(() => import('./pages/english/About/AboutImproved'))
+const News = lazy(() => import('./pages/english/News/News'))
+const RealEstateShowcase = lazy(() => import('./pages/english/Projects/Projects'))
+const Office = lazy(() => import('./pages/english/Projects/Office'))
+const TownHouse = lazy(() => import('./pages/english/Projects/TownHouse'))
+const Villa = lazy(() => import('./pages/english/Projects/Villa'))
+const Floor = lazy(() => import('./pages/english/Projects/Floor'))
+const Register = lazy(() => import('./pages/english/Register/Register'))
 
 // Arabic Pages
-import ArabicHome from './pages/arabic/الرئيسية/الرئيسية'
-import ArabicAbout from './pages/arabic/عن كالما/عن كالما'
-import ArabicProjects from './pages/arabic/المشاريع/عرض المشاريع'
-import ArabicContact from './pages/arabic/تواصل معنا/تواصل معنا'
-import ArabicNews from './pages/arabic/الأخبار/الأخبار'
-import ArabicRegister from './pages/arabic/التسجيل/التسجيل'
-import ArabicCommercials from './pages/arabic/المشاريع/تجارية'
-import ArabicResidential from './pages/arabic/المشاريع/سكنية'
-import ArabicCalmaTower from './pages/arabic/المشاريع/برج كالما'
+const ArabicHome = lazy(() => import('./pages/arabic/الرئيسية/الرئيسية'))
+const ArabicAbout = lazy(() => import('./pages/arabic/عن كالما/عن كالما'))
+const ArabicProjects = lazy(() => import('./pages/arabic/المشاريع/عرض المشاريع'))
+const ArabicContact = lazy(() => import('./pages/arabic/تواصل معنا/تواصل معنا'))
+const ArabicNews = lazy(() => import('./pages/arabic/الأخبار/الأخبار'))
+const ArabicRegister = lazy(() => import('./pages/arabic/التسجيل/التسجيل'))
+const ArabicCommercials = lazy(() => import('./pages/arabic/المشاريع/تجارية'))
+const ArabicResidential = lazy(() => import('./pages/arabic/المشاريع/سكنية'))
+const ArabicCalmaTower = lazy(() => import('./pages/arabic/المشاريع/برج كالما'))
 
 // Test and System Components
 import { SplashProvider } from '@/components/system/SplashProvider'
@@ -38,38 +38,40 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <LanguageProvider defaultLanguage="en">
           <SplashProvider>
-            <Routes>
-              <Route element={<AppLayout />}>
-                {/* English Routes */}
-                <Route path="/" element={<EnglishHome />} />
-                <Route path="/about" element={<AboutImproved />} />
-                <Route path="/news" element={<News />} />
-                <Route path="/projects" element={<RealEstateShowcase />} />
-                <Route path="/projects/office" element={<Office />} />
-                <Route path="/projects/townhouse" element={<TownHouse />} />
-                <Route path="/projects/villa" element={<Villa />} />
-                <Route path="/projects/floor" element={<Floor />} />
-                <Route path="/register" element={<Register />} />
+            <Suspense fallback={<div className="page-loading" aria-busy="true" aria-live="polite">Loading…</div>}>
+              <Routes>
+                <Route element={<AppLayout />}>
+                  {/* English Routes */}
+                  <Route path="/" element={<EnglishHome />} />
+                  <Route path="/about" element={<AboutImproved />} />
+                  <Route path="/news" element={<News />} />
+                  <Route path="/projects" element={<RealEstateShowcase />} />
+                  <Route path="/projects/office" element={<Office />} />
+                  <Route path="/projects/townhouse" element={<TownHouse />} />
+                  <Route path="/projects/villa" element={<Villa />} />
+                  <Route path="/projects/floor" element={<Floor />} />
+                  <Route path="/register" element={<Register />} />
 
-                {/* Arabic Routes */}
-                <Route path="/ar" element={<ArabicHome />} />
-                <Route path="/ar/عن كالـما" element={<ArabicAbout />} />
-                <Route path="/ar/المشاريع" element={<ArabicProjects />} />
-                <Route path="/ar/تواصل معنا" element={<ArabicContact />} />
-                {/* Arabic slug aliases for improved usability */}
-                <Route path="/ar/about" element={<ArabicAbout />} />
-                <Route path="/ar/projects" element={<ArabicProjects />} />
-                <Route path="/ar/contact" element={<ArabicContact />} />
-                <Route path="/ar/news" element={<ArabicNews />} />
-                <Route path="/ar/التسجيل" element={<ArabicRegister />} />
-                {/* Arabic projects subroutes mirroring EN */}
-                <Route path="/ar/projects/commercials" element={<ArabicCommercials />} />
-                <Route path="/ar/projects/residential" element={<ArabicResidential />} />
-                <Route path="/ar/projects/calma-tower" element={<ArabicCalmaTower />} />
+                  {/* Arabic Routes */}
+                  <Route path="/ar" element={<ArabicHome />} />
+                  <Route path="/ar/عن كالـما" element={<ArabicAbout />} />
+                  <Route path="/ar/المشاريع" element={<ArabicProjects />} />
+                  <Route path="/ar/تواصل معنا" element={<ArabicContact />} />
+                  {/* Arabic slug aliases for improved usability */}
+                  <Route path="/ar/about" element={<ArabicAbout />} />
+                  <Route path="/ar/projects" element={<ArabicProjects />} />
+                  <Route path="/ar/contact" element={<ArabicContact />} />
+                  <Route path="/ar/news" element={<ArabicNews />} />
+                  <Route path="/ar/التسجيل" element={<ArabicRegister />} />
+                  {/* Arabic projects subroutes mirroring EN */}
+                  <Route path="/ar/projects/commercials" element={<ArabicCommercials />} />
+                  <Route path="/ar/projects/residential" element={<ArabicResidential />} />
+                  <Route path="/ar/projects/calma-tower" element={<ArabicCalmaTower />} />
 
-                {/* Test Routes */}
-              </Route>
-            </Routes>
+                  {/* Test Routes */}
+                </Route>
+              </Routes>
+            </Suspense>
           </SplashProvider>
         </LanguageProvider>
       </BrowserRouter>

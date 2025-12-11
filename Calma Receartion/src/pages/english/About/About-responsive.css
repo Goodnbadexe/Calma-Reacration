@@ -54,7 +54,7 @@
 .hero-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  padding: 0 1.25rem;
   text-align: center;
   position: relative;
   z-index: 10;
@@ -87,11 +87,11 @@
 }
 
 .hero-subtitle {
-  margin-bottom: 3rem;
+  margin-bottom: 2.4rem;
   line-height: 1.6;
   margin-left: auto;
   margin-right: auto;
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
   max-width: 800px;
   color: #ffeb3b;
 }
@@ -341,7 +341,7 @@
   position: relative;
   border-radius: 1rem;
   overflow: hidden;
-  height: 400px;
+  aspect-ratio: 4/3;
   transition: transform 0.3s ease;
 }
 
@@ -366,7 +366,7 @@
 }
 
 .brand-value-icon {
-  font-size: 2rem;
+  font-size: 1.6rem;
   margin-bottom: 1rem;
 }
 
@@ -455,10 +455,10 @@
 
 .section-description {
   font-size: 1.125rem;
-  text-align: center;
+  text-align: left;
   line-height: 1.6;
   margin-bottom: 3rem;
-  max-width: 800px;
+  max-width: 680px;
   margin-left: auto;
   margin-right: auto;
   color: #e0e0e0;

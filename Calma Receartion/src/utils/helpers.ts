@@ -255,6 +255,21 @@ export const isTablet = () => window.innerWidth >= breakpoints.md && window.inne
  */
 export const isDesktop = () => window.innerWidth >= breakpoints.lg;
 
+/**
+ * Format metrics with locale and optional plus suffix
+ */
+export const formatMetric = (value: number | string, opts: { plus?: boolean; locale?: string } = {}) => {
+  const { plus = false, locale = 'en' } = opts
+  const n = typeof value === 'string' ? Number(String(value).replace(/[^\d.-]/g, '')) : value
+  const formatted = new Intl.NumberFormat(locale).format(isNaN(n) ? 0 : n)
+  return plus ? `${formatted}+` : formatted
+}
+
+/**
+ * Get unit symbol by locale
+ */
+export const getUnit = (locale: string) => (locale?.startsWith('ar') ? 'م²' : 'm²')
+
 // ==================== ANIMATION SEQUENCES ====================
 
 /**

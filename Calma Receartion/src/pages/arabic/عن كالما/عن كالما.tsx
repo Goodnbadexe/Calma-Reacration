@@ -575,9 +575,9 @@ export default function ArabicAbout() {
           <div className="stats-grid">
             {[
               { number: "28", label: "مشروع مكتمل", description: "مشاريع عقارية متميزة" },
-              { number: "500,000", label: "متر مربع", description: "من الإمكانيات المتاحة" },
-              { number: "130,000", label: "متر مربع", description: "مساحة إجمالية مطورة" },
-              { number: "77,097", label: "متر مربع", description: "مساحة سكنية فاخرة" },
+              { number: "500,000", label: "م²", description: "من الإمكانيات المتاحة" },
+              { number: "130,000", label: "م²", description: "مساحة إجمالية مطورة" },
+              { number: "77,097", label: "م²", description: "مساحة سكنية فاخرة" },
               { number: "15", label: "سنة خبرة", description: "في التطوير العقاري" },
               { number: "95%", label: "رضا العملاء", description: "معدل الرضا العام" }
             ].map((stat, index) => (

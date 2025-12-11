@@ -48,7 +48,7 @@
   --color-success: #22c55e;           /* Success green */
   --color-warning: #f59e0b;           /* Warning amber */
   --color-error: #ef4444;             /* Error red */
-  --color-info: #3b82f6;              /* Info blue */
+  --color-info: #C5A46D;              /* Soft gold (replaces blue) */
   
   /* Background Colors & Gradients */
   --color-bg-primary: linear-gradient(135deg, #edebe2 0%, #ffffff 25%, #d4cfbc 75%, #acb5b3 100%);
@@ -76,8 +76,8 @@
   --color-text-on-light: #1a1a1a;     /* High contrast text on light backgrounds - 12.6:1 */
   --color-text-on-dark: #ffffff;      /* High contrast text on dark backgrounds - 21:1 */
   --color-text-muted-accessible: #4b5563; /* Accessible muted text - 7.0:1 on white */
-  --color-text-link: #0c61f5;         /* Supreme Design System primary - 4.5:1 on white */
-  --color-text-link-hover: #0a4fd1;   /* Darker link hover state - 5.2:1 on white */
+  --color-text-link: #1A1A1A;         /* Charcoal link on white */
+  --color-text-link-hover: #C5A46D;   /* Soft gold hover accent */
   
   /* Border Colors */
   --color-border-primary: rgba(7, 30, 31, 0.16);
@@ -94,7 +94,7 @@
   /* Interactive States - WCAG AA Compliant */
   --color-hover-light: rgba(7, 30, 31, 0.08);
   --color-hover-medium: rgba(7, 30, 31, 0.15);
-  --color-focus: rgba(12, 97, 245, 0.5);      /* Supreme Design System focus color */
+  --color-focus: rgba(26, 26, 26, 0.3);       /* Charcoal focus outline */
   --color-active: rgba(7, 30, 31, 0.20);
   
   /* Accessible Color Combinations */

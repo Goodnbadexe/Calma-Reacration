@@ -71,3 +71,33 @@ export default defineConfig([
   },
 ])
 ```
+
+## Project Structure
+
+- `src/pages`: Route entrypoints organized by language (`english/`, `arabic/`)
+- `src/components/ui`: Presentational primitives; named exports via `src/components/ui/index.ts`
+- `src/layouts`: Global layout primitives; `AppLayout` re-exported from `src/layouts/index.ts`
+- `src/hooks`: Reusable interaction hooks (`useDarkMode`, `useSmoothScroll`, `useSmoothSliderControls`)
+- `src/lib/utils.ts`: Shared utilities
+- `src/styles`: Global CSS (navbar, palette, variables, fluid grid, etc.)
+- `public` and `src/assets`: Static assets and fonts
+
+## Tailwind v4 Setup
+
+- Tailwind is enabled via PostCSS plugin: `@tailwindcss/postcss` (see `postcss.config.js`)
+- Config lives at project root: `tailwind.config.js`
+- No `@tailwind base/components/utilities` directives are required in CSS; classes are compiled via the plugin and `content` globs
+- Use utility classes directly in components; theme extensions (colors, typography, animations) are in `tailwind.config.js`
+
+## i18n
+
+- Current source of truth for copy is `src/contexts/LanguageContext.tsx` with an inline EN/AR dictionary
+- Pages consume keys via `useLanguage().t(key)` and mirror EN/AR routes in `src/main.tsx`
+
+## Automation (TRE)
+
+- Architecture spec resides at `tools/trae/architecture-spec.json`
+- Intended outputs:
+  - `manifests/pages/`: Per-page manifests
+  - `reports/pages/`: Dependency and asset reports
+  - `patches/improve/pages/`: Proposed codemods

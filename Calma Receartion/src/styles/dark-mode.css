@@ -9,11 +9,11 @@
 /* Dark mode color palette */
 :root[data-theme="dark"] {
   /* Primary colors - adjusted for dark backgrounds */
-  --color-primary: #4F8EF7; /* Lighter blue for better contrast */
-  --color-primary-hover: #6BA3F8;
-  --color-primary-active: #3B7EE6;
-  --color-primary-light: rgba(79, 142, 247, 0.1);
-  --color-primary-dark: #2563EB;
+  --color-primary: #071E1F;
+  --color-primary-hover: #0C2D30;
+  --color-primary-active: #052022;
+  --color-primary-light: rgba(7, 30, 31, 0.12);
+  --color-primary-dark: #071E1F;
 
   /* Secondary colors */
   --color-secondary: #A78BFA; /* Purple adjusted for dark mode */
@@ -86,7 +86,7 @@
   --color-sage-accent: #A4B894;
 
   /* Gradients - dark mode */
-  --gradient-primary: linear-gradient(135deg, #4F8EF7 0%, #6366F1 100%);
+  --gradient-primary: linear-gradient(135deg, #071E1F 0%, #0C2D30 100%);
   --gradient-secondary: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
   --gradient-accent: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
   --gradient-surface: linear-gradient(135deg, #1A1A1A 0%, #262626 100%);
@@ -136,18 +136,6 @@
   --hero-overlay: var(--gradient-overlay);
 }
 
-/* Automatic dark mode detection */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    /* Apply dark mode variables when user prefers dark and no explicit theme is set */
-    --color-primary: #4F8EF7;
-    --color-background: #0F0F0F;
-    --color-surface: #1A1A1A;
-    --color-text-primary: #FFFFFF;
-    --color-text-secondary: rgba(255, 255, 255, 0.87);
-    --color-border: rgba(255, 255, 255, 0.12);
-  }
-}
 
 /* Smooth transitions for theme switching */
 *,

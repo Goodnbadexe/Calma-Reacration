@@ -58,14 +58,14 @@
   --color-neutral-950: #020617;
 
   /* Text Colors */
-  --color-text-primary: #FFFFFF;
-  --color-text-secondary: #CBD5E1;
-  --color-text-muted: #94A3B8;
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #4A4A4A;
+  --color-text-muted: #6B7280;
   --color-text-accent: var(--color-accent);
 
   /* Background Colors */
-  --color-bg-primary: var(--color-primary);
-  --color-bg-secondary: var(--color-primary-800);
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F5F5F5;
   --color-bg-accent: var(--color-accent);
   --color-bg-neutral: var(--color-neutral-100);
 
@@ -141,6 +141,15 @@
   --transition-normal: 300ms ease-in-out;
   --transition-slow: 500ms ease-in-out;
 
+  /* Vertical Rhythm */
+  --section-vr-desktop: 72px;
+  --section-vr-tablet: 56px;
+  --section-vr-mobile: 40px;
+
+  /* Section Spacing (Homepage) */
+  --section-padding-desktop: 80px;
+  --section-padding-mobile: 48px;
+
   /* Z-Index */
   --z-dropdown: 1000;
   --z-sticky: 1020;
@@ -152,26 +161,17 @@
   --z-toast: 1080;
 
   /* Breakpoints (for JS usage) */
-  --breakpoint-xs: 360px;
-  --breakpoint-sm: 430px;
+  --breakpoint-xxs: 375px;
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 640px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
+  --breakpoint-xl-1440: 1440px;
   --breakpoint-2xl: 1536px;
   --breakpoint-3xl: 1920px;
 }
 
-/* Dark mode overrides */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-text-primary: #FFFFFF;
-    --color-text-secondary: #CBD5E1;
-    --color-text-muted: #94A3B8;
-    --color-bg-primary: var(--color-primary);
-    --color-bg-secondary: var(--color-primary-800);
-    --color-bg-neutral: var(--color-neutral-900);
-  }
-}
 
 /* RTL Support */
 [dir="rtl"] {

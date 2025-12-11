@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+import ResponsiveImage from './ResponsiveImage'
 
 type ProjectEntry = {
   id: string
@@ -13,7 +14,7 @@ type Props = {
 
 export default function ProjectGallery({ entries }: Props) {
   const images = useMemo(() => {
-    const modules = import.meta.glob('/src/assets/Images/Projects/**/**.{jpg,jpeg,png}', { eager: true }) as Record<string, any>
+    const modules = import.meta.glob('/src/assets/Images/Projects/**/**.{jpg,jpeg,png,webp}', { eager: true }) as Record<string, any>
     const byDir: Record<string, string[]> = {}
     Object.keys(modules).forEach((key) => {
       const parts = key.split('/src/assets/Images/Projects/')[1]
@@ -35,7 +36,13 @@ export default function ProjectGallery({ entries }: Props) {
           const cover = imgList[0] as string | undefined
           return (
             <article key={entry.id} className="gallery-card" aria-label={entry.title}>
-              {cover && <img src={cover} alt={entry.title} loading="lazy" decoding="async" />}
+              {cover && (
+                <ResponsiveImage
+                  src={cover}
+                  alt={entry.title}
+                  ratio="4/3"
+                />
+              )}
               <div className="gallery-meta">
                 <h3 className="gallery-title">{entry.title}</h3>
                 {entry.location && <p className="gallery-location">{entry.location}</p>}
@@ -47,4 +54,3 @@ export default function ProjectGallery({ entries }: Props) {
     </section>
   )
 }
-

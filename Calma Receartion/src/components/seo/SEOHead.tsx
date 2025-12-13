@@ -16,6 +16,7 @@ interface SEOHeadProps {
   tags?: string[]
   noIndex?: boolean
   canonical?: string
+  alternates?: { hrefLang: string, href: string }[]
 }
 
 const defaultSEO = {
@@ -41,7 +42,8 @@ export default function SEOHead({
   section,
   tags,
   noIndex = false,
-  canonical
+  canonical,
+  alternates
 }: SEOHeadProps) {
   // Generate full title with site name
   const fullTitle = title ? `${title} | ${siteName}` : `${siteName} - Premium Real Estate Development`
@@ -99,6 +101,10 @@ export default function SEOHead({
       
       {/* Canonical URL */}
       {canonical && <link rel="canonical" href={canonical} />}
+      {/* Hreflang alternates */}
+      {alternates && alternates.map(a => (
+        <link key={`${a.hrefLang}-${a.href}`} rel="alternate" hrefLang={a.hrefLang} href={a.href} />
+      ))}
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />

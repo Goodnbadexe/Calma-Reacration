@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { Helmet } from 'react-helmet-async'
 import { Button } from '@/components/ui/button'
 import { ExternalLink, Calendar, Heart, MessageCircle, Share2, Linkedin } from 'lucide-react'
 import './الأخبار.css'
+import { الاخبارAR } from '@/pages/content/../../data/news.ar'
+import { apiClient } from '@/utils/apiClient'
+import { useTelemetry } from '@/utils/telemetry'
 
 type LinkedInPost = {
   id: string
@@ -51,43 +55,38 @@ const mockLinkedInPosts: LinkedInPost[] = [
   }
 ]
 
-const newsArticles = [
-  {
-    id: '1',
-    title: 'CALMA تطلق مبادرة تطوير مستدامة جديدة',
-    excerpt: 'ريادة في البناء الصديق للبيئة عبر تقنيات خضراء مبتكرة.',
-    date: '2024-01-20',
-    category: 'استدامة',
-    image: '/api/placeholder/400/250'
-  },
-  {
-    id: '2',
-    title: 'خطة توسع لعام 2024',
-    excerpt: 'نمو استراتيجي في مدن رئيسية مع تركيز على المشاريع السكنية الفاخرة.',
-    date: '2024-01-18',
-    category: 'أعمال',
-    image: '/api/placeholder/400/250'
-  },
-  {
-    id: '3',
-    title: 'جائزة للتميز المعماري',
-    excerpt: 'CALMA تتلقى تكريمًا مرموقًا لابتكارها في التصميم وجودة التنفيذ.',
-    date: '2024-01-15',
-    category: 'جوائز',
-    image: '/api/placeholder/400/250'
-  }
-]
+const newsArticles = الاخبارAR
 
 export default function ArabicNews() {
   const [linkedInPosts, setLinkedInPosts] = useState<LinkedInPost[]>([])
   const [loading, setLoading] = useState(true)
+  const [email, setEmail] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [subscribeMsg, setSubscribeMsg] = useState<string | null>(null)
+  const { trackPerformance, trackError } = useTelemetry()
 
   useEffect(() => {
     const fetchLinkedInPosts = async () => {
       setLoading(true)
-      await new Promise((r) => setTimeout(r, 1000))
-      setLinkedInPosts(mockLinkedInPosts)
-      setLoading(false)
+      try {
+        const data = await apiClient.get<any[]>('/api/linkedin/posts')
+        const mapped: LinkedInPost[] = data.map((p) => ({
+          id: p.id,
+          content: p.text ?? '',
+          author: 'CALMA العقارية',
+          date: new Date(p.createdAt).toISOString(),
+          likes: p.metrics?.likes ?? 0,
+          comments: p.metrics?.comments ?? 0,
+          shares: p.metrics?.shares ?? 0,
+          image: p.thumbnailUrl ?? p.mediaUrl,
+          link: p.link,
+        }))
+        setLinkedInPosts(mapped)
+      } catch {
+        setLinkedInPosts(mockLinkedInPosts)
+      } finally {
+        setLoading(false)
+      }
     }
     fetchLinkedInPosts()
   }, [])
@@ -100,6 +99,14 @@ export default function ArabicNews() {
 
   return (
     <main className="news-page" dir="rtl" lang="ar">
+      <Helmet>
+        <title>كالما — آخر الأخبار والتحديثات</title>
+        <meta name="description" content="تابع أحدث أخبار CALMA وتحديثات لينكدإن والبيانات الصحفية." />
+        <meta property="og:title" content="كالما — آخر الأخبار والتحديثات" />
+        <meta property="og:description" content="تجربة تحريرية راقية مع محتوى مباشر من لينكدإن وأخبار الشركة." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://calma.sa/ar/news" />
+      </Helmet>
       {/* Hero Section */}
       <section className="news-hero">
         <div className="news-hero-content">
@@ -255,9 +262,33 @@ export default function ArabicNews() {
                 placeholder="ادخل بريدك الإلكتروني"
                 className="email-input"
                 dir="ltr"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <Button className="subscribe-btn">اشترك</Button>
+              <Button 
+                className="subscribe-btn"
+                disabled={submitting}
+                onClick={async () => {
+                  setSubmitting(true)
+                  setSubscribeMsg(null)
+                  try {
+                    const start = performance.now()
+                    await apiClient.post('/api/newsletter/subscribe', { email })
+                    setSubscribeMsg('تم الاشتراك بنجاح')
+                    setEmail('')
+                    trackPerformance('newsletter_subscribe', performance.now() - start, 'ms')
+                  } catch {
+                    setSubscribeMsg('فشل الاشتراك')
+                    trackError('subscription_error', 'Subscription failed')
+                  } finally {
+                    setSubmitting(false)
+                  }
+                }}
+              >
+                {submitting ? 'جاري الاشتراك…' : 'اشترك'}
+              </Button>
             </div>
+            {subscribeMsg && <div aria-live="polite" style={{ marginTop: '0.75rem' }}>{subscribeMsg}</div>}
           </motion.div>
         </section>
       </div>

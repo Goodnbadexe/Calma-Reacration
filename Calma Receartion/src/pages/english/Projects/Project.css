@@ -142,3 +142,14 @@
   .scrollbar-thin::-webkit-scrollbar-thumb { background: var(--color-neutral-400); border-radius: 3px; }
   .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: var(--color-neutral-500); }
 }
+
+@layer components {
+  .svg-hero {
+    transition: transform 0.7s ease, opacity 0.4s ease;
+    transform-origin: center;
+  }
+  .svg-docked {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+}

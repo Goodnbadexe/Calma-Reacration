@@ -138,6 +138,7 @@ export default function SmoothCarousel<T extends CarouselItem>({
     if (!el) return
     const onPointerDown = (e: PointerEvent) => {
       dragging.current = true
+      el.classList.add('dragging')
       startX.current = e.clientX
       lastX.current = e.clientX
       velocity.current = 0
@@ -158,6 +159,7 @@ export default function SmoothCarousel<T extends CarouselItem>({
     const onPointerUp = (e: PointerEvent) => {
       if (!dragging.current) return
       dragging.current = false
+      el.classList.remove('dragging')
       el.releasePointerCapture(e.pointerId)
       cancelRaf()
       rafId.current = requestAnimationFrame(animate)
@@ -176,11 +178,20 @@ export default function SmoothCarousel<T extends CarouselItem>({
     const el = containerRef.current
     if (!el) return
     const onKey = (e: KeyboardEvent) => {
+      const isRTL = document.documentElement.dir === 'rtl'
       if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault()
-        const dir = e.key === 'ArrowRight' ? 1 : -1
+        let dir = e.key === 'ArrowRight' ? 1 : -1
+        if (isRTL) dir = -dir
         const by = Math.floor(window.innerWidth * cfg.moveByVW)
         smoothTo(clampPosition(position.current + dir * by))
+      } else if (e.key === 'Home') {
+        e.preventDefault()
+        smoothTo(0)
+      } else if (e.key === 'End') {
+        e.preventDefault()
+        const end = (items.length - 1) * (cardWidth + gap)
+        smoothTo(clampPosition(end))
       }
     }
     el.addEventListener('keydown', onKey)
@@ -222,6 +233,10 @@ export default function SmoothCarousel<T extends CarouselItem>({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.6 }}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`Slide ${i + 1} of ${items.length}`}
+              id={`slide-${i + 1}`}
             >
               <motion.div
                 className={i === activeIndex ? 'card-active' : 'card-inactive'}
@@ -249,6 +264,27 @@ export default function SmoothCarousel<T extends CarouselItem>({
         >
           ›
         </button>
+      </div>
+      <div className="carousel-pagination" aria-label="Carousel pagination">
+        <div className="carousel-dots" role="tablist" aria-orientation="horizontal">
+          {items.map((it, i) => {
+            const isActive = i === activeIndex
+            const target = i * (cardWidth + gap)
+            return (
+              <button
+                key={`dot-${it.id}`}
+                role="tab"
+                aria-selected={isActive}
+                aria-controls={`slide-${i + 1}`}
+                className={`carousel-dot ${isActive ? 'active' : ''}`}
+                onClick={() => smoothTo(clampPosition(target))}
+              />
+            )
+          })}
+        </div>
+        <div className="carousel-count" aria-live="polite">
+          {activeIndex + 1} / {items.length}
+        </div>
       </div>
     </section>
   )

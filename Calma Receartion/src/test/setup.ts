@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom'
+import { vi } from 'vitest'
 
 class MockIntersectionObserver {
   constructor() {}
@@ -19,3 +20,18 @@ global.localStorage = {
   removeItem: (key: string) => { delete storage[key] },
   clear: () => { Object.keys(storage).forEach((k) => delete storage[k]) }
 } as any
+
+class MockResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+// @ts-ignore
+global.ResizeObserver = MockResizeObserver as any
+
+// Mock modules that are not available in test environment
+vi.mock('embla-carousel-react', () => {
+  return {
+    default: () => [null, {}]
+  }
+})

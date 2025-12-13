@@ -17,6 +17,8 @@ import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 import asset9Image from '@/assets/Images/About/Asset-9.JPG'
 import asset12Image from '@/assets/Images/About/Asset-12.jpg'
 import asset14Image from '@/assets/Images/About/Asset-14.jpg'
+import TrustStrip from '@/components/home/TrustStrip'
+import ProjectPreviewGrid from '@/components/home/ProjectPreviewGrid'
 
 // Project showcase images
 import ksrImage1 from '@/assets/Images/About/Calma_KSR_ex01_Final02_2025-05-28.JPG'
@@ -54,26 +56,22 @@ export default function AboutImproved() {
   const brandValues = [
     {
       title: "Masterful Precision",
-      description: "Every detail meticulously crafted. Every standard exceeded. We build distinguished projects through unwavering attention to quality at every stage of development.",
-      icon: "🎯",
+      description: "Crafted precision at every scale.",
       image: asset1Image
     },
     {
       title: "Visionary Leadership", 
-      description: "Pioneering the future of real estate. We lead with innovative architectural solutions and cutting-edge digital technologies that redefine the development experience.",
-      icon: "🚀",
+      description: "Measured progress and clear direction.",
       image: asset2Image
     },
     {
       title: "Responsible Stewardship",
-      description: "Building for tomorrow, today. Our commitment to environmentally conscious practices and resource efficiency aligns with Vision 2030's transformative environmental goals.",
-      icon: "🌱",
+      description: "Sustainability embedded with intent.",
       image: asset3Image
     },
     {
       title: "Commanding Standards",
-      description: "Excellence without compromise. We ensure absolute transparency and compliance through rigorous internal audit systems and uncompromising governance standards.",
-      icon: "⭐",
+      description: "Reliable delivery and governance.",
       image: asset4Image
     }
   ]
@@ -104,22 +102,22 @@ export default function AboutImproved() {
     {
       title: "Elevating Modern Saudi Living",
       description: "Our leaders combine deep market expertise with forward-thinking innovation, ensuring that every CALMA development not only meets today's standards but defines tomorrow's possibilities.",
-      icon: "🏗️"
+      image: asset2Image
     },
     {
       title: "Designing Future-Ready Living Spaces",
       description: "Through strategic presence in key cities and diverse project portfolios, our leadership team maintains multi-sector expertise while inspiring new destinations.",
-      icon: "🎨"
+      image: asset3Image
     },
     {
       title: "Crafting Distinctive Saudi Homes",
       description: "With 700+ housing units delivered and diverse residential offerings, our leadership ensures that every development becomes a living destination where communities flourish.",
-      icon: "🏠"
+      image: asset4Image
     },
     {
       title: "The Art of Purposeful Design",
       description: "Our leadership team oversees 500,000 SQM of possibilities unfolding, ensuring that every CALMA development pulses with the energy of progress and possibility.",
-      icon: "✨"
+      image: asset5Image
     }
   ]
 
@@ -189,10 +187,7 @@ export default function AboutImproved() {
             </span>
             
             <h1 className="hero-title">
-              BUILDING VALUE,{' '}
-              <span className="hero-title-gradient">
-                SHAPING TOMORROW
-              </span>
+              BUILDING VALUE, SHAPING TOMORROW
             </h1>
           </motion.div>
           
@@ -214,33 +209,8 @@ export default function AboutImproved() {
             <Button className="hero-button-primary">
               DISCOVER OUR VISION
             </Button>
-            <Button className="hero-button-secondary">
-              VIEW PROJECTS
-            </Button>
           </motion.div>
 
-          {/* Stats Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="hero-stats"
-          >
-            {statsData.map((stat, index) => (
-              <motion.div 
-                key={index} 
-                className="hero-stat-item fade-in"
-                style={{ animationDelay: `${0.8 + index * 0.1}s` }}
-              >
-                <div className="hero-stat-number">
-                  {stat.number}{stat.suffix}
-                </div>
-                <div className="hero-stat-label">
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
 
         {/* Scroll indicator */}
@@ -257,32 +227,136 @@ export default function AboutImproved() {
           </div>
         </motion.div>
       </motion.section>
+      
+      {/* Closing Section */}
+      <motion.section 
+        className="section closing-section"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container">
+          <h2 className="section-title">Looking Ahead</h2>
+          <p className="section-description">
+            Aligned with Vision 2030, we continue building composed, people-first places across the Kingdom—
+            shaping daily life with quiet confidence and enduring quality.
+          </p>
+          <div className="cta-row" style={{ textAlign: 'center' }}>
+            <a className="button-link" href="/brochure">
+              <Button variant="secondary" className="luxury-button">
+                Learn About Our Approach
+              </Button>
+            </a>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Impact / Stats — mid-page */}
+      <TrustStrip />
+
+      {/* Mission Section */}
+      <motion.section 
+        className="section mission-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container">
+          <h2 className="section-title">Our Mission</h2>
+          <div className="dual-split-grid">
+            <div className="dual-split-image">
+              <img 
+                src={asset12Image} 
+                alt="Daily execution and delivery" 
+                className="dual-image" 
+                loading="lazy" 
+                decoding="async" 
+              />
+            </div>
+            <div className="dual-split-text">
+              <p className="dual-split-description">
+                We execute with discipline every day—clear processes, honest materials, and precise
+                delivery. Our mission is reliable progress: developments that serve families, respect
+                context, and work with confidence from plan to handover.
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Our Story Section */}
+      <motion.section 
+        className="section our-story-section"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div className="container">
+          <div className="dual-split-grid">
+            <div className="dual-split-image">
+              <picture>
+                <source srcSet={asset9Image} type="image/jpeg" />
+                <img 
+                  src={asset9Image} 
+                  alt="Calma team and city context" 
+                  className="dual-image" 
+                  loading="lazy" 
+                  decoding="async" 
+                />
+              </picture>
+            </div>
+            <div className="dual-split-text">
+              <span className="section-badge">OUR STORY</span>
+              <h2 className="dual-split-title">Why CALMA Exists</h2>
+              <p className="dual-split-description">
+                CALMA was founded to bring grounded clarity to real estate development in Saudi Arabia.
+                We focus on dignified, human-centered living—balancing material honesty with thoughtful
+                urban design. The problem we solve is simple: projects that feel premium, work every day,
+                and age with confidence within the fabric of our cities.
+              </p>
+              <p className="dual-split-description">
+                From vision to delivery, our approach is measured, transparent, and precise. We create 
+                places where families thrive and city life feels composed—quietly elevating daily routines
+                through purposeful architecture and reliable execution.
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
 
       {/* Vision Section */}
       <motion.section 
         ref={visionRef}
-        className="vision-section"
-        style={{
-          backgroundImage: `linear-gradient(rgba(7, 30, 31, 0.85), rgba(7, 30, 31, 0.85)), url(${visionBgImage})`
-        }}
+        className="section vision-section"
       >
-        <div className="vision-overlay" />
-        <div className="vision-content">
+        <div className="container">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={visionInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
-            className="text-center"
           >
-            <h2 className="section-title">
-              LEADING WITH PURPOSE, BUILDING WITH VISION
-            </h2>
-            <p className="section-description">
-              To be the defining force in Saudi Arabia's real estate development, where design meets strategy in exceptional places. We create sustainable landmarks that shape the Kingdom's future, turning spaces into stories and create inspiring environments that reflect a sense of belonging and comfort.
-            </p>
-            <Button className="hero-button-primary">
-              EXPLORE OUR VISION
-            </Button>
+            <h2 className="section-title">Our Vision</h2>
+            <div className="dual-split-grid">
+              <div className="dual-split-image">
+                <img 
+                  src={visionBgImage} 
+                  alt="Future-focused urban context" 
+                  className="dual-image" 
+                  loading="lazy" 
+                  decoding="async" 
+                />
+              </div>
+              <div className="dual-split-text">
+                <p className="dual-split-description">
+                  We look forward—building a legacy across Saudi Arabia’s cities. Our vision
+                  is measured progress: places that feel composed, enduring, and purposeful
+                  within the national ambition, quietly elevating daily life for generations.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </div>
       </motion.section>
@@ -290,33 +364,38 @@ export default function AboutImproved() {
       {/* CEO Message Section */}
       <motion.section 
         ref={ceoRef}
-        className="ceo-section"
-        style={{
-          backgroundImage: `linear-gradient(135deg, rgba(7, 30, 31, 0.9), rgba(7, 30, 31, 0.8)), url(${ceoMessageBg})`
-        }}
+        className="section ceo-section"
       >
-        <div className="ceo-overlay" />
-        <div className="ceo-content">
+        <div className="container ceo-content">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={ceoInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
             <h2 className="section-title mb-12">
-              WHERE 2,000 DREAMS FIND THEIR ADDRESS
+              A Composed Message from Our CEO
             </h2>
             
             <div className="ceo-grid">
+              <div className="ceo-portrait">
+                <img 
+                  src={asset6Image} 
+                  alt="Musab Al-Majed, CEO of CALMA" 
+                  className="grid-image primary" 
+                  loading="lazy" 
+                  decoding="async" 
+                />
+              </div>
               <div className="ceo-text">
                 <p className="ceo-message">
-                  When I founded CALMA, I envisioned more than just a real estate development company. I saw an opportunity to redefine what it means to create spaces that truly matter – spaces where vision takes shape and where potential flourishes.
+                  CALMA was created to build places that feel dignified and lasting. We focus on clarity, disciplined process, and quiet confidence—so every project serves people well and stands calmly within our cities.
                 </p>
                 <p className="ceo-message">
-                  Today, as I reflect on our journey of 28 successfully delivered projects across the cities of Riyadh and Jeddah, I'm reminded that our greatest achievement isn't measured in square meters or construction milestones, but in the 2,000+ families who now call our developments home.
+                  Our greatest measure is human—families who call our developments home. We deliver with precision, transparency, and respect for context, expanding across the Kingdom with composed ambition.
                 </p>
-                <p className="ceo-message">
-                  At CALMA, our foundation is built on unwavering reliability and proven credibility. Every project, every deadline, every promise – delivered with precision and pride. This commitment to excellence has earned us the trust of people across Saudi Arabia, and it drives everything we do as we expand our footprint across the Kingdom.
-                </p>
+                <blockquote className="ceo-quote">
+                  “We build quietly confident places—crafted with intention and made to endure.”
+                </blockquote>
                 
                 <div className="ceo-signature">
                   <div className="ceo-name">Musab Al-Majed</div>
@@ -358,7 +437,7 @@ export default function AboutImproved() {
                   transition={{ duration: 0.8, delay: index * 0.2 }}
                   className="leadership-card"
                 >
-                  <div className="leadership-icon">{pillar.icon}</div>
+                  <img src={pillar.image} alt={pillar.title} className="leadership-card-image" loading="lazy" decoding="async" />
                   <h3 className="leadership-title">{pillar.title}</h3>
                   <p className="leadership-description">{pillar.description}</p>
                 </motion.div>
@@ -386,73 +465,34 @@ export default function AboutImproved() {
               Our leadership philosophy centers on four core pillars that define our approach to every project and strategic decision.
             </p>
             
-            <div className="brand-values-grid">
-              {brandValues.map((value, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={valuesInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: index * 0.2 }}
-                  className="brand-value-card"
-                >
-                  <img 
-                    src={value.image} 
-                    alt={value.title}
-                    className="brand-value-image"
-                  />
-                  <div className="brand-value-overlay">
-                    <div className="brand-value-icon">{value.icon}</div>
-                    <h3 className="brand-value-title">{value.title}</h3>
-                    <p className="brand-value-description">{value.description}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+              <div className="brand-values-grid">
+                {brandValues.map((value, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={valuesInView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.8, delay: index * 0.2 }}
+                    className="brand-value-card"
+                  >
+                    <img 
+                      src={value.image} 
+                      alt={value.title}
+                      className="brand-value-image"
+                    />
+                    <div className="brand-value-overlay">
+                      <h3 className="brand-value-title">{value.title}</h3>
+                      <p className="brand-value-description">{value.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
           </motion.div>
         </div>
       </motion.section>
 
-      {/* Project Gallery Section */}
-      <motion.section 
-        ref={galleryRef}
-        className="project-gallery-section"
-      >
-        <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={galleryInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <h2 className="section-title">
-              OUR PORTFOLIO OF EXCELLENCE
-            </h2>
-            <p className="section-description">
-              Explore our distinguished projects that showcase our commitment to architectural excellence and innovative design.
-            </p>
-            
-            <div className="project-gallery-grid">
-              {projectGallery.map((project, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={galleryInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  className="project-gallery-item"
-                >
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="project-gallery-image"
-                  />
-                  <div className="project-gallery-overlay">
-                    <h3 className="project-gallery-title">{project.title}</h3>
-                    <p className="project-gallery-category">{project.category}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
-        </div>
+      {/* Portfolio Preview (curated) */}
+      <motion.section ref={galleryRef} initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true, amount: 0.2 }}>
+        <ProjectPreviewGrid />
       </motion.section>
     </div>
   )

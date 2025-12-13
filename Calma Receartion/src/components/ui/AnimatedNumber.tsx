@@ -33,16 +33,15 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
 
   // Default formatter
   const defaultFormatter = (num: number) => {
-    if (typeof value === 'string' && value.includes('+')) {
-      return Math.floor(num).toLocaleString() + '+'
-    }
+    const base = Math.floor(num).toLocaleString()
     if (typeof value === 'string' && value.includes('K')) {
-      return Math.floor(num / 1000) + 'K+'
+      const kilo = Math.floor(num / 1000)
+      return `${kilo}K+`
     }
-    if (typeof value === 'string' && value.includes(',')) {
-      return Math.floor(num).toLocaleString()
+    if (typeof value === 'string' && value.includes('+')) {
+      return `${base}+`
     }
-    return Math.floor(num).toString()
+    return base
   }
 
   const formatValue = formatter || defaultFormatter
@@ -71,19 +70,20 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
   }, [isVisible, triggerOnView])
 
   const startAnimation = () => {
+    const reduceMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduceMotion) {
+      setDisplayValue(typeof numericValue === 'number' ? numericValue : 0)
+      return
+    }
     setTimeout(() => {
       const startTime = Date.now()
       const animate = () => {
         const elapsed = Date.now() - startTime
         const progress = Math.min(elapsed / duration, 1)
-        
-        // Easing function for smooth animation
         const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3)
         const easedProgress = easeOutCubic(progress)
-        
         const currentValue = numericValue * easedProgress
         setDisplayValue(currentValue)
-
         if (progress < 1) {
           requestAnimationFrame(animate)
         }

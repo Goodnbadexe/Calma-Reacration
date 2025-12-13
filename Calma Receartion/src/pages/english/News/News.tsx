@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Calendar, Heart, MessageCircle, Share2, Linkedin } from 'lucide-react';
 import './News.css';
+import { companyNewsEn } from '@/pages/content/../../data/news.en'
+import { apiClient } from '@/utils/apiClient'
+import { useTelemetry } from '@/utils/telemetry'
 
 interface LinkedInPost {
   id: string;
@@ -52,52 +56,39 @@ const mockLinkedInPosts: LinkedInPost[] = [
   }
 ];
 
-const newsArticles = [
-  {
-    id: '1',
-    title: 'CALMA Announces New Sustainable Development Initiative',
-    excerpt: 'Leading the way in eco-friendly construction with innovative green building technologies.',
-    date: '2024-01-20',
-    category: 'Sustainability',
-    image: '/api/placeholder/400/250'
-  },
-  {
-    id: '2',
-    title: 'Expansion Plans Unveiled for 2024',
-    excerpt: 'Strategic growth across key Saudi Arabian cities with focus on luxury residential projects.',
-    date: '2024-01-18',
-    category: 'Business',
-    image: '/api/placeholder/400/250'
-  },
-  {
-    id: '3',
-    title: 'Award Recognition for Architectural Excellence',
-    excerpt: 'CALMA receives prestigious industry award for innovative design and construction quality.',
-    date: '2024-01-15',
-    category: 'Awards',
-    image: '/api/placeholder/400/250'
-  }
-];
+const newsArticles = companyNewsEn
 
 export default function News() {
   const [linkedInPosts, setLinkedInPosts] = useState<LinkedInPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [subscribeMsg, setSubscribeMsg] = useState<string | null>(null)
+  const { trackPerformance, trackError } = useTelemetry()
 
   useEffect(() => {
     const fetchLinkedInPosts = async () => {
       setLoading(true);
       try {
-        const res = await fetch('/api/linkedin')
-        if (!res.ok) throw new Error('LinkedIn feed unavailable')
-        const data = await res.json()
-        setLinkedInPosts(data as LinkedInPost[])
+        const data = await apiClient.get<any[]>('/api/linkedin/posts')
+        const mapped: LinkedInPost[] = data.map((p) => ({
+          id: p.id,
+          content: p.text ?? '',
+          author: 'CALMA Real Estate',
+          date: new Date(p.createdAt).toISOString(),
+          likes: p.metrics?.likes ?? 0,
+          comments: p.metrics?.comments ?? 0,
+          shares: p.metrics?.shares ?? 0,
+          image: p.thumbnailUrl ?? p.mediaUrl,
+          link: p.link,
+        }))
+        setLinkedInPosts(mapped)
       } catch (err) {
         setLinkedInPosts(mockLinkedInPosts)
       } finally {
         setLoading(false)
       }
     }
-
     fetchLinkedInPosts()
   }, [])
 
@@ -111,6 +102,14 @@ export default function News() {
 
   return (
     <main className="news-page">
+      <Helmet>
+        <title>CALMA — Latest News & Updates</title>
+        <meta name="description" content="Stay connected with CALMA’s journey. Latest news, LinkedIn updates, press releases, and insights." />
+        <meta property="og:title" content="CALMA — Latest News & Updates" />
+        <meta property="og:description" content="Premium editorial news with live LinkedIn feed and company updates." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://calma.sa/news" />
+      </Helmet>
       {/* Hero Section */}
       <section className="news-hero">
         <div className="news-hero-content">
@@ -265,9 +264,33 @@ export default function News() {
                 type="email" 
                 placeholder="Enter your email address"
                 className="email-input"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <Button className="subscribe-btn">Subscribe</Button>
+              <Button 
+                className="subscribe-btn"
+                disabled={submitting}
+                onClick={async () => {
+                  setSubmitting(true)
+                  setSubscribeMsg(null)
+                  try {
+                    const start = performance.now()
+                    await apiClient.post('/api/newsletter/subscribe', { email })
+                    setSubscribeMsg('Subscribed successfully')
+                    setEmail('')
+                    trackPerformance('newsletter_subscribe', performance.now() - start, 'ms')
+                  } catch {
+                    setSubscribeMsg('Subscription failed')
+                    trackError('subscription_error', 'Subscription failed')
+                  } finally {
+                    setSubmitting(false)
+                  }
+                }}
+              >
+                {submitting ? 'Subscribing…' : 'Subscribe'}
+              </Button>
             </div>
+            {subscribeMsg && <div aria-live="polite" style={{ marginTop: '0.75rem' }}>{subscribeMsg}</div>}
           </motion.div>
         </section>
       </div>

@@ -10,11 +10,9 @@ const EnglishHome = lazy(() => import('./pages/english/Home/Home'))
 const AboutImproved = lazy(() => import('./pages/english/About/AboutImproved'))
 const News = lazy(() => import('./pages/english/News/News'))
 const RealEstateShowcase = lazy(() => import('./pages/english/Projects/Projects'))
-const Office = lazy(() => import('./pages/english/Projects/Office'))
-const TownHouse = lazy(() => import('./pages/english/Projects/TownHouse'))
-const Villa = lazy(() => import('./pages/english/Projects/Villa'))
-const Floor = lazy(() => import('./pages/english/Projects/Floor'))
+const ProjectPage = lazy(() => import('./pages/ProjectPage'))
 const Register = lazy(() => import('./pages/english/Register/Register'))
+const Contact = lazy(() => import('./pages/english/Contact/Contact'))
 
 // Arabic Pages
 const ArabicHome = lazy(() => import('./pages/arabic/الرئيسية/الرئيسية'))
@@ -38,7 +36,18 @@ createRoot(document.getElementById('root')!).render(
       <BrowserRouter>
         <LanguageProvider defaultLanguage="en">
           <SplashProvider>
-            <Suspense fallback={<div className="page-loading" aria-busy="true" aria-live="polite">Loading…</div>}>
+            <Suspense fallback={
+              <div className="page-loading" aria-busy="true" aria-live="polite">
+                <div className="skeleton-page">
+                  <div className="skeleton-bar" />
+                  <div className="skeleton-grid">
+                    <div className="skeleton-card" />
+                    <div className="skeleton-card" />
+                    <div className="skeleton-card" />
+                  </div>
+                </div>
+              </div>
+            }>
               <Routes>
                 <Route element={<AppLayout />}>
                   {/* English Routes */}
@@ -46,10 +55,8 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="/about" element={<AboutImproved />} />
                   <Route path="/news" element={<News />} />
                   <Route path="/projects" element={<RealEstateShowcase />} />
-                  <Route path="/projects/office" element={<Office />} />
-                  <Route path="/projects/townhouse" element={<TownHouse />} />
-                  <Route path="/projects/villa" element={<Villa />} />
-                  <Route path="/projects/floor" element={<Floor />} />
+                  <Route path="/projects/:slug" element={<ProjectPage />} />
+                  <Route path="/contact" element={<Contact />} />
                   <Route path="/register" element={<Register />} />
 
                   {/* Arabic Routes */}
@@ -63,6 +70,7 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="/ar/contact" element={<ArabicContact />} />
                   <Route path="/ar/news" element={<ArabicNews />} />
                   <Route path="/ar/التسجيل" element={<ArabicRegister />} />
+                  <Route path="/ar/register" element={<ArabicRegister />} />
                   {/* Arabic projects subroutes mirroring EN */}
                   <Route path="/ar/projects/commercials" element={<ArabicCommercials />} />
                   <Route path="/ar/projects/residential" element={<ArabicResidential />} />

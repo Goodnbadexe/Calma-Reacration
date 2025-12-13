@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { toLanguagePath } from '@/utils/i18nPaths'
 
 export type Language = 'en' | 'ar';
 
@@ -46,7 +47,19 @@ const translations = {
     
     // Language switcher
     'language.switch': 'العربية',
-    'language.current': 'English'
+    'language.current': 'English',
+    'language.switchTo': 'Switch language',
+    // Actions
+    'actions.call': 'Call',
+    'actions.whatsapp': 'WhatsApp',
+    'actions.register': 'Register Your Interest',
+    'actions.openMenu': 'Open menu',
+    'actions.closeMenu': 'Close menu',
+    // Projects menu
+    'nav.allProjects': 'All Projects',
+    'nav.commercials': 'Commercials',
+    'nav.residential': 'Residential',
+    'nav.calmaTower': 'Calma Tower'
   },
   ar: {
     // Navigation
@@ -79,7 +92,19 @@ const translations = {
     
     // Language switcher
     'language.switch': 'English',
-    'language.current': 'العربية'
+    'language.current': 'العربية',
+    'language.switchTo': 'تبديل اللغة',
+    // Actions
+    'actions.call': 'اتصل',
+    'actions.whatsapp': 'واتساب',
+    'actions.register': 'سجل اهتمامك',
+    'actions.openMenu': 'فتح القائمة',
+    'actions.closeMenu': 'إغلاق القائمة',
+    // Projects menu
+    'nav.allProjects': 'كل المشاريع',
+    'nav.commercials': 'تجارية',
+    'nav.residential': 'سكنية',
+    'nav.calmaTower': 'برج كالما'
   }
 };
 
@@ -122,26 +147,7 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
 
   const setLanguage = (newLanguage: Language) => {
     const currentPath = location.pathname;
-    let newPath = '/';
-
-    // Map current path to new language
-    if (newLanguage === 'ar') {
-      if (currentPath === '/') newPath = '/ar';
-      else if (currentPath === '/about') newPath = '/ar/about';
-      else if (currentPath === '/projects') newPath = '/ar/projects';
-      else if (currentPath === '/news') newPath = '/ar/news';
-      else if (currentPath === '/contact') newPath = '/ar/contact';
-      else if (currentPath === '/register') newPath = '/ar/register';
-      else newPath = '/ar';
-    } else {
-      if (currentPath === '/ar') newPath = '/';
-      else if (currentPath === '/ar/about') newPath = '/about';
-      else if (currentPath === '/ar/projects') newPath = '/projects';
-      else if (currentPath === '/ar/news') newPath = '/news';
-      else if (currentPath === '/ar/contact') newPath = '/contact';
-      else if (currentPath === '/ar/register') newPath = '/register';
-      else newPath = '/';
-    }
+    const newPath = toLanguagePath(newLanguage, currentPath)
 
     setLanguageState(newLanguage);
     navigate(newPath);

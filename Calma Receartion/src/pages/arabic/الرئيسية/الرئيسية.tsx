@@ -21,10 +21,12 @@ import { motion, circOut, easeInOut } from 'framer-motion'
 import { useSplash } from '../../../components/system/SplashProvider'
 import fullLockupLogo from '../../../assets/Logos/BRANDMARK_01-p-2000.png'
 import { homeAr } from '@/pages/content/home.ar'
+import FeaturedProjectsCarousel from '@/components/home/FeaturedProjectsCarousel'
 
 export default function ArabicHome() {
   const heroVideoRef = useRef<HTMLVideoElement | null>(null)
   const [heroReady, setHeroReady] = useState(false)
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined)
   const { signalReady } = useSplash()
 
   const [currentImageSet, setCurrentImageSet] = useState(0)
@@ -64,6 +66,19 @@ export default function ArabicHome() {
     io.observe(el)
     return () => io.disconnect()
   }, [heroReady])
+  useEffect(() => {
+    const el = heroVideoRef.current
+    if (!el) return
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !videoSrc) {
+          setVideoSrc(calmaTV)
+        }
+      })
+    }, { threshold: 0.1 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [videoSrc])
 
   const fadeInUp = { hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: circOut } } }
   const fadeInLeft = { hidden: { opacity: 0, x: -60 }, visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: circOut } } }
@@ -83,10 +98,10 @@ export default function ArabicHome() {
           <video 
             ref={heroVideoRef}
             className="hero-video"
-            src={calmaTV}
+            src={videoSrc}
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             poster={aboutHeaderImage}
             aria-label="فيديو مقدمة كالما"
             onLoadedData={() => {
@@ -295,6 +310,7 @@ export default function ArabicHome() {
               </div>
             </div>
           </motion.section>
+          <FeaturedProjectsCarousel />
         </div>
       </main>
     </div>

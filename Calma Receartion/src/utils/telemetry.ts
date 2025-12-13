@@ -96,11 +96,13 @@ export type AnyTelemetryEvent =
   | PerformanceEvent 
   | ErrorEvent;
 
+import { getClientEnv } from '@/config/env'
+
 class TelemetryManager {
   private sessionId: string;
   private pageId: string;
   private eventQueue: AnyTelemetryEvent[] = [];
-  private isEnabled: boolean = true;
+  private isEnabled: boolean = getClientEnv().VITE_TELEMETRY_ENABLED ?? true;
   private batchSize: number = 10;
   private flushInterval: number = 5000; // 5 seconds
   private hoverStartTimes: Map<string, number> = new Map();
@@ -308,20 +310,22 @@ class TelemetryManager {
     this.eventQueue = [];
 
     try {
-      // In a real implementation, you would send to your analytics service
-      // For now, we'll log to console and localStorage for development
-      console.log('Telemetry Events:', events);
-      
-      // Store in localStorage for development/debugging
-      const existingEvents = JSON.parse(localStorage.getItem('telemetry_events') || '[]');
-      existingEvents.push(...events);
-      localStorage.setItem('telemetry_events', JSON.stringify(existingEvents.slice(-1000))); // Keep last 1000 events
-      
-      // TODO: Replace with actual analytics service call
-      // await this.sendToAnalyticsService(events);
+      if (!this.isEnabled) return;
+      const { VITE_API_BASE_URL } = getClientEnv()
+      const endpoint = '/api/telemetry/ingest'
+      const url = `${VITE_API_BASE_URL || ''}${endpoint}`
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ events }),
+      })
+      if (!res.ok) {
+        const stored = JSON.parse(localStorage.getItem('telemetry_events') || '[]');
+        stored.push(...events);
+        localStorage.setItem('telemetry_events', JSON.stringify(stored.slice(-1000)));
+        throw new Error(`Telemetry transport failed: ${res.status}`)
+      }
     } catch (error) {
-      console.error('Failed to flush telemetry events:', error);
-      // Re-add events to queue for retry
       this.eventQueue.unshift(...events);
     }
   }

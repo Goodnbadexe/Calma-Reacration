@@ -2,14 +2,14 @@
 .about-page-container {
   min-height: 100vh;
   font-family: 'Montserrat', sans-serif;
-  background-color: #071e1f;
-  color: #ffffff;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
 }
 
 /* Hero Section */
 .hero-section {
   position: relative;
-  min-height: 100vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(7, 30, 31, 0.9), rgba(7, 30, 31, 0.7), rgba(7, 30, 31, 0.9));
+  background: transparent;
 }
 
 .hero-content {
@@ -66,9 +66,9 @@
   border-radius: 9999px;
   font-weight: 500;
   margin-bottom: 1.5rem;
-  border: 1px solid rgba(255, 193, 7, 0.3);
-  background-color: rgba(255, 193, 7, 0.2);
-  color: #ffc107;
+  border: 1px solid rgba(var(--color-accent-rgb), 0.3);
+  background-color: rgba(var(--color-accent-rgb), 0.12);
+  color: var(--color-accent);
   backdrop-filter: blur(4px);
 }
 
@@ -80,10 +80,7 @@
 }
 
 .hero-title-gradient {
-  background: linear-gradient(to right, #ffc107, #ffeb3b, #4caf50);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: none;
 }
 
 .hero-subtitle {
@@ -93,7 +90,7 @@
   margin-right: auto;
   font-size: clamp(1.1rem, 2.2vw, 1.4rem);
   max-width: 800px;
-  color: #ffeb3b;
+  color: var(--color-text-secondary);
 }
 
 .hero-buttons {
@@ -151,7 +148,7 @@
   font-weight: 700;
   margin-bottom: 0.5rem;
   font-size: clamp(1.5rem, 4vw, 2.5rem);
-  color: #ffc107;
+  color: var(--color-accent);
 }
 
 .hero-stat-label {
@@ -208,7 +205,7 @@
 .vision-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(7, 30, 31, 0.85);
+  background: transparent;
 }
 
 .vision-content {
@@ -230,7 +227,7 @@
 .ceo-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(7, 30, 31, 0.9), rgba(7, 30, 31, 0.8));
+  background: transparent;
 }
 
 .ceo-content {
@@ -245,6 +242,13 @@
   display: grid;
   gap: 3rem;
   align-items: center;
+}
+
+.ceo-portrait img {
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  object-fit: cover;
 }
 
 .ceo-text {
@@ -275,11 +279,18 @@
   color: #b0b0b0;
 }
 
+.ceo-quote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--color-accent);
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
 /* Leadership Section */
 .leadership-section {
   padding: 8rem 0;
   background-color: #f8f9fa;
-  color: #071e1f;
+  color: var(--color-text-primary);
 }
 
 .leadership-content {
@@ -307,8 +318,11 @@
   transform: translateY(-5px);
 }
 
-.leadership-icon {
-  font-size: 2rem;
+.leadership-card-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 0.75rem;
   margin-bottom: 1rem;
 }
 
@@ -327,7 +341,7 @@
 /* Brand Values Section */
 .brand-values-section {
   padding: 8rem 0;
-  background-color: #071e1f;
+  background-color: var(--color-bg-primary);
 }
 
 .brand-values-grid {
@@ -358,7 +372,7 @@
 .brand-value-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(7, 30, 31, 0.9), transparent);
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.0));
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -374,19 +388,19 @@
   font-size: 1.25rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #ffc107;
+  color: var(--color-text-primary);
 }
 
 .brand-value-description {
   line-height: 1.6;
-  color: #e0e0e0;
+  color: var(--color-text-secondary);
 }
 
 /* Project Gallery Section */
 .project-gallery-section {
   padding: 8rem 0;
   background-color: #f8f9fa;
-  color: #071e1f;
+  color: var(--color-text-primary);
 }
 
 .project-gallery-grid {
@@ -443,13 +457,14 @@
   text-align: center;
   margin-bottom: 1.5rem;
   line-height: 1.2;
+  color: var(--color-text-primary);
 }
 
 .section-subtitle {
   font-size: 1.25rem;
   text-align: center;
   margin-bottom: 1rem;
-  color: #ffc107;
+  color: var(--color-text-secondary);
   font-weight: 500;
 }
 
@@ -461,7 +476,7 @@
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
-  color: #e0e0e0;
+  color: var(--color-text-secondary);
 }
 
 /* Responsive Design */
@@ -498,8 +513,8 @@
     grid-template-columns: repeat(4, 1fr);
   }
   
-  .project-gallery-grid {
-    grid-template-columns: repeat(3, 1fr);
+  .ceo-grid {
+    grid-template-columns: 1fr 1.2fr;
   }
 }
 

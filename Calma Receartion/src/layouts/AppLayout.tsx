@@ -9,6 +9,15 @@ export default function AppLayout() {
   useEffect(() => { runPreflight() }, [])
   const location = useLocation()
   const [overlayVisible, setOverlayVisible] = useState(false)
+  const [reduceMotion, setReduceMotion] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setReduceMotion(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
 
   useEffect(() => {
     setOverlayVisible(true)
@@ -16,12 +25,12 @@ export default function AppLayout() {
     const timer = setTimeout(() => {
       setOverlayVisible(false)
       document.body.style.overflow = ''
-    }, 520)
+    }, reduceMotion ? 0 : 520)
     return () => {
       clearTimeout(timer)
       document.body.style.overflow = ''
     }
-  }, [location.pathname])
+  }, [location.pathname, reduceMotion])
 
   return (
     <div className="page">
@@ -30,10 +39,10 @@ export default function AppLayout() {
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.26, ease: 'easeInOut' }}
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={reduceMotion ? {} : { opacity: 1 }}
+            exit={reduceMotion ? {} : { opacity: 0 }}
+            transition={reduceMotion ? { duration: 0 } : { duration: 0.26, ease: 'easeInOut' }}
           >
             <Outlet />
           </motion.div>
@@ -43,10 +52,10 @@ export default function AppLayout() {
           {overlayVisible && (
             <motion.div
               key={`overlay-${location.pathname}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 0.25 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.26, ease: 'easeInOut' }}
+              initial={reduceMotion ? false : { opacity: 0 }}
+              animate={reduceMotion ? {} : { opacity: 0.25 }}
+              exit={reduceMotion ? {} : { opacity: 0 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.26, ease: 'easeInOut' }}
               style={{
                 position: 'fixed',
                 inset: 0,

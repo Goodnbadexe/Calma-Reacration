@@ -83,6 +83,25 @@ export default function NavBar() {
   }, [isTransparent])
 
   // Removed hide-on-scroll behavior to ensure consistent, predictable navbar visibility
+  // Focus trap setup on drawer open
+  useEffect(() => {
+    if (!drawerOpen) return
+    const panel = document.querySelector('.mobile-menu .panel') as HTMLDivElement | null
+    if (!panel) return
+    const focusables = panel.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+    const first = focusables[0]
+    if (first) first.focus()
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setDrawerOpen(false)
+      }
+    }
+    panel.addEventListener('keydown', onKey as any)
+    return () => {
+      panel.removeEventListener('keydown', onKey as any)
+    }
+  }, [drawerOpen])
 
   // Click outside handler to close dropdown
   useEffect(() => {
@@ -102,6 +121,11 @@ export default function NavBar() {
   // Function to close dropdown menu
   const closeDropdown = () => {
     setDropdownOpen(false)
+  }
+  const closeDrawer = () => {
+    setDrawerOpen(false)
+    const trigger = document.querySelector('.burger-button') as HTMLButtonElement | null
+    trigger?.focus()
   }
 
   // Function to toggle dropdown and calculate position with animation
@@ -132,7 +156,8 @@ export default function NavBar() {
   // Enhanced navigation function that closes dropdown
   const handleDropdownNavigation = async (path: string) => {
     closeDropdown()
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' })
     showSplash()
     navigate(path)
   }
@@ -230,7 +255,7 @@ export default function NavBar() {
             onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
               showSplash(); 
-              navigate(isArabic ? '/ar/contact' : '/register'); 
+              navigate(isArabic ? '/ar/contact' : '/contact'); 
             }}
           >
             {tr('nav.contact', 'Contact', 'تواصل')}
@@ -252,15 +277,15 @@ export default function NavBar() {
           <Button
             variant="ghost"
             size="icon"
-            aria-label="WhatsApp"
-            title="WhatsApp"
+            aria-label={tr('actions.whatsapp', 'WhatsApp', 'واتساب')}
+            title={tr('actions.whatsapp', 'WhatsApp', 'واتساب')}
             onClick={() => window.open('https://wa.me/966920006553', '_blank')}
           >
             <MessageCircle className="icon" />
           </Button>
 
           <Button className="rounded-full register-button" onClick={() => { showSplash(); navigate('/register') }}>
-            {isArabic ? 'سجل اهتمامك' : 'Register Your Interest'}
+            {tr('actions.register', 'Register Your Interest', 'سجل اهتمامك')}
           </Button>
 
           <Button
@@ -283,6 +308,7 @@ export default function NavBar() {
             size="icon"
             className="burger-button"
             aria-label={t('actions.openMenu')}
+            aria-expanded={drawerOpen}
             onClick={() => setDrawerOpen(true)}
             title={t('actions.openMenu')}
           >
@@ -295,10 +321,42 @@ export default function NavBar() {
     {drawerOpen && (
       <div 
         className={`mobile-menu ${drawerOpen ? 'open' : ''}`} 
-        onClick={() => setDrawerOpen(false)} 
+        onClick={closeDrawer} 
         dir={isArabic ? 'rtl' : 'ltr'}
       >
-        <div className="panel" onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}>
+        <div
+          className="panel"
+          onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-label={isArabic ? 'قائمة التنقل' : 'Navigation menu'}
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setDrawerOpen(false)
+            } else if (e.key === 'Tab') {
+              const panel = (e.currentTarget as HTMLDivElement)
+              const focusables = panel.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])')
+              const list = Array.from(focusables).filter(el => !el.hasAttribute('disabled') && el.offsetParent !== null)
+              if (!list.length) return
+              const first = list[0]
+              const last = list[list.length - 1]
+              const active = document.activeElement as HTMLElement
+              if (e.shiftKey) {
+                if (active === first || !panel.contains(active)) {
+                  e.preventDefault()
+                  last.focus()
+                }
+              } else {
+                if (active === last) {
+                  e.preventDefault()
+                  first.focus()
+                }
+              }
+            }
+          }}
+        >
           {/* Header */}
           <div className="panel-header">
             <div className="logo">
@@ -310,7 +368,7 @@ export default function NavBar() {
               size="icon" 
               className="close-button"
               aria-label={t('actions.closeMenu')} 
-              onClick={() => setDrawerOpen(false)}
+              onClick={closeDrawer}
             >
               <X size={24} />
             </Button>
@@ -399,18 +457,16 @@ export default function NavBar() {
                {t('nav.news')}
              </button>
              
-             {isArabic && (
-              <button 
-                className="nav-link" 
-                onClick={() => { 
-                  setDrawerOpen(false); 
-                  showSplash(); 
-                  navigate('/ar/contact'); 
-                }}
-              >
-                 {t('nav.contact')}
-               </button>
-             )}
+             <button 
+               className="nav-link" 
+               onClick={() => { 
+                 setDrawerOpen(false); 
+                 showSplash(); 
+                 navigate(isArabic ? '/ar/contact' : '/contact'); 
+               }}
+             >
+                {t('nav.contact')}
+              </button>
            </nav>
 
           {/* Actions */}
@@ -443,6 +499,7 @@ export default function NavBar() {
                   showSplash();
                   setTimeout(() => toggleLanguage(), 100);
                 }}
+                aria-label={tr('language.switchTo', 'Switch language', 'تبديل اللغة')}
               >
                 <Globe size={16} />
                 {t('language.switch')}

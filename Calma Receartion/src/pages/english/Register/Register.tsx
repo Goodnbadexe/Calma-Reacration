@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Star,
-  Shield,
-  Bell,
-  Gift
-} from 'lucide-react';
-import './Register.css';
+import { Star, Shield, Bell, Gift } from 'lucide-react';
+import { FormField, SelectField, TextareaField, Checkbox } from '../../../components/forms';
+import Button from '../../../components/ui/button';
+import SEOHead from '../../../components/seo/SEOHead';
+import { submitLead } from '@/services/api'
+import { useLanguage } from '@/contexts/LanguageContext'
+import { useTelemetry } from '@/utils/telemetry'
 
 interface FormData {
   firstName: string;
@@ -22,9 +22,11 @@ interface FormData {
   newsletter: boolean;
   updates: boolean;
   privacy: boolean;
+  website?: string;
 }
 
 export default function Register() {
+  const { t } = useLanguage()
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -38,10 +40,15 @@ export default function Register() {
     message: '',
     newsletter: false,
     updates: false,
-    privacy: false
+    privacy: false,
+    website: ''
   });
 
   const [isLoading, setIsLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({})
+  const [submitError, setSubmitError] = useState<string | null>(null)
+  const { trackPerformance, trackError } = useTelemetry()
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target;
@@ -58,20 +65,51 @@ export default function Register() {
         [name]: value
       }));
     }
+    if (errors[name]) {
+      setErrors(prev => {
+        const { [name]: _, ...rest } = prev
+        return rest
+      })
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const nextErrors: Record<string, string> = {}
+    if (!formData.firstName) nextErrors.firstName = 'First name is required'
+    if (!formData.lastName) nextErrors.lastName = 'Last name is required'
+    if (!formData.email) nextErrors.email = 'Email is required'
+    if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) nextErrors.email = 'Enter a valid email'
+    if (!formData.privacy) nextErrors.privacy = 'You must agree to the privacy policy'
+    setErrors(nextErrors)
+    if (Object.keys(nextErrors).length > 0) return
+    if (formData.website && formData.website.trim().length > 0) {
+      return
+    }
+    const last = localStorage.getItem('lead-submit-ts')
+    const now = Date.now()
+    if (last && now - Number(last) < 15000) {
+      setSubmitError('Please wait a moment before submitting again')
+      return
+    }
     setIsLoading(true);
+    setSubmitError(null)
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    console.log('Form submitted:', formData);
-    setIsLoading(false);
-    
-    // Reset form or show success message
-    alert('Thank you for your interest! We will contact you soon.');
+    try {
+      const start = performance.now()
+      await submitLead({ ...formData })
+      localStorage.setItem('lead-submit-ts', String(now))
+      setSuccess(true)
+      trackPerformance('register_interest', performance.now() - start, 'ms')
+    } catch (err: any) {
+      const msg = err?.message === 'LEADS_API_URL_MISSING'
+        ? 'Missing lead API configuration'
+        : (err?.message || 'Submission failed')
+      setSubmitError(msg)
+      trackError('form_submission_error', msg)
+    } finally {
+      setIsLoading(false)
+    }
   };
 
   const containerVariants = {
@@ -90,302 +128,279 @@ export default function Register() {
   };
 
   return (
-    <main className="register-page">
-      {/* Hero Section */}
-      <section className="register-hero">
-        <motion.div 
-          className="register-hero-content"
+    <main className="bg-neutral-50">
+      <SEOHead
+        title="Register Your Interest"
+        description="Join CALMA to receive exclusive access to luxury real estate opportunities and personalized recommendations."
+        locale="en"
+        canonical="/register"
+        alternates={[
+          { hrefLang: 'ar', href: '/ar/register' },
+          { hrefLang: 'en', href: '/register' }
+        ]}
+      />
+      <section className="mx-auto max-w-3xl px-6 py-16 text-center">
+        <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <h1>Register Your Interest</h1>
-          <p>
-            Join the exclusive Calma community and be the first to discover our luxury real estate opportunities. 
-            Share your preferences and let us find the perfect property that matches your vision.
+          <h1 className="text-4xl font-serif text-neutral-900">Register Your Interest</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-neutral-700">
+            Join the exclusive CALMA community and be the first to discover our luxury real estate opportunities.
           </p>
         </motion.div>
       </section>
 
-      {/* Registration Form */}
-      <section className="register-form-section">
-        <div className="form-container">
-          <motion.div 
-            className="register-form"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.div className="form-header" variants={itemVariants}>
-              <h2>Tell Us About Yourself</h2>
-              <p>Help us understand your preferences to provide personalized recommendations</p>
+      <section className="mx-auto max-w-4xl px-6 pb-20">
+        <motion.div variants={containerVariants} initial="hidden" animate="visible">
+          <motion.div className="text-center mb-8" variants={itemVariants}>
+            <h2 className="text-2xl font-semibold text-neutral-900">Tell Us About Yourself</h2>
+            <p className="mt-2 text-neutral-700">
+              Help us understand your preferences to provide personalized recommendations
+            </p>
+          </motion.div>
+
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+            <input
+              type="text"
+              name="website"
+              value={formData.website}
+              onChange={handleInputChange as any}
+              aria-hidden="true"
+              tabIndex={-1}
+              className="hidden"
+            />
+            <motion.div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" variants={itemVariants}>
+              <FormField
+                label="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your first name"
+                error={errors.firstName}
+              />
+              <FormField
+                label="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter your last name"
+                error={errors.lastName}
+              />
             </motion.div>
 
-            <form onSubmit={handleSubmit} className="form-grid">
-              {/* Personal Information */}
-              <motion.div className="form-row" variants={itemVariants}>
-                <div className="form-group">
-                  <label htmlFor="firstName">First Name *</label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your first name"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="lastName">Last Name *</label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="Enter your last name"
-                  />
-                </div>
-              </motion.div>
+            <motion.div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" variants={itemVariants}>
+              <FormField
+                label="Email Address"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                placeholder="your.email@example.com"
+                error={errors.email}
+              />
+              <FormField
+                label="Phone Number"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleInputChange}
+                placeholder="+966 5X XXX XXXX"
+              />
+            </motion.div>
 
-              {/* Contact Information */}
-              <motion.div className="form-row" variants={itemVariants}>
-                <div className="form-group">
-                  <label htmlFor="email">Email Address *</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="your.email@example.com"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="phone">Phone Number</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+1 (555) 123-4567"
-                  />
-                </div>
-              </motion.div>
+            <motion.div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" variants={itemVariants}>
+              <FormField
+                label="City"
+                name="city"
+                value={formData.city}
+                onChange={handleInputChange}
+                placeholder="Enter your city"
+              />
+              <SelectField
+                label="Country"
+                name="country"
+                value={formData.country}
+                onChange={handleInputChange as any}
+                options={[
+                  { value: '', label: 'Select your country' },
+                  { value: 'SA', label: 'Saudi Arabia' },
+                  { value: 'AE', label: 'United Arab Emirates' },
+                  { value: 'QA', label: 'Qatar' },
+                  { value: 'KW', label: 'Kuwait' },
+                  { value: 'BH', label: 'Bahrain' },
+                  { value: 'OM', label: 'Oman' },
+                  { value: 'US', label: 'United States' },
+                  { value: 'UK', label: 'United Kingdom' },
+                  { value: 'CA', label: 'Canada' },
+                  { value: 'other', label: 'Other' },
+                ]}
+              />
+            </motion.div>
 
-              {/* Location Information */}
-              <motion.div className="form-row" variants={itemVariants}>
-                <div className="form-group">
-                  <label htmlFor="city">City</label>
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleInputChange}
-                    placeholder="Enter your city"
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="country">Country</label>
-                  <select
-                    id="country"
-                    name="country"
-                    value={formData.country}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select your country</option>
-                    <option value="SA">Saudi Arabia</option>
-                    <option value="AE">United Arab Emirates</option>
-                    <option value="QA">Qatar</option>
-                    <option value="KW">Kuwait</option>
-                    <option value="BH">Bahrain</option>
-                    <option value="OM">Oman</option>
-                    <option value="US">United States</option>
-                    <option value="UK">United Kingdom</option>
-                    <option value="CA">Canada</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-              </motion.div>
+            <motion.div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" variants={itemVariants}>
+              <SelectField
+                label="Property Type of Interest"
+                name="propertyType"
+                value={formData.propertyType}
+                onChange={handleInputChange as any}
+                options={[
+                  { value: '', label: 'Select property type' },
+                  { value: 'residential', label: 'Residential' },
+                  { value: 'commercial', label: 'Commercial' },
+                  { value: 'luxury-villa', label: 'Luxury Villa' },
+                  { value: 'apartment', label: 'Apartment' },
+                  { value: 'penthouse', label: 'Penthouse' },
+                  { value: 'office', label: 'Office Space' },
+                  { value: 'retail', label: 'Retail Space' },
+                  { value: 'mixed-use', label: 'Mixed Use' },
+                ]}
+              />
+              <SelectField
+                label="Budget Range"
+                name="budget"
+                value={formData.budget}
+                onChange={handleInputChange as any}
+                options={[
+                  { value: '', label: 'Select budget range' },
+                  { value: 'under-1m', label: 'Under $1M' },
+                  { value: '1m-5m', label: '$1M - $5M' },
+                  { value: '5m-10m', label: '$5M - $10M' },
+                  { value: '10m-25m', label: '$10M - $25M' },
+                  { value: '25m-50m', label: '$25M - $50M' },
+                  { value: 'over-50m', label: 'Over $50M' },
+                  { value: 'flexible', label: 'Flexible' },
+                ]}
+              />
+            </motion.div>
 
-              {/* Property Preferences */}
-              <motion.div className="form-row" variants={itemVariants}>
-                <div className="form-group">
-                  <label htmlFor="propertyType">Property Type of Interest</label>
-                  <select
-                    id="propertyType"
-                    name="propertyType"
-                    value={formData.propertyType}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select property type</option>
-                    <option value="residential">Residential</option>
-                    <option value="commercial">Commercial</option>
-                    <option value="luxury-villa">Luxury Villa</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="penthouse">Penthouse</option>
-                    <option value="office">Office Space</option>
-                    <option value="retail">Retail Space</option>
-                    <option value="mixed-use">Mixed Use</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="budget">Budget Range</label>
-                  <select
-                    id="budget"
-                    name="budget"
-                    value={formData.budget}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Select budget range</option>
-                    <option value="under-1m">Under $1M</option>
-                    <option value="1m-5m">$1M - $5M</option>
-                    <option value="5m-10m">$5M - $10M</option>
-                    <option value="10m-25m">$10M - $25M</option>
-                    <option value="25m-50m">$25M - $50M</option>
-                    <option value="over-50m">Over $50M</option>
-                    <option value="flexible">Flexible</option>
-                  </select>
-                </div>
-              </motion.div>
+            <motion.div className="col-span-1 md:col-span-2" variants={itemVariants}>
+              <SelectField
+                label="Purchase Timeline"
+                name="timeline"
+                value={formData.timeline}
+                onChange={handleInputChange as any}
+                options={[
+                  { value: '', label: 'Select timeline' },
+                  { value: 'immediate', label: 'Immediate (0-3 months)' },
+                  { value: 'short-term', label: 'Short term (3-6 months)' },
+                  { value: 'medium-term', label: 'Medium term (6-12 months)' },
+                  { value: 'long-term', label: 'Long term (1+ years)' },
+                  { value: 'exploring', label: 'Just exploring' },
+                ]}
+              />
+            </motion.div>
 
-              {/* Timeline */}
-              <motion.div className="form-group" variants={itemVariants}>
-                <label htmlFor="timeline">Purchase Timeline</label>
-                <select
-                  id="timeline"
-                  name="timeline"
-                  value={formData.timeline}
-                  onChange={handleInputChange}
-                >
-                  <option value="">Select timeline</option>
-                  <option value="immediate">Immediate (0-3 months)</option>
-                  <option value="short-term">Short term (3-6 months)</option>
-                  <option value="medium-term">Medium term (6-12 months)</option>
-                  <option value="long-term">Long term (1+ years)</option>
-                  <option value="exploring">Just exploring</option>
-                </select>
-              </motion.div>
+            <motion.div className="col-span-1 md:col-span-2" variants={itemVariants}>
+              <TextareaField
+                label="Additional Information"
+                name="message"
+                value={formData.message}
+                onChange={handleInputChange as any}
+                placeholder="Tell us more about your requirements, preferences, or any specific questions you have..."
+                rows={4}
+              />
+            </motion.div>
 
-              {/* Message */}
-              <motion.div className="form-group" variants={itemVariants}>
-                <label htmlFor="message">Additional Information</label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleInputChange}
-                  placeholder="Tell us more about your requirements, preferences, or any specific questions you have..."
-                  rows={4}
-                />
-              </motion.div>
+            <motion.div className="col-span-1 md:col-span-2 space-y-3" variants={itemVariants}>
+              <Checkbox
+                label="Subscribe to our newsletter for market insights and exclusive opportunities"
+                name="newsletter"
+                checked={formData.newsletter}
+                onChange={handleInputChange as any}
+              />
+              <Checkbox
+                label="Receive updates about new projects and investment opportunities"
+                name="updates"
+                checked={formData.updates}
+                onChange={handleInputChange as any}
+              />
+              <Checkbox
+                label="I agree to the Privacy Policy and Terms of Service"
+                name="privacy"
+                checked={formData.privacy}
+                onChange={handleInputChange as any}
+                required
+              />
+              {errors.privacy && <p className="text-sm text-accent-600">{errors.privacy}</p>}
+            </motion.div>
 
-              {/* Preferences */}
-              <motion.div className="checkbox-group" variants={itemVariants}>
-                <div className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    id="newsletter"
-                    name="newsletter"
-                    checked={formData.newsletter}
-                    onChange={handleInputChange}
-                  />
-                  <label htmlFor="newsletter">
-                    Subscribe to our newsletter for market insights and exclusive opportunities
-                  </label>
-                </div>
-                <div className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    id="updates"
-                    name="updates"
-                    checked={formData.updates}
-                    onChange={handleInputChange}
-                  />
-                  <label htmlFor="updates">
-                    Receive updates about new projects and investment opportunities
-                  </label>
-                </div>
-                <div className="checkbox-item">
-                  <input
-                    type="checkbox"
-                    id="privacy"
-                    name="privacy"
-                    checked={formData.privacy}
-                    onChange={handleInputChange}
-                    required
-                  />
-                  <label htmlFor="privacy">
-                    I agree to the Privacy Policy and Terms of Service *
-                  </label>
-                </div>
-              </motion.div>
-
-              {/* Submit Button */}
-              <motion.div variants={itemVariants}>
-                <button
-                  type="submit"
-                  className={`submit-button ${isLoading ? 'loading' : ''}`}
-                  disabled={isLoading || !formData.privacy}
-                >
-                  {isLoading ? 'Submitting...' : 'Register Interest'}
-                </button>
-              </motion.div>
-            </form>
-          </motion.div>
-        </div>
+            <motion.div className="col-span-1 md:col-span-2" variants={itemVariants}>
+              <Button
+                type="submit"
+                className="w-full rounded-full bg-primary text-white hover:bg-primary-700 focus-visible:ring-accent-500"
+                disabled={isLoading || !formData.privacy}
+              >
+                {isLoading ? t('common.loading') : t('actions.register')}
+              </Button>
+              {submitError && <p className="mt-3 text-sm text-accent-600" role="alert">{submitError}</p>}
+            </motion.div>
+          </form>
+        </motion.div>
       </section>
 
-      {/* Benefits Section */}
-      <section className="benefits-section">
-        <div className="benefits-container">
-          <motion.div 
-            className="benefits-header"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2>Why Register with Calma?</h2>
+      {success && (
+        <section className="mx-auto max-w-3xl px-6 pb-12" aria-live="polite">
+          <div className="rounded-xl bg-white p-6 text-center shadow-luxury" role="status">
+            <h3 className="text-xl font-semibold text-neutral-900">{t('common.success')}</h3>
+            <p className="mt-2 text-neutral-700">We will contact you soon.</p>
+          </div>
+        </section>
+      )}
+
+      <section className="mx-auto max-w-5xl px-6 pb-24">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-center text-2xl font-semibold text-neutral-900">Why Register with CALMA?</h2>
+        </motion.div>
+
+        <motion.div
+          className="mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.div className="rounded-xl bg-white p-6 shadow-luxury" variants={itemVariants}>
+            <Star className="h-6 w-6 text-accent-500" />
+            <h3 className="mt-3 text-lg font-semibold text-neutral-900">Exclusive Access</h3>
+            <p className="mt-2 text-neutral-700">
+              Be the first to know about new luxury properties and investment opportunities before they go public.
+            </p>
           </motion.div>
 
-          <motion.div 
-            className="benefits-grid"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <motion.div className="benefit-card" variants={itemVariants}>
-              <Star className="benefit-icon" />
-              <h3>Exclusive Access</h3>
-              <p>Be the first to know about new luxury properties and investment opportunities before they go public.</p>
-            </motion.div>
-
-            <motion.div className="benefit-card" variants={itemVariants}>
-              <Shield className="benefit-icon" />
-              <h3>Personalized Service</h3>
-              <p>Receive tailored recommendations based on your preferences and investment goals.</p>
-            </motion.div>
-
-            <motion.div className="benefit-card" variants={itemVariants}>
-              <Bell className="benefit-icon" />
-              <h3>Market Insights</h3>
-              <p>Get exclusive market reports, trends analysis, and investment insights from our experts.</p>
-            </motion.div>
-
-            <motion.div className="benefit-card" variants={itemVariants}>
-              <Gift className="benefit-icon" />
-              <h3>VIP Events</h3>
-              <p>Invitations to exclusive property viewings, launch events, and networking opportunities.</p>
-            </motion.div>
+          <motion.div className="rounded-xl bg-white p-6 shadow-luxury" variants={itemVariants}>
+            <Shield className="h-6 w-6 text-accent-500" />
+            <h3 className="mt-3 text-lg font-semibold text-neutral-900">Personalized Service</h3>
+            <p className="mt-2 text-neutral-700">
+              Receive tailored recommendations based on your preferences and investment goals.
+            </p>
           </motion.div>
-        </div>
+
+          <motion.div className="rounded-xl bg-white p-6 shadow-luxury" variants={itemVariants}>
+            <Bell className="h-6 w-6 text-accent-500" />
+            <h3 className="mt-3 text-lg font-semibold text-neutral-900">Market Insights</h3>
+            <p className="mt-2 text-neutral-700">
+              Get exclusive market reports, trends analysis, and investment insights from our experts.
+            </p>
+          </motion.div>
+
+          <motion.div className="rounded-xl bg-white p-6 shadow-luxury" variants={itemVariants}>
+            <Gift className="h-6 w-6 text-accent-500" />
+            <h3 className="mt-3 text-lg font-semibold text-neutral-900">VIP Events</h3>
+            <p className="mt-2 text-neutral-700">
+              Invitations to exclusive property viewings, launch events, and networking opportunities.
+            </p>
+          </motion.div>
+        </motion.div>
       </section>
     </main>
   );

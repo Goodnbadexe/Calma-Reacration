@@ -19,6 +19,7 @@ import homeImpactImage from '@/assets/Images/Home/Calma_KSR_ex03_Final02_2025-05
 
 //import React from 'react'
 import { motion, circOut, easeInOut } from 'framer-motion'
+import anime from 'animejs'
 import { useSplash } from '@/components/system/SplashProvider'
 
 import fullLockupLogo from '@/assets/Logos/BRANDMARK_01-p-2000.png'
@@ -47,16 +48,22 @@ const InnovationIcon = () => (
     <rect x="15" y="4" width="4" height="15" stroke="#C5A46D" strokeWidth="1.5"/>
   </svg>
 )
-import FeaturedProjects from '@/components/home/FeaturedProjects'
+import FeaturedProjectsCarousel from '@/components/home/FeaturedProjectsCarousel'
 import TrustStrip from '@/components/home/TrustStrip'
 import TestimonialsBand from '@/components/home/TestimonialsBand'
 import ProjectPreviewGrid from '@/components/home/ProjectPreviewGrid'
 import MissionVision from '@/components/home/MissionVision'
+import AboutCalma from '@/components/home/AboutCalma'
+import Excellence from '@/components/home/Excellence'
+import Pillars from '@/components/home/Pillars'
+import KPIStats from '@/components/home/KPIStats'
 
 export default function EnglishHome() {
   const panoRef = useRef<HTMLElement | null>(null)
   const heroVideoRef = useRef<HTMLVideoElement | null>(null)
   const [heroReady, setHeroReady] = useState(false)
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined)
+  const [contentVisible, setContentVisible] = useState(false)
   // keep src stable; signal splash readiness on media load
   const { signalReady } = useSplash()
   const showMicroContent = true
@@ -89,6 +96,27 @@ export default function EnglishHome() {
   }, [])
 
   useEffect(() => {
+    const reduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reduced) {
+      setContentVisible(true)
+      return
+    }
+    if (!heroReady) return
+    setContentVisible(true)
+    anime.timeline({ easing: 'easeOutQuad', duration: 500 })
+      .add({
+        targets: '.luxury-hero-content',
+        opacity: [0, 1],
+        translateY: [16, 0],
+      })
+      .add({
+        targets: '.reveal-block',
+        opacity: [0, 1],
+        translateY: [8, 0],
+        delay: anime.stagger(120),
+      })
+  }, [heroReady])
+  useEffect(() => {
     const el = heroVideoRef.current
     if (!el) return
     const io = new IntersectionObserver((entries) => {
@@ -103,6 +131,19 @@ export default function EnglishHome() {
     io.observe(el)
     return () => io.disconnect()
   }, [heroReady])
+  useEffect(() => {
+    const el = heroVideoRef.current
+    if (!el) return
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && !videoSrc) {
+          setVideoSrc(calmaTV)
+        }
+      })
+    }, { threshold: 0.1 })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [videoSrc])
 
   // Animation variants
   const fadeInUp = {
@@ -166,12 +207,12 @@ export default function EnglishHome() {
           <video 
             ref={heroVideoRef}
             className="hero-video"
-            src={calmaTV}
+            src={videoSrc}
             autoPlay
             loop
             muted
             playsInline
-            preload="metadata"
+            preload="none"
             poster={aboutHeaderImage}
             aria-label="Calma TV hero video"
             onLoadedData={() => {
@@ -218,283 +259,16 @@ export default function EnglishHome() {
         </div>
       </motion.section>
 
-      {/* Main Content */}
-      {/* Main Content */}
-      <main className="main-content">
-        <FeaturedProjects />
+      <main className={`main-content ${contentVisible ? 'reveal-visible' : 'reveal-hidden'}`}>
+        <AboutCalma />
+        <Excellence />
+        <Pillars />
+        <KPIStats />
+        <FeaturedProjectsCarousel />
         <TrustStrip />
         <TestimonialsBand />
         <ProjectPreviewGrid />
         <MissionVision />
-        <div className="container">
-          {/* Redefining Luxury Living — Dual Split */}
-          <motion.section 
-            className="dual-split section showcase-strips"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            variants={staggerContainer}
-          >
-            <div className="dual-split-grid">
-              <motion.div className="dual-split-text" variants={fadeInLeft}>
-                <h2 className="dual-split-title">Redefining Luxury Living</h2>
-                <p className="dual-split-description">
-                  We ground bold vision in crafted realism — designing spaces that feel poetic yet purposeful.
-                  Every decision balances material truth with human experience.
-                </p>
-                <div className="cta-row">
-                  <a className="button-link" href="/projects">
-                    <Button variant="secondary" className="luxury-button">
-                      Explore Our Projects
-                    </Button>
-                  </a>
-                </div>
-              </motion.div>
-              <motion.div 
-                className="dual-split-image" 
-                variants={fadeInRight}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-              >
-                <picture>
-                  <source srcSet={homeImpactImage} type="image/jpeg" />
-                  <img src={homeImpactImage} alt="Calma impact" className="dual-image" loading="lazy" decoding="async" />
-                </picture>
-              </motion.div>
-            </div>
-            {showMicroContent && (
-              <motion.div className="micro-tagline" variants={fadeInUp}>
-                Designed for elegant living.
-              </motion.div>
-            )}
-          </motion.section>
-        
-        {/* Metrics — 3 Panel Visual Block */}
-        <motion.section 
-          className="metrics-section section showcase-strips"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={staggerContainer}
-        >
-          <div className="metrics-grid">
-            {/* Panel 1 */}
-            <motion.div className="metric-panel" variants={fadeInUp}>
-              <div className="metric-bg" style={{ backgroundImage: `url(${statsImage1})` }} />
-              <div className="metric-content">
-                <AnimatedNumber value="500000+" className="metric-number" delay={90} />
-                <div className="metric-label">m² of Possibilities unfolding</div>
-              </div>
-            </motion.div>
-            {/* Panel 2 */}
-            <motion.div className="metric-panel" variants={fadeInUp}>
-              <div className="metric-bg" style={{ backgroundImage: `url(${brandValuesImage})` }} />
-              <div className="metric-content">
-                <AnimatedNumber value={28} className="metric-number" delay={100} />
-                <div className="metric-label">Landmark Developments</div>
-              </div>
-            </motion.div>
-            {/* Panel 3 */}
-            <motion.div className="metric-panel" variants={fadeInUp}>
-              <div className="metric-bg" style={{ backgroundImage: `url(${statsImage2})` }} />
-              <div className="metric-content">
-                <AnimatedNumber value="2000+" className="metric-number" delay={120} />
-                <div className="metric-label">Residents Served</div>
-              </div>
-            </motion.div>
-          </div>
-          {showMicroContent && (
-            <motion.div className="micro-stat" variants={fadeInUp}>
-              <AnimatedNumber value={20} className="micro-number" delay={80} />
-              <span className="micro-caption">Years of Experience</span>
-            </motion.div>
-          )}
-        </motion.section>
-
-        {/* About Section - Refined */}
-        <motion.section 
-          id="about" 
-          className="section luxury-about showcase-strips"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={staggerContainer}
-        >
-          <div className="section-inner luxury-section-inner">
-            <motion.div className="content-grid" variants={staggerContainer}>
-              <motion.div className="content-text" variants={fadeInLeft}>
-                <span className="section-badge">ABOUT CALMA</span>
-                <h2 className="section-title luxury-section-title">
-                  Architecting the Future of Urban Living
-                </h2>
-                <p className="section-description">
-                  A distilled snapshot of our ethos — grounded sustainability, uncompromising quality, and thoughtful urban innovation.
-                </p>
-                <div className="snapshot-cards">
-                  <div className="snapshot-card">
-                    <SustainabilityIcon />
-                    <h3 className="snapshot-title">Sustainability</h3>
-                    <p className="snapshot-text">Responsible stewardship and future-facing systems embedded in design.</p>
-                  </div>
-                  <div className="snapshot-card">
-                    <PremiumIcon />
-                    <h3 className="snapshot-title">Premium Quality</h3>
-                    <p className="snapshot-text">Crafted precision and material honesty at every scale.</p>
-                  </div>
-                  <div className="snapshot-card">
-                    <InnovationIcon />
-                    <h3 className="snapshot-title">Urban Innovation</h3>
-                    <p className="snapshot-text">Elegant solutions that elevate daily living within the city fabric.</p>
-                  </div>
-                </div>
-                {showMicroContent && (
-                  <motion.p className="micro-statement" variants={fadeInUp}>
-                    Crafted with intention.
-                  </motion.p>
-                )}
-              </motion.div>
-              <motion.div className="content-image" variants={fadeInRight}>
-                <picture>
-                  <source srcSet={aboutHeaderImage} type="image/jpeg" />
-                  <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" loading="lazy" decoding="async" />
-                </picture>
-              </motion.div>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* Excellence Section - Masterfully Crafted */}
-        <motion.section 
-          className="section content-section luxury-content-section showcase-strips"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={staggerContainer}
-        >
-          <div className="section-inner luxury-section-inner">
-            <motion.div className="content-showcase" variants={staggerContainer}>
-              <motion.div className="showcase-content" variants={fadeInLeft}>
-                <span className="section-badge gold">EXCELLENCE</span>
-                <h2 className="content-title luxury-content-title">
-                  MASTERFULLY CRAFTED.<br />
-                  UNIQUELY YOURS.
-                </h2>
-                <p className="content-body luxury-content-body">
-                  CALMA represents the pinnacle of real estate excellence. Where visionary development 
-                  meets uncompromising standards, we don't just raise skylines—we elevate lifestyles. 
-                  Expanding across the KSA, we set new benchmarks in luxury development, creating 
-                  landmarks that inspire and endure for generations.
-                </p>
-                <div className="excellence-highlights">
-                  <div className="highlight-item">
-                    <span className="highlight-number">28+</span>
-                    <span className="highlight-text">Delivered Projects</span>
-                  </div>
-                  <div className="highlight-item">
-                    <span className="highlight-number">2,000+</span>
-                    <span className="highlight-text">Families Served</span>
-                  </div>
-                  <div className="highlight-item">
-                    <span className="highlight-number">3</span>
-                    <span className="highlight-text">Major Cities</span>
-                  </div>
-                </div>
-                <div className="cta-row">
-                  <a className="button-link" href="/projects">
-                    <Button variant="secondary" className="luxury-button">
-                      Discover Our Projects
-                    </Button>
-                  </a>
-                </div>
-              </motion.div>
-              <motion.div className="showcase-images" variants={fadeInRight}>
-                <div className="image-grid">
-                  <motion.img 
-                    key={`primary-${currentImageSet}`}
-                    src={imageSets[currentImageSet].primary} 
-                    alt="Excellence Showcase" 
-                    className="grid-image primary"
-                    loading="lazy"
-                    decoding="async"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.2, ease: "easeOut" }}
-                  />
-                  <motion.img 
-                    key={`secondary-${currentImageSet}`}
-                    src={imageSets[currentImageSet].secondary} 
-                    alt="Development Excellence" 
-                    className="grid-image secondary"
-                    loading="lazy"
-                    decoding="async"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-                  />
-                  <motion.img 
-                    key={`tertiary-${currentImageSet}`}
-                    src={imageSets[currentImageSet].tertiary} 
-                    alt="Project Innovation" 
-                    className="grid-image tertiary"
-                    loading="lazy"
-                    decoding="async"
-                    initial={{ opacity: 0, scale: 1.1 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1.2, ease: "easeOut", delay: 0.4 }}
-                  />
-                </div>
-              </motion.div>
-            </motion.div>
-          </div>
-        </motion.section>
-
-        {/* The Calma Way — Teaser */}
-        <motion.section 
-          className="calma-way-section section showcase-strips"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
-          variants={staggerContainer}
-        >
-          <div className="calma-way-inner">
-            <motion.div variants={fadeInUp}>
-              <h2 className="calma-way-title">The Calma Way</h2>
-              <p className="calma-way-subtitle">We design communities with precision, purpose, and vision.</p>
-            </motion.div>
-            <div className="calma-way-grid">
-              <motion.div className="way-card" variants={fadeInLeft}>
-                <div className="way-bg" style={{ backgroundImage: `url(${asset2Image})` }} />
-                <div className="way-content">
-                  <h3 className="way-title">Precision</h3>
-                  <p className="way-text">Architected clarity in every line and join.</p>
-                </div>
-              </motion.div>
-              <motion.div className="way-card" variants={fadeInUp}>
-                <div className="way-bg" style={{ backgroundImage: `url(${asset4Image})` }} />
-                <div className="way-content">
-                  <h3 className="way-title">Excellence</h3>
-                  <p className="way-text">Premium quality that endures and elevates.</p>
-                </div>
-              </motion.div>
-              <motion.div className="way-card" variants={fadeInRight}>
-                <div className="way-bg" style={{ backgroundImage: `url(${asset3Image})` }} />
-                <div className="way-content">
-                  <h3 className="way-title">Innovation</h3>
-                  <p className="way-text">Thoughtful progress shaping future living.</p>
-                </div>
-              </motion.div>
-            </div>
-            <div className="cta-row">
-              <a className="button-link" href="/about">
-                <Button variant="secondary" className="luxury-button">
-                  Learn About Our Approach
-                </Button>
-              </a>
-            </div>
-          </div>
-        </motion.section>
-        </div>
       </main>
     </div>
   )

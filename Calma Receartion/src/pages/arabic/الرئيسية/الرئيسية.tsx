@@ -1,4 +1,3 @@
-import '../../english/Home/Home.css'
 import './الرئيسية.css'
 import panoramaImage from '../../../assets/Backgrounds/Abou-1-p-1600.jpg'
 import aboutHeaderImage from '../../../assets/Images/About/About-Header.jpg'

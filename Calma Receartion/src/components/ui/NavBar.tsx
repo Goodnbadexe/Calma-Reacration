@@ -269,7 +269,12 @@ export default function NavBar() {
             size="icon"
             aria-label={tr('actions.call', 'Call', 'اتصل')}
             title={tr('actions.call', 'Call us', 'اتصل بنا')}
-            onClick={() => (window.location.href = 'tel:+966920006553')}
+            onClick={() => {
+              const confirmMsg = isArabic ? 'هل تريد الاتصال الآن؟' : 'Do you want to dial now?'
+              if (window.confirm(confirmMsg)) {
+                window.location.href = 'tel:+966920006553'
+              }
+            }}
           >
             <Phone className="icon" />
           </Button>
@@ -279,12 +284,17 @@ export default function NavBar() {
             size="icon"
             aria-label={tr('actions.whatsapp', 'WhatsApp', 'واتساب')}
             title={tr('actions.whatsapp', 'WhatsApp', 'واتساب')}
-            onClick={() => window.open('https://wa.me/966920006553', '_blank')}
+            onClick={() => {
+              const confirmMsg = isArabic ? 'فتح محادثة واتساب؟' : 'Open WhatsApp chat?'
+              if (window.confirm(confirmMsg)) {
+                window.open('https://wa.me/966920006553', '_blank')
+              }
+            }}
           >
             <MessageCircle className="icon" />
           </Button>
 
-          <Button className="rounded-full register-button" onClick={() => { showSplash(); navigate('/register') }}>
+          <Button className="rounded-full register-button" onClick={() => { showSplash(); navigate(isArabic ? '/ar/register' : '/register') }}>
             {tr('actions.register', 'Register Your Interest', 'سجل اهتمامك')}
           </Button>
 
@@ -558,17 +568,17 @@ export default function NavBar() {
               </button>
             </li>
             <li>
-              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects' : '/projects/floor')}>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/floor' : '/projects/floor')}>
                 {isArabic ? 'أدوار' : 'Floor'}
               </button>
             </li>
             <li>
-              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/residential' : '/projects/townhouse')}>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/townhouse' : '/projects/townhouse')}>
                 {isArabic ? 'تاون هاوس' : 'Town House'}
               </button>
             </li>
             <li>
-              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/commercials' : '/projects/office')}>
+              <button type="button" className="dropdown-item" style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', fontSize: 14 }} onClick={() => handleDropdownNavigation(isArabic ? '/ar/projects/office' : '/projects/office')}>
                 {isArabic ? 'مكتبي' : 'Office'}
               </button>
             </li>

@@ -180,6 +180,7 @@ export default function Register() {
                 required
                 placeholder="Enter your first name"
                 error={errors.firstName}
+                aria-invalid={!!errors.firstName}
               />
               <FormField
                 label="Last Name"
@@ -189,6 +190,7 @@ export default function Register() {
                 required
                 placeholder="Enter your last name"
                 error={errors.lastName}
+                aria-invalid={!!errors.lastName}
               />
             </motion.div>
 
@@ -202,6 +204,7 @@ export default function Register() {
                 required
                 placeholder="your.email@example.com"
                 error={errors.email}
+                aria-invalid={!!errors.email}
               />
               <FormField
                 label="Phone Number"
@@ -341,6 +344,14 @@ export default function Register() {
             </motion.div>
           </form>
         </motion.div>
+      </section>
+      <section className="mx-auto max-w-4xl px-6 pb-8">
+        <p className="text-sm text-neutral-700">
+          By submitting this form you agree to our{' '}
+          <a href="/privacy" className="text-primary underline">Privacy Policy</a> and{' '}
+          <a href="/terms" className="text-primary underline">Terms of Service</a>.
+        </p>
+        {/* TODO: Implement /privacy and /terms pages or link to external URLs */}
       </section>
 
       {success && (

@@ -9,7 +9,7 @@ import { HelmetProvider } from 'react-helmet-async'
 const EnglishHome = lazy(() => import('./pages/english/Home/Home'))
 const AboutImproved = lazy(() => import('./pages/english/About/AboutImproved'))
 const News = lazy(() => import('./pages/english/News/News'))
-const RealEstateShowcase = lazy(() => import('./pages/english/Projects/Projects'))
+const ProjectsPage = lazy(() => import('./pages/english/Projects/ProjectsPage'))
 const ProjectPage = lazy(() => import('./pages/ProjectPage'))
 const Register = lazy(() => import('./pages/english/Register/Register'))
 const Contact = lazy(() => import('./pages/english/Contact/Contact'))
@@ -24,6 +24,10 @@ const ArabicRegister = lazy(() => import('./pages/arabic/التسجيل/التس
 const ArabicCommercials = lazy(() => import('./pages/arabic/المشاريع/تجارية'))
 const ArabicResidential = lazy(() => import('./pages/arabic/المشاريع/سكنية'))
 const ArabicCalmaTower = lazy(() => import('./pages/arabic/المشاريع/برج كالما'))
+const ProjectsVilla = lazy(() => import('./pages/english/Projects/categories/Villa'))
+const ProjectsFloor = lazy(() => import('./pages/english/Projects/categories/Floor'))
+const ProjectsTownHouse = lazy(() => import('./pages/english/Projects/categories/TownHouse'))
+const ProjectsOffice = lazy(() => import('./pages/english/Projects/categories/Office'))
 
 // Test and System Components
 import { SplashProvider } from '@/components/system/SplashProvider'
@@ -54,8 +58,12 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="/" element={<EnglishHome />} />
                   <Route path="/about" element={<AboutImproved />} />
                   <Route path="/news" element={<News />} />
-                  <Route path="/projects" element={<RealEstateShowcase />} />
+                  <Route path="/projects" element={<ProjectsPage />} />
                   <Route path="/projects/:slug" element={<ProjectPage />} />
+                  <Route path="/projects/villa" element={<ProjectsVilla />} />
+                  <Route path="/projects/floor" element={<ProjectsFloor />} />
+                  <Route path="/projects/townhouse" element={<ProjectsTownHouse />} />
+                  <Route path="/projects/office" element={<ProjectsOffice />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/register" element={<Register />} />
 
@@ -75,6 +83,10 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="/ar/projects/commercials" element={<ArabicCommercials />} />
                   <Route path="/ar/projects/residential" element={<ArabicResidential />} />
                   <Route path="/ar/projects/calma-tower" element={<ArabicCalmaTower />} />
+                  <Route path="/ar/projects/villa" element={<ProjectsVilla />} />
+                  <Route path="/ar/projects/floor" element={<ProjectsFloor />} />
+                  <Route path="/ar/projects/townhouse" element={<ProjectsTownHouse />} />
+                  <Route path="/ar/projects/office" element={<ProjectsOffice />} />
 
                   {/* Test Routes */}
                 </Route>

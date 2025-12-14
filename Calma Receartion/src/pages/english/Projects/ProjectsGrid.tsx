@@ -138,7 +138,7 @@ export default function ProjectsGrid({ projects, filters, onUpdateFilters, onOpe
                 subtitle: p.type,
                 category: p.category,
                 image: p.image,
-                href: '#',
+                href: `/projects/${String(p.id)}`,
                 descriptor: `${p.location} • ${p.valueLabel}`,
               }}
             />

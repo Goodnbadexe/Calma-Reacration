@@ -187,10 +187,10 @@ export default function ArabicNews() {
                     </div>
 
                     <div className="post-engagement">
-                      <div className="engagement-stats">
-                        <span><Heart className="w-4 h-4" /> {post.likes}</span>
-                        <span><MessageCircle className="w-4 h-4" /> {post.comments}</span>
-                        <span><Share2 className="w-4 h-4" /> {post.shares}</span>
+                      <div className="engagement-stats" aria-label="إحصاءات التفاعل">
+                        <span title="إعجابات"><Heart className="w-4 h-4" /> {post.likes}</span>
+                        <span title="تعليقات"><MessageCircle className="w-4 h-4" /> {post.comments}</span>
+                        <span title="مشاركات"><Share2 className="w-4 h-4" /> {post.shares}</span>
                       </div>
                       {post.link && (
                         <Button 
@@ -236,10 +236,22 @@ export default function ArabicNews() {
                   </div>
                   <h3>{article.title}</h3>
                   <p>{article.excerpt}</p>
-                  <Button variant="ghost" className="read-more">
-                    اقرأ المزيد
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </Button>
+                  {article.link && article.link !== '#' ? (
+                    <a href={article.link} target="_blank" rel="noopener" className="read-more" aria-label={`اقرأ المزيد: ${article.title}`}>
+                      <Button variant="ghost">
+                        اقرأ المزيد
+                        <ExternalLink className="w-4 h-4 ml-2" />
+                      </Button>
+                    </a>
+                  ) : (
+                    <>
+                      <Button variant="ghost" className="read-more" disabled>
+                        اقرأ المزيد
+                        <ExternalLink className="w-4 h-4 ml-2" />
+                      </Button>
+                      {/* TODO: إضافة روابط فعلية للمقالات */}
+                    </>
+                  )}
                 </div>
               </motion.article>
             ))}
@@ -263,6 +275,7 @@ export default function ArabicNews() {
                 className="email-input"
                 dir="ltr"
                 value={email}
+                aria-invalid={!!subscribeMsg && subscribeMsg.startsWith('يرجى إدخال')}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <Button 
@@ -272,6 +285,11 @@ export default function ArabicNews() {
                   setSubmitting(true)
                   setSubscribeMsg(null)
                   try {
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                      setSubscribeMsg('يرجى إدخال بريد صحيح')
+                      setSubmitting(false)
+                      return
+                    }
                     const start = performance.now()
                     await apiClient.post('/api/newsletter/subscribe', { email })
                     setSubscribeMsg('تم الاشتراك بنجاح')
@@ -287,6 +305,9 @@ export default function ArabicNews() {
               >
                 {submitting ? 'جاري الاشتراك…' : 'اشترك'}
               </Button>
+            </div>
+            <div className="newsletter-privacy-note" style={{ marginTop: '0.75rem', fontSize: '0.9rem', color: '#4a4a4a' }}>
+              نُقدّر خصوصيتك؛ لن يُستخدم بريدك إلا لإرسال التحديثات.
             </div>
             {subscribeMsg && <div aria-live="polite" style={{ marginTop: '0.75rem' }}>{subscribeMsg}</div>}
           </motion.div>

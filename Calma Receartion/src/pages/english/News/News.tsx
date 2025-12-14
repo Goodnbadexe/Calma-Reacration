@@ -190,10 +190,10 @@ export default function News() {
                     </div>
 
                     <div className="post-engagement">
-                      <div className="engagement-stats">
-                        <span><Heart className="w-4 h-4" /> {post.likes}</span>
-                        <span><MessageCircle className="w-4 h-4" /> {post.comments}</span>
-                        <span><Share2 className="w-4 h-4" /> {post.shares}</span>
+                      <div className="engagement-stats" aria-label="Post engagement statistics">
+                        <span title="Likes"><Heart className="w-4 h-4" /> {post.likes}</span>
+                        <span title="Comments"><MessageCircle className="w-4 h-4" /> {post.comments}</span>
+                        <span title="Shares"><Share2 className="w-4 h-4" /> {post.shares}</span>
                       </div>
                       {post.link && (
                         <Button 
@@ -239,10 +239,22 @@ export default function News() {
                   </div>
                   <h3>{article.title}</h3>
                   <p>{article.excerpt}</p>
-                  <Button variant="ghost" className="read-more">
-                    Read More
-                    <ExternalLink className="w-4 h-4 ml-2" />
-                  </Button>
+                  {article.link && article.link !== '#' ? (
+                    <a href={article.link} target="_blank" rel="noopener" className="read-more" aria-label={`Read more: ${article.title}`}>
+                      <Button variant="ghost">
+                        Read More
+                        <ExternalLink className="w-4 h-4 ml-2" />
+                      </Button>
+                    </a>
+                  ) : (
+                    <>
+                      <Button variant="ghost" className="read-more" disabled>
+                        Read More
+                        <ExternalLink className="w-4 h-4 ml-2" />
+                      </Button>
+                      {/* TODO: Supply real article URLs for Read More links */}
+                    </>
+                  )}
                 </div>
               </motion.article>
             ))}
@@ -265,6 +277,7 @@ export default function News() {
                 placeholder="Enter your email address"
                 className="email-input"
                 value={email}
+                aria-invalid={!!subscribeMsg && subscribeMsg.startsWith('Enter a valid')}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <Button 
@@ -274,6 +287,11 @@ export default function News() {
                   setSubmitting(true)
                   setSubscribeMsg(null)
                   try {
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                      setSubscribeMsg('Enter a valid email')
+                      setSubmitting(false)
+                      return
+                    }
                     const start = performance.now()
                     await apiClient.post('/api/newsletter/subscribe', { email })
                     setSubscribeMsg('Subscribed successfully')
@@ -289,6 +307,9 @@ export default function News() {
               >
                 {submitting ? 'Subscribing…' : 'Subscribe'}
               </Button>
+            </div>
+            <div className="newsletter-privacy-note" style={{ marginTop: '0.75rem', fontSize: '0.9rem', color: '#4a4a4a' }}>
+              We value your privacy; your email will only be used to send updates.
             </div>
             {subscribeMsg && <div aria-live="polite" style={{ marginTop: '0.75rem' }}>{subscribeMsg}</div>}
           </motion.div>

@@ -10,7 +10,7 @@ export default function MissionVision() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          Where Vision Takes Shape
+          Mission & Vision
         </motion.h2>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
           <motion.div 

@@ -32,6 +32,11 @@ export default function AppLayout() {
     }
   }, [location.pathname, reduceMotion])
 
+  useEffect(() => {
+    const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'auto' })
+  }, [location.pathname])
+
   return (
     <div className="page">
       <NavBar />

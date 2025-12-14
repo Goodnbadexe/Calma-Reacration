@@ -215,6 +215,15 @@ export default function ArabicRegister() {
           </form>
         </motion.div>
       </section>
+      <section className="mx-auto max-w-4xl px-6 pb-8" dir="rtl" lang="ar">
+        <p className="text-sm text-neutral-700">
+          بإرسال هذا النموذج فإنك توافق على{' '}
+          <a href="/privacy" className="text-primary underline">سياسة الخصوصية</a>{' '}
+          و{' '}
+          <a href="/terms" className="text-primary underline">شروط الاستخدام</a>.
+        </p>
+        {/* TODO: إنشاء صفحات /privacy و /terms أو ربط خارجي */}
+      </section>
 
       {success && (
         <section className="mx-auto max-w-3xl px-6 pb-12" aria-live="polite">

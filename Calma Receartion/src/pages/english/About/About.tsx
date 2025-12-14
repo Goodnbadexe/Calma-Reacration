@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import AnimatedNumber from '@/components/ui/AnimatedNumber'
 
 // Import images
 import heroImage1 from '@/assets/Images/About/Hero-1.JPG'
@@ -362,7 +363,7 @@ export default function About() {
                 className="text-center"
               >
                 <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>
-                  {stat.number}{stat.suffix}
+                  <AnimatedNumber value={`${stat.number}${stat.suffix}`} suffix="" triggerOnView={false} />
                 </div>
                 <div className="text-sm leading-tight" style={{ color: 'var(--color-neutral-300)' }}>
                   {stat.label}
@@ -546,7 +547,7 @@ export default function About() {
                 }}
               >
                 <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>
-                  {stat.number}{stat.suffix}
+                  <AnimatedNumber value={`${stat.number}${stat.suffix}`} suffix="" triggerOnView={false} />
                 </div>
                 <div className="text-sm md:text-base" style={{ color: 'var(--color-neutral-300)' }}>
                   {stat.label}

@@ -39,7 +39,11 @@ export default function Contact() {
               variant="ghost"
               className="mt-4 rounded-full"
               aria-label={t('actions.call')}
-              onClick={() => (window.location.href = 'tel:+966920006553')}
+              onClick={() => {
+                if (window.confirm('Do you want to dial now?')) {
+                  window.location.href = 'tel:+966920006553'
+                }
+              }}
             >
               {t('actions.call')}
             </Button>
@@ -51,7 +55,11 @@ export default function Contact() {
               variant="ghost"
               className="mt-4 rounded-full"
               aria-label={t('actions.whatsapp')}
-              onClick={() => window.open('https://wa.me/966920006553', '_blank')}
+              onClick={() => {
+                if (window.confirm('Open WhatsApp chat?')) {
+                  window.open('https://wa.me/966920006553', '_blank')
+                }
+              }}
             >
               {t('actions.whatsapp')}
             </Button>

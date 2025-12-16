@@ -5,7 +5,7 @@ export default function KPIStats() {
     <section className="section kpi-section reveal-block" aria-label="Key performance indicators">
       <div className="section-inner">
         <h2 className="showcase-title">Impact By The Numbers</h2>
-        <div className="kpi-grid">
+        <div className="grid cols-4 kpi-grid">
           <div className="stat-item">
             <AnimatedNumber value={28} className="stat-number" delay={120} />
             <span className="stat-label">Landmark Projects</span>
@@ -27,4 +27,3 @@ export default function KPIStats() {
     </section>
   )
 }
-

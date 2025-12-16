@@ -21,6 +21,7 @@ import { useSplash } from '../../../components/system/SplashProvider'
 import fullLockupLogo from '../../../assets/Logos/BRANDMARK_01-p-2000.png'
 import { homeAr } from '@/pages/content/home.ar'
 import FeaturedProjectsCarousel from '@/components/home/FeaturedProjectsCarousel'
+import HomeLayout from '@/components/pages/home/HomeLayout'
 
 export default function ArabicHome() {
   const heroVideoRef = useRef<HTMLVideoElement | null>(null)
@@ -310,6 +311,7 @@ export default function ArabicHome() {
             </div>
           </motion.section>
           <FeaturedProjectsCarousel />
+          <HomeLayout dir="rtl" />
         </div>
       </main>
     </div>

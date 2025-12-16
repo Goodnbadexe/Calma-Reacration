@@ -33,12 +33,15 @@ const AnimatedNumber: React.FC<AnimatedNumberProps> = ({
 
   // Default formatter
   const defaultFormatter = (num: number) => {
-    const base = Math.floor(num).toLocaleString()
+    const hasPlus = typeof value === 'string' && value.includes('+')
+    const baseNumber = Math.floor(num)
+    const clamped = hasPlus ? Math.max(baseNumber, 1) : baseNumber
+    const base = clamped.toLocaleString()
     if (typeof value === 'string' && value.includes('K')) {
       const kilo = Math.floor(num / 1000)
       return `${kilo}K+`
     }
-    if (typeof value === 'string' && value.includes('+')) {
+    if (hasPlus) {
       return `${base}+`
     }
     return base

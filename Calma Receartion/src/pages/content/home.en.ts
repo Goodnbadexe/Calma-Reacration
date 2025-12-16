@@ -1,6 +1,5 @@
 export const homeEn = {
   heroTitle: 'Where Vision Takes Shape',
   heroSubtitle:
-    'At CALMA, we architect modern living with uncompromising quality. We blend innovation with legacy and place sustainability at the core to create communities that endure.'
+    'Architecting modern living with uncompromising quality—blending innovation and sustainability to create enduring communities.'
 }
-

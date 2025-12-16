@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { useSplash } from '@/components/system/SplashProvider'
 
 export type Project = {
   id: string
@@ -18,8 +20,14 @@ type Props = {
 
 export default function ProjectCard({ project, active }: Props) {
   const [imgLoaded, setImgLoaded] = useState(false)
+  const { showSplash } = useSplash()
   return (
-    <a href={project.href} className="project-showcase-card" aria-label={project.title}>
+    <Link
+      to={project.href}
+      className="project-showcase-card"
+      aria-label={project.title}
+      onClick={() => { showSplash() }}
+    >
       <div className="project-image">
         <img
           src={project.image}
@@ -60,6 +68,6 @@ export default function ProjectCard({ project, active }: Props) {
           <span className="hero-button luxury-button">View Project</span>
         </div>
       </motion.div>
-    </a>
+    </Link>
   )
 }

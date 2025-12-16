@@ -69,3 +69,13 @@ export function requireEnv(name: keyof ServerEnv): string {
   if (!v || String(v).trim() === '') throw new Error(`Missing required env: ${name as string}`)
   return String(v)
 }
+
+export function validateServerEnv(env: ServerEnv): void {
+  const isProd = String(process.env.NODE_ENV || '').toLowerCase() === 'production'
+  if (isProd && !env.CAPTCHA_SECRET_KEY) {
+    throw new Error('Captcha misconfigured: CAPTCHA_SECRET_KEY is required in production')
+  }
+  if (env.TELEMETRY_ENABLED && !env.TELEMETRY_AUTH_TOKEN) {
+    throw new Error('Telemetry misconfigured: TELEMETRY_AUTH_TOKEN is required when telemetry is enabled')
+  }
+}

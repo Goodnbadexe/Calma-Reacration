@@ -1,9 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 import { Card } from "@/components/ui/card"
 import "./Project.css"
 import { resolveAssetUrl } from "@/utils/assetResolver"
+import ResponsiveGrid from "@/components/ui/ResponsiveGrid"
+import ImageAspect from "@/components/ui/ImageAspect"
 
 interface Project {
   id: number
@@ -75,6 +78,8 @@ const projectOrder = [
 ]
 
 export default function RealEstateShowcase() {
+  const [params, setParams] = useSearchParams()
+  const view = (params.get('view') || 'grid') as 'interactive' | 'grid'
   const [scrollProgress, setScrollProgress] = useState(0)
   const [selectedProject, setSelectedProject] = useState<number | null>(null)
   const [hoveredProject, setHoveredProject] = useState<number | null>(null)
@@ -84,6 +89,9 @@ export default function RealEstateShowcase() {
   const [isSliderActive, setIsSliderActive] = useState(false)
   const [sliderValue, setSliderValue] = useState(0)
   const [isSidebarActive, setIsSidebarActive] = useState(false)
+  const [page, setPage] = useState(1)
+  const pageSize = 9
+  const totalPages = Math.ceil(projects.length / pageSize)
 
   function scrollToProject(projectId: number) {
     const idx = projectOrder.indexOf(projectId)
@@ -201,8 +209,61 @@ export default function RealEstateShowcase() {
   // Use displayProject to avoid unused variable warning
   console.log(displayProject)
 
+  const GridView = () => {
+    const start = (page - 1) * pageSize
+    const visible = projects.slice(start, start + pageSize)
+    return (
+      <div className="section luxury-projects-showcase" aria-label="Projects Grid">
+        <div className="showcase-header">
+          <h2 className="section-title">All Projects</h2>
+          <p className="section-description">Browse projects by image, price and location.</p>
+        </div>
+        <div className="luxury-section-inner">
+          <ResponsiveGrid min={320} className="projects-grid">
+            {visible.map((p) => (
+              <Card key={p.id} className="luxury-card">
+                <ImageAspect ratio="4 / 3">
+                  <img src={p.image} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </ImageAspect>
+                <h3 style={{ marginTop: 16 }}>{p.name}</h3>
+                <p style={{ marginTop: 4 }}>{p.location} • {p.price}</p>
+              </Card>
+            ))}
+          </ResponsiveGrid>
+          <div className="carousel-controls" style={{ marginTop: 24 }}>
+            <button disabled={page <= 1} onClick={() => setPage((x) => Math.max(1, x - 1))}>{'‹'}</button>
+            <span className="carousel-count">Page {page} of {totalPages}</span>
+            <button disabled={page >= totalPages} onClick={() => setPage((x) => Math.min(totalPages, x + 1))}>{'›'}</button>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
-    <div ref={containerRef} className="relative min-h-[800vh]" style={{ backgroundColor: "var(--color-bg-secondary)" }}>
+    <div ref={containerRef} className="relative" style={{ backgroundColor: "var(--color-bg-secondary)" }}>
+      <div className="section luxury-section-inner" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            className={`hero-button-secondary`}
+            onClick={() => { params.set('view', 'interactive'); setParams(params) }}
+            aria-pressed={view === 'interactive'}
+          >
+            Interactive
+          </button>
+          <button
+            className={`hero-button luxury-button`}
+            onClick={() => { params.set('view', 'grid'); setParams(params) }}
+            aria-pressed={view === 'grid'}
+          >
+            Grid
+          </button>
+        </div>
+      </div>
+      {view === 'grid' ? (
+        <GridView />
+      ) : (
+    <div className="relative min-h-[800vh]">
       <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
         {/* Background gradient effect */}
         <div
@@ -1106,8 +1167,8 @@ export default function RealEstateShowcase() {
         </div>
       )}
     </div>
+      )}
+    </div>
   )
 }
-
-
 

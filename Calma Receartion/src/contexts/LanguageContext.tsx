@@ -1,6 +1,14 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toLanguagePath } from '@/utils/i18nPaths'
+import enHome from '@/locales/en/home.json'
+import enAbout from '@/locales/en/about.json'
+import enProjects from '@/locales/en/projects.json'
+import enContact from '@/locales/en/contact.json'
+import arHome from '@/locales/ar/home.json'
+import arAbout from '@/locales/ar/about.json'
+import arProjects from '@/locales/ar/projects.json'
+import arContact from '@/locales/ar/contact.json'
 
 export type Language = 'en' | 'ar';
 
@@ -15,7 +23,7 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 // Translation keys
-const translations = {
+const baseTranslations = {
   en: {
     // Navigation
     'nav.home': 'Home',
@@ -107,6 +115,18 @@ const translations = {
     'nav.calmaTower': 'برج كالما'
   }
 };
+
+// External JSON translations
+const externalTranslations = {
+  en: { ...enHome, ...enAbout, ...enProjects, ...enContact },
+  ar: { ...arHome, ...arAbout, ...arProjects, ...arContact }
+}
+
+// Merge base with external JSON
+const translations = {
+  en: { ...baseTranslations.en, ...externalTranslations.en },
+  ar: { ...baseTranslations.ar, ...externalTranslations.ar }
+}
 
 
 

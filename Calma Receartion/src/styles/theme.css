@@ -1,0 +1,20 @@
+:root {
+  color-scheme: light;
+}
+
+body.ltr {
+  direction: ltr;
+}
+
+body.rtl {
+  direction: rtl;
+}
+
+[dir="rtl"] .main-content {
+  text-align: right;
+}
+
+[dir="ltr"] .main-content {
+  text-align: left;
+}
+

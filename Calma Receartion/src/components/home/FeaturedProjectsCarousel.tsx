@@ -1,13 +1,20 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import useEmblaCarousel, { type EmblaOptionsType } from 'embla-carousel-react'
+import useEmblaCarousel from 'embla-carousel-react'
 import ProjectCard, { type Project } from '@/components/home/ProjectCard'
 import { projectsData } from '@/data/projects.data'
 
 const pickPreviewImage = (glob: string): string => {
   try {
-    const mods = import.meta.glob('/src/assets/Images/Projects/**/*.{png,jpg,jpeg,webp}', { eager: true }) as Record<string, any>
-    const match = Object.entries(mods).find(([k]) => k.includes(glob.split('/src/assets/Images/Projects/')[1] || ''))
-    const url = match ? (typeof match[1] === 'string' ? match[1] : match[1]?.default) : undefined
+    const allImages = import.meta.glob('/src/assets/Images/Projects/**/*.{png,jpg,jpeg,webp}', { eager: true }) as Record<string, any>
+    const rel = glob.startsWith('/src/assets/Images/Projects/')
+      ? glob.slice('/src/assets/Images/Projects/'.length)
+      : glob
+    const starIdx = rel.indexOf('*')
+    const baseDirRel = starIdx >= 0 ? rel.slice(0, starIdx) : rel
+    const baseDirAbs = `/src/assets/Images/Projects/${baseDirRel}`.replace(/\/+$/, '')
+    const entry = Object.entries(allImages).find(([k]) => k.startsWith(baseDirAbs))
+    const val = entry ? entry[1] : undefined
+    const url = typeof val === 'string' ? val : val?.default
     return url || ''
   } catch {
     return ''
@@ -32,13 +39,14 @@ const slides: Project[] = projectsData.map((p) => ({
 }))
 
 export default function FeaturedProjectsCarousel() {
-  const options: EmblaOptionsType = useMemo(
-    () => ({
-      dragFree: false,
-      align: 'start',
-      loop: false,
-      slidesToScroll: 1,
-    }),
+  const options = useMemo(
+    () =>
+      ({
+        dragFree: false,
+        align: 'start',
+        loop: false,
+        slidesToScroll: 1,
+      } as any),
     []
   )
 
@@ -46,11 +54,35 @@ export default function FeaturedProjectsCarousel() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const canScrollPrev = emblaApi ? emblaApi.canScrollPrev() : false
   const canScrollNext = emblaApi ? emblaApi.canScrollNext() : false
+  const [paused, setPaused] = useState(false)
 
   const onSelect = useCallback(() => {
     if (!emblaApi) return
     setSelectedIndex(emblaApi.selectedScrollSnap())
   }, [emblaApi])
+
+  // Autoplay every 4.5s, pause on hover/focus
+  useEffect(() => {
+    if (!emblaApi) return
+    const root = document.querySelector('.embla') as HTMLElement | null
+    const onEnter = () => setPaused(true)
+    const onLeave = () => setPaused(false)
+    root?.addEventListener('pointerenter', onEnter)
+    root?.addEventListener('pointerleave', onLeave)
+    root?.addEventListener('focusin', onEnter)
+    root?.addEventListener('focusout', onLeave)
+    const id = window.setInterval(() => {
+      if (!paused && emblaApi && emblaApi.canScrollNext()) emblaApi.scrollNext()
+      else if (!paused && emblaApi && !emblaApi.canScrollNext()) emblaApi.scrollTo(0)
+    }, 4500)
+    return () => {
+      window.clearInterval(id)
+      root?.removeEventListener('pointerenter', onEnter)
+      root?.removeEventListener('pointerleave', onLeave)
+      root?.removeEventListener('focusin', onEnter)
+      root?.removeEventListener('focusout', onLeave)
+    }
+  }, [emblaApi, paused])
 
   useEffect(() => {
     if (!emblaApi) return
@@ -73,10 +105,13 @@ export default function FeaturedProjectsCarousel() {
         emblaApi.scrollPrev()
       }
     }
-    const root = emblaRef.current as unknown as HTMLElement | null
+    const root = document.querySelector('.embla') as HTMLElement | null
     if (root) root.addEventListener('keydown', onKey)
-    return () => root && root.removeEventListener('keydown', onKey)
-  }, [emblaApi, emblaRef])
+    return () => {
+      const el = document.querySelector('.embla') as HTMLElement | null
+      if (el) el.removeEventListener('keydown', onKey)
+    }
+  }, [emblaApi])
 
   useEffect(() => {
     const toPreload = slides.slice(0, 3)
@@ -138,6 +173,7 @@ export default function FeaturedProjectsCarousel() {
               aria-selected={i === selectedIndex}
               aria-controls={`slide-${i + 1}`}
               className={`carousel-dot ${i === selectedIndex ? 'active' : ''}`}
+              aria-label={`Go to slide ${i + 1}`}
               onClick={() => emblaApi && emblaApi.scrollTo(i)}
             />
           ))}
@@ -149,4 +185,3 @@ export default function FeaturedProjectsCarousel() {
     </section>
   )
 }
-

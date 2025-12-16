@@ -49,10 +49,10 @@ const InnovationIcon = () => (
   </svg>
 )
 import FeaturedProjectsCarousel from '@/components/home/FeaturedProjectsCarousel'
-import TrustStrip from '@/components/home/TrustStrip'
 import TestimonialsBand from '@/components/home/TestimonialsBand'
 import ProjectPreviewGrid from '@/components/home/ProjectPreviewGrid'
 import MissionVision from '@/components/home/MissionVision'
+import HomeLayout from '@/components/pages/home/HomeLayout'
 import AboutCalma from '@/components/home/AboutCalma'
 import Excellence from '@/components/home/Excellence'
 import Pillars from '@/components/home/Pillars'
@@ -259,17 +259,7 @@ export default function EnglishHome() {
         </div>
       </motion.section>
 
-      <main className={`main-content ${contentVisible ? 'reveal-visible' : 'reveal-hidden'}`}>
-        <AboutCalma />
-        <Excellence />
-        <Pillars />
-        <KPIStats />
-        <FeaturedProjectsCarousel />
-        <TrustStrip />
-        <TestimonialsBand />
-        <ProjectPreviewGrid />
-        <MissionVision />
-      </main>
+      <HomeLayout dir="ltr" />
     </div>
   )
 }

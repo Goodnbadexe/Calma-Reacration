@@ -11,6 +11,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(405).json({ error: 'Method not allowed' })
     return
   }
+  if (env.TELEMETRY_ENABLED && !env.TELEMETRY_AUTH_TOKEN) {
+    res.status(503).json({ error: 'Telemetry misconfigured' })
+    return
+  }
   if (env.TELEMETRY_AUTH_TOKEN) {
     const auth = req.headers.authorization || ''
     const ok = auth.startsWith('Bearer ') && auth.slice(7) === env.TELEMETRY_AUTH_TOKEN

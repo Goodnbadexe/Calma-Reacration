@@ -147,8 +147,8 @@
   --section-vr-mobile: 40px;
 
   /* Section Spacing (Homepage) */
-  --section-padding-desktop: 80px;
-  --section-padding-mobile: 48px;
+  --section-padding-desktop: 64px;
+  --section-padding-mobile: 40px;
 
   /* Z-Index */
   --z-dropdown: 1000;

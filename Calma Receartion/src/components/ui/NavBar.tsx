@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import logoC from '@/assets/Logos/BRANDMARK_01-p-2000.png'
@@ -10,6 +10,7 @@ import { createMagneticEffect } from '@/utils/helpers'
 
 export default function NavBar() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { showSplash } = useSplash()
   const { language, toggleLanguage, t } = useLanguage()
   const isArabic = language === 'ar'
@@ -35,7 +36,10 @@ export default function NavBar() {
     const computeTransparency = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const firstSection = document.getElementById('panorama') || document.querySelector('.hero') as HTMLElement | null
+          const firstSection = document.getElementById('panorama') 
+            || document.querySelector('.hero') as HTMLElement | null
+            || document.querySelector('.hero-section') as HTMLElement | null
+            || document.querySelector('.news-hero') as HTMLElement | null
           const header = document.querySelector('header.glass-nav') as HTMLElement | null
           
           if (!firstSection) {
@@ -159,7 +163,7 @@ export default function NavBar() {
     const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
     window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' })
     showSplash()
-    navigate(path)
+    requestAnimationFrame(() => navigate(path))
   }
 
   // Translation fallback: if key returns itself, use provided EN/AR text
@@ -167,6 +171,7 @@ export default function NavBar() {
     const val = t(key)
     return val === key ? (isArabic ? ar : en) : val
   }
+  const path = location.pathname
 
   return (
     <>
@@ -182,7 +187,7 @@ export default function NavBar() {
           display: 'grid',
           gridTemplateColumns: 'auto 1fr auto',
           alignItems: 'center',
-          gap: 20,
+          gap: 12,
         }}
       >
         {/* Left-aligned: Logo */}
@@ -202,27 +207,27 @@ export default function NavBar() {
 
         {/* Center: Navigation Links */}
         <nav ref={linksRef} className="nav-links" aria-label={tr('common.menu', 'Primary navigation', 'التنقل الرئيسي')} style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'nowrap' }}>
-          <button 
-            className="nav-link" 
+          <NavLink 
+            to={isArabic ? '/ar' : '/'} 
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
             onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
               showSplash(); 
-              navigate(isArabic ? '/ar' : '/'); 
             }}
           >
             {tr('nav.home', 'Home', 'الرئيسية')}
-          </button>
+          </NavLink>
           
-          <button 
-            className="nav-link" 
+          <NavLink 
+            to={isArabic ? '/ar/about' : '/about'} 
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
             onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
               showSplash(); 
-              navigate(isArabic ? '/ar/about' : '/about'); 
             }}
           >
             {tr('nav.about', 'About', 'عن كالما')}
-          </button>
+          </NavLink>
           
           <button 
             ref={dropdownTriggerRef}
@@ -238,32 +243,32 @@ export default function NavBar() {
             />
           </button>
           
-          <button 
-            className="nav-link" 
+          <NavLink 
+            to={isArabic ? '/ar/news' : '/news'} 
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
             onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
               showSplash(); 
-              navigate(isArabic ? '/ar/news' : '/news'); 
             }}
           >
             {tr('nav.news', 'News', 'الأخبار')}
-          </button>
+          </NavLink>
 
           {/* Always show Contact (English routes to register for now) */}
-          <button 
-            className="nav-link" 
+          <NavLink 
+            to={isArabic ? '/ar/contact' : '/contact'} 
+            className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
             onClick={() => { 
               window.scrollTo({ top: 0, behavior: 'smooth' }); 
               showSplash(); 
-              navigate(isArabic ? '/ar/contact' : '/contact'); 
             }}
           >
             {tr('nav.contact', 'Contact', 'تواصل')}
-          </button>
+          </NavLink>
         </nav>
 
         {/* Right-aligned: Actions (phone, WhatsApp, register, language, burger) */}
-        <div ref={actionsRef} className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: 12, justifySelf: 'end' }}>
+        <div ref={actionsRef} className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: 8, justifySelf: 'end' }}>
           <Button
             variant="ghost"
             size="icon"
@@ -386,97 +391,97 @@ export default function NavBar() {
 
           {/* Navigation Links */}
           <nav className="panel-links">
-            <button 
-              className="nav-link" 
+            <NavLink 
+              to={isArabic ? '/ar' : '/'} 
+              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
               onClick={() => { 
                 setDrawerOpen(false); 
                 showSplash(); 
-                navigate(isArabic ? '/ar' : '/'); 
               }}
             >
               {t('nav.home')}
-            </button>
+            </NavLink>
             
-            <button 
-              className="nav-link" 
+            <NavLink 
+              to={isArabic ? '/ar/about' : '/about'} 
+              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
               onClick={() => { 
                 setDrawerOpen(false); 
                 showSplash(); 
-                navigate(isArabic ? '/ar/about' : '/about'); 
               }}
             >
               {t('nav.about')}
-            </button>
+            </NavLink>
             
             <div className="mobile-dropdown-section">
               <div className="mobile-dropdown-header">{t('nav.projects')}</div>
-              <button 
-                className="nav-link" 
+              <NavLink 
+                to={isArabic ? '/ar/projects' : '/projects'} 
+                className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
                 onClick={() => { 
                   setDrawerOpen(false); 
                   showSplash(); 
-                  navigate(isArabic ? '/ar/projects' : '/projects'); 
                 }}
               >
                 {t('nav.allProjects')}
-              </button>
+              </NavLink>
               {!isArabic && (
                 <>
-                  <button 
-                     className="nav-link" 
-                     onClick={() => { 
-                       setDrawerOpen(false); 
-                       showSplash(); 
-                       navigate('/projects/commercials'); 
-                     }}
-                   >
-                     {t('nav.commercials')}
-                   </button>
-                   <button 
-                     className="nav-link" 
-                     onClick={() => { 
-                       setDrawerOpen(false); 
-                       showSplash(); 
-                       navigate('/projects/residential'); 
-                     }}
-                   >
-                     {t('nav.residential')}
-                   </button>
-                   <button 
-                     className="nav-link" 
-                     onClick={() => { 
-                       setDrawerOpen(false); 
-                       showSplash(); 
-                       navigate('/projects/calma-tower'); 
-                     }}
-                   >
-                     {t('nav.calmaTower')}
-                   </button>
+                  <NavLink 
+                    to="/projects/commercials" 
+                    className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
+                    onClick={() => { 
+                      setDrawerOpen(false); 
+                      showSplash(); 
+                    }}
+                  >
+                    {t('nav.commercials')}
+                  </NavLink>
+                  <NavLink 
+                    to="/projects/residential" 
+                    className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
+                    onClick={() => { 
+                      setDrawerOpen(false); 
+                      showSplash(); 
+                    }}
+                  >
+                    {t('nav.residential')}
+                  </NavLink>
+                  <NavLink 
+                    to="/projects/calma-tower" 
+                    className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
+                    onClick={() => { 
+                      setDrawerOpen(false); 
+                      showSplash(); 
+                    }}
+                  >
+                    {t('nav.calmaTower')}
+                  </NavLink>
                  </>
                )}
              </div>
              
-            <button 
-              className="nav-link" 
+            <NavLink 
+              to={isArabic ? '/ar/news' : '/news'} 
+              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
               onClick={() => { 
                 setDrawerOpen(false); 
                 showSplash(); 
-                navigate(isArabic ? '/ar/news' : '/news'); 
               }}
             >
-               {t('nav.news')}
-             </button>
+              {t('nav.news')}
+            </NavLink>
              
-             <button 
-               className="nav-link" 
-               onClick={() => { 
-                 setDrawerOpen(false); 
-                 showSplash(); 
-                 navigate(isArabic ? '/ar/contact' : '/contact'); 
-               }}
-             >
-                {t('nav.contact')}
-              </button>
+            <NavLink 
+              to={isArabic ? '/ar/contact' : '/contact'} 
+              className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`} 
+              onClick={() => { 
+                setDrawerOpen(false); 
+                showSplash(); 
+              }}
+            >
+              {t('nav.contact')}
+            </NavLink>
            </nav>
 
           {/* Actions */}

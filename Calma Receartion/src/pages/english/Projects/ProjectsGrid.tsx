@@ -1,5 +1,6 @@
 import { useMemo, useState, useDeferredValue } from 'react'
 import ProjectCard from '@/components/home/ProjectCard'
+import { Search } from 'lucide-react'
 import type { Project, ProjectFilters, Category, SortBy } from '@/types/project'
 import { useVirtualGrid } from '@/hooks/useVirtualGrid'
 
@@ -65,20 +66,32 @@ export default function ProjectsGrid({ projects, filters, onUpdateFilters, onOpe
 
   return (
     <section className="w-full max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
-      <header className="sticky top-16 z-30 bg-card/80 backdrop-blur-md border border-primary/10 rounded-2xl px-4 py-3 mb-4">
+      <header className="sticky z-30 bg-card/80 backdrop-blur-md border border-primary/10 rounded-2xl px-4 py-3 mb-4 mt-6" style={{ top: 'var(--nav-height, 64px)' }}>
         <div className="flex flex-wrap items-center gap-3">
-          <input
-            type="text"
-            placeholder={labels?.searchPlaceholder ?? "Search projects"}
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value)
-              onUpdateFilters({ searchQuery: e.target.value })
-            }}
-            className="flex-1 min-w-[220px] bg-neutral-100 text-neutral-900 placeholder:text-neutral-900 placeholder:opacity-70 border border-neutral-900 rounded-full px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 hover:bg-white transition-colors"
-            aria-label="Search projects"
-          />
+          <div className="relative flex-1 min-w-[220px]">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-700" aria-hidden="true" />
+            <input
+              type="text"
+              placeholder={labels?.searchPlaceholder ?? "Search projects"}
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value)
+                onUpdateFilters({ searchQuery: e.target.value })
+              }}
+              className="w-full bg-neutral-100 text-neutral-900 placeholder:text-neutral-900 placeholder:opacity-70 border border-neutral-900 rounded-full pl-9 pr-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-neutral-900 hover:bg-white transition-colors"
+              aria-label="Search projects"
+            />
+          </div>
           <div className="flex flex-wrap gap-2">
+            <button
+              onClick={() => onUpdateFilters({ selectedCategory: null })}
+              className={`px-3 py-1 rounded-full border text-sm transition ${
+                !filters.selectedCategory ? 'bg-primary/20 border-primary text-primary' : 'bg-secondary/40 hover:bg-secondary/60'
+              }`}
+              aria-pressed={!filters.selectedCategory}
+            >
+              All
+            </button>
             {categories.map((c) => {
               const active = filters.selectedCategory === c
               return (
@@ -114,18 +127,18 @@ export default function ProjectsGrid({ projects, filters, onUpdateFilters, onOpe
       <div
         className="grid gap-4 md:gap-6"
         style={{
-          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+          gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
         }}
       >
         <style>{`
           @media (min-width: 768px) {
             .grid {
-              grid-template-columns: repeat(3, minmax(0, 1fr));
+              grid-template-columns: repeat(2, minmax(0, 1fr));
             }
           }
           @media (min-width: 1280px) {
             .grid {
-              grid-template-columns: repeat(4, minmax(0, 1fr));
+              grid-template-columns: repeat(2, minmax(0, 1fr));
             }
           }
         `}</style>

@@ -17,7 +17,7 @@ import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 import asset9Image from '@/assets/Images/About/Asset-9.JPG'
 import asset12Image from '@/assets/Images/About/Asset-12.jpg'
 import asset14Image from '@/assets/Images/About/Asset-14.jpg'
-import TrustStrip from '@/components/home/TrustStrip'
+import ImpactMetrics from '@/components/about/ImpactMetrics'
 import ProjectPreviewGrid from '@/components/home/ProjectPreviewGrid'
 
 // Project showcase images
@@ -136,32 +136,18 @@ export default function AboutImproved() {
         ref={heroRef}
         className="hero-section"
       >
-        {/* Dynamic Background Gallery */}
+        {/* Background media */}
         <div className="hero-background">
-          <div className="hero-gallery">
-            {heroGallery.slice(0, 3).map((image, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 0.4, scale: 1 }}
-                transition={{ duration: 1.5, delay: index * 0.2 }}
-                className="hero-gallery-item"
-              >
-                <img 
-                  src={image} 
-                  alt={`Calma Project ${index + 1}`}
-                  className="hero-gallery-image"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/70 via-primary/50 to-transparent" />
-              </motion.div>
-            ))}
+          <div className="hero-gallery-item">
+            <img 
+              src={heroImage1} 
+              alt="Calma project hero"
+              className="hero-gallery-image"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-          
           <div className="hero-overlay" />
-          
-          {/* Floating geometric elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <motion.div
               className="floating-element absolute top-20 right-20 w-32 h-32 border border-accent rounded-full"
@@ -228,32 +214,43 @@ export default function AboutImproved() {
         </motion.div>
       </motion.section>
       
-      {/* Closing Section */}
+      {/* Looking Ahead Section */}
       <motion.section 
-        className="section closing-section"
+        className="section looking-ahead-section"
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
         transition={{ duration: 0.8 }}
       >
         <div className="container">
-          <h2 className="section-title">Looking Ahead</h2>
-          <p className="section-description">
-            Aligned with Vision 2030, we continue building composed, people-first places across the Kingdom—
-            shaping daily life with quiet confidence and enduring quality.
-          </p>
-          <div className="cta-row" style={{ textAlign: 'center' }}>
-            <a className="button-link" href="/brochure">
-              <Button variant="secondary" className="luxury-button">
-                Learn About Our Approach
-              </Button>
-            </a>
+          <div className="looking-ahead-grid">
+            <div className="looking-ahead-text">
+              <h2 className="looking-ahead-title">Looking Ahead</h2>
+              <p className="looking-ahead-description">
+                Aligned with Vision 2030, we continue building composed, people-first places across the Kingdom—
+                shaping daily life with quiet confidence and enduring quality.
+              </p>
+              <a className="button-link" href="/brochure">
+                <Button className="looking-ahead-button">
+                  Learn About Our Approach
+                </Button>
+              </a>
+            </div>
+            <div className="looking-ahead-image">
+              <img
+                src={visionBgImage}
+                alt="Future-focused development"
+                className="looking-ahead-media"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
           </div>
         </div>
       </motion.section>
 
       {/* Impact / Stats — mid-page */}
-      <TrustStrip />
+      <ImpactMetrics />
 
       {/* Mission Section */}
       <motion.section 
@@ -264,23 +261,26 @@ export default function AboutImproved() {
         transition={{ duration: 0.8 }}
       >
         <div className="container">
-          <h2 className="section-title">Our Mission</h2>
+          <h2 className="mission-title">Our Mission</h2>
           <div className="dual-split-grid">
             <div className="dual-split-image">
               <img 
                 src={asset12Image} 
                 alt="Daily execution and delivery" 
-                className="dual-image" 
+                className="dual-image mission-image" 
                 loading="lazy" 
                 decoding="async" 
               />
             </div>
             <div className="dual-split-text">
               <p className="dual-split-description">
-                We execute with discipline every day—clear processes, honest materials, and precise
-                delivery. Our mission is reliable progress: developments that serve families, respect
-                context, and work with confidence from plan to handover.
+                We execute with discipline every day. Our mission is reliable progress: developments that serve families, respect context, and work with confidence from plan to handover.
               </p>
+              <ul className="mission-list">
+                <li><strong>Clear processes:</strong> executing with discipline every day.</li>
+                <li><strong>Honest materials:</strong> prioritising quality and sustainability.</li>
+                <li><strong>Precise delivery:</strong> projects that serve families and respect context.</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -302,7 +302,7 @@ export default function AboutImproved() {
                 <img 
                   src={asset9Image} 
                   alt="Calma team and city context" 
-                  className="dual-image" 
+                  className="dual-image story-image" 
                   loading="lazy" 
                   decoding="async" 
                 />
@@ -322,6 +322,11 @@ export default function AboutImproved() {
                 places where families thrive and city life feels composed—quietly elevating daily routines
                 through purposeful architecture and reliable execution.
               </p>
+              <ul className="story-bullets">
+                <li>Grounded clarity</li>
+                <li>Human-centred design</li>
+                <li>Measured and transparent processes</li>
+              </ul>
             </div>
           </div>
         </div>
@@ -339,6 +344,9 @@ export default function AboutImproved() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="section-title">Our Vision</h2>
+            <p className="vision-statement">
+              We look forward—building a legacy across Saudi Arabia’s cities. Places that feel composed, enduring, and purposeful, quietly elevating daily life for generations.
+            </p>
             <div className="dual-split-grid">
               <div className="dual-split-image">
                 <img 
@@ -351,9 +359,7 @@ export default function AboutImproved() {
               </div>
               <div className="dual-split-text">
                 <p className="dual-split-description">
-                  We look forward—building a legacy across Saudi Arabia’s cities. Our vision
-                  is measured progress: places that feel composed, enduring, and purposeful
-                  within the national ambition, quietly elevating daily life for generations.
+                  Our vision is measured progress within the national ambition—crafted spaces distinguished by quiet confidence and purposeful design.
                 </p>
               </div>
             </div>
@@ -380,8 +386,8 @@ export default function AboutImproved() {
               <div className="ceo-portrait">
                 <img 
                   src={asset6Image} 
-                  alt="Musab Al-Majed, CEO of CALMA" 
-                  className="grid-image primary" 
+                  alt="CEO" 
+                  className="ceo-avatar" 
                   loading="lazy" 
                   decoding="async" 
                 />
@@ -393,13 +399,11 @@ export default function AboutImproved() {
                 <p className="ceo-message">
                   Our greatest measure is human—families who call our developments home. We deliver with precision, transparency, and respect for context, expanding across the Kingdom with composed ambition.
                 </p>
-                <blockquote className="ceo-quote">
-                  “We build quietly confident places—crafted with intention and made to endure.”
-                </blockquote>
+                <blockquote className="ceo-quote">“We build quietly confident places—crafted with intention and made to endure.”</blockquote>
                 
                 <div className="ceo-signature">
-                  <div className="ceo-name">Musab Al-Majed</div>
-                  <div className="ceo-title">Chief Executive Officer, CALMA</div>
+                  <div className="ceo-name">MUSAB AL-MAJED</div>
+                  <div className="ceo-title">CHIEF EXECUTIVE OFFICER, CALMA</div>
                 </div>
               </div>
             </div>

@@ -13,7 +13,7 @@ function validateEmail(email: string): boolean {
 }
 
 async function verifyCaptcha(secret: string | undefined, token: string | undefined): Promise<boolean> {
-  if (!secret) return true
+  if (!secret) return false
   if (!token) return false
   const res = await fetch('https://www.google.com/recaptcha/api/siteverify', {
     method: 'POST',
@@ -29,6 +29,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const env = getServerEnv()
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method not allowed' })
+    return
+  }
+  if (!env.CAPTCHA_SECRET_KEY) {
+    res.status(500).json({ error: 'Captcha misconfigured' })
     return
   }
   const ip = clientIp(req)

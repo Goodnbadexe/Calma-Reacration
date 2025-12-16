@@ -21,6 +21,8 @@ import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 import asset9Image from '@/assets/Images/About/Asset-9.JPG'
 import asset12Image from '@/assets/Images/About/Asset-12.jpg'
 import asset14Image from '@/assets/Images/About/Asset-14.jpg'
+import KPIStats from '@/components/home/KPIStats'
+import MissionVision from '@/components/home/MissionVision'
 
 // Project showcase images
 import ksrImage1 from '@/assets/Images/About/Calma_KSR_ex01_Final02_2025-05-28.JPG'
@@ -345,48 +347,24 @@ export default function About() {
             </Button>
           </motion.div>
 
-          {/* Stats Preview */}
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
+          {/* Mission highlights */}
+          <motion.ul
+            initial={{ opacity: 0, y: 20 }}
             animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="max-w-3xl mx-auto text-left"
+            style={{ color: 'var(--color-neutral-200)' }}
           >
-            {statsData.map((stat, index) => (
-              <div 
-                key={index} 
-                ref={(el) => {
-                  if (el && !statsCardsRef.current.includes(el)) {
-                    statsCardsRef.current[index] = el
-                  }
-                }}
-                className="text-center"
-              >
-                <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>
-                  <AnimatedNumber value={`${stat.number}${stat.suffix}`} suffix="" triggerOnView={false} />
-                </div>
-                <div className="text-sm leading-tight" style={{ color: 'var(--color-neutral-300)' }}>
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </motion.div>
+            <li style={{ marginBottom: '0.5rem' }}>Discipline in delivery and governance</li>
+            <li style={{ marginBottom: '0.5rem' }}>Honest materials and crafted details</li>
+            <li>Precise, premium execution across development stages</li>
+          </motion.ul>
+
+          {/* Metrics Preview (Unified design) */}
+          <KPIStats />
+          <MissionVision />
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          style={{ color: 'rgba(255, 255, 255, 0.6)' }}
-        >
-          <div className="flex flex-col items-center">
-            <span className="text-sm mb-2">Scroll to explore</span>
-            <div className="w-6 h-10 border-2 rounded-full flex justify-center" style={{ borderColor: 'rgba(255, 255, 255, 0.3)' }}>
-              <div className="w-1 h-3 rounded-full mt-2" style={{ backgroundColor: 'rgba(255, 255, 255, 0.6)' }}></div>
-            </div>
-          </div>
-        </motion.div>
       </motion.section>
 
       {/* Vision Section */}
@@ -533,28 +511,8 @@ export default function About() {
             </div>
           </motion.div>
             
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {statsData.map((stat, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={visionInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="text-center p-6 rounded-lg backdrop-blur-sm border" style={{
-                  backgroundColor: 'rgba(var(--color-accent-rgb), 0.1)',
-                  borderColor: 'rgba(var(--color-accent-rgb), 0.2)'
-                }}
-              >
-                <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>
-                  <AnimatedNumber value={`${stat.number}${stat.suffix}`} suffix="" triggerOnView={false} />
-                </div>
-                <div className="text-sm md:text-base" style={{ color: 'var(--color-neutral-300)' }}>
-                  {stat.label}
-                </div>
-              </motion.div>
-            ))}
-          </div>
+          {/* Unified Stats Grid */}
+          <KPIStats />
         </div>
       </motion.section>
 

@@ -4,9 +4,11 @@ import { Helmet } from 'react-helmet-async';
 import { Button } from '@/components/ui/button';
 import { ExternalLink, Calendar, Heart, MessageCircle, Share2, Linkedin } from 'lucide-react';
 import './News.css';
+import { NewsCard } from './NewsCard'
 import { companyNewsEn } from '@/pages/content/../../data/news.en'
 import { apiClient } from '@/utils/apiClient'
 import { useTelemetry } from '@/utils/telemetry'
+import { resolveAssetUrl } from '@/utils/assetResolver'
 
 interface LinkedInPost {
   id: string;
@@ -65,6 +67,7 @@ export default function News() {
   const [submitting, setSubmitting] = useState(false)
   const [subscribeMsg, setSubscribeMsg] = useState<string | null>(null)
   const { trackPerformance, trackError } = useTelemetry()
+  const [category, setCategory] = useState<string>('all')
 
   useEffect(() => {
     const fetchLinkedInPosts = async () => {
@@ -111,7 +114,14 @@ export default function News() {
         <meta property="og:url" content="https://calma.sa/news" />
       </Helmet>
       {/* Hero Section */}
-      <section className="news-hero">
+      <section
+        className="news-hero"
+        style={{
+          backgroundImage: `url(${resolveAssetUrl('/src/assets/Images/About/About-Header.jpg')})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
         <div className="news-hero-content">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -123,7 +133,7 @@ export default function News() {
             <p>Stay connected with CALMA's journey as we continue to shape the future of real estate development across Saudi Arabia.</p>
           </motion.div>
         </div>
-        <div className="hero-gradient"></div>
+        <div className="hero-gradient" />
       </section>
 
       <div className="news-container">
@@ -218,45 +228,26 @@ export default function News() {
             <h2>Company News</h2>
             <p>Latest announcements and press releases</p>
           </div>
+          <div className="cta-row" style={{ justifyContent: 'flex-start' }}>
+            {['all','Company News','Sustainability','Insights','Press','Events'].map((c) => (
+              <Button key={c} variant={category === c ? 'default' : 'ghost'} onClick={() => setCategory(c)}>
+                {c}
+              </Button>
+            ))}
+          </div>
 
           <div className="articles-grid">
-            {newsArticles.map((article, index) => (
-              <motion.article
+            {newsArticles.filter(a => category === 'all' || a.category === category).map((article, index) => (
+              <NewsCard
                 key={article.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="news-article"
-              >
-                <div className="article-image">
-                  <img src={article.image} alt={article.title} />
-                  <div className="article-category">{article.category}</div>
-                </div>
-                <div className="article-content">
-                  <div className="article-meta">
-                    <Calendar className="w-4 h-4" />
-                    <span>{formatDate(article.date)}</span>
-                  </div>
-                  <h3>{article.title}</h3>
-                  <p>{article.excerpt}</p>
-                  {article.link && article.link !== '#' ? (
-                    <a href={article.link} target="_blank" rel="noopener" className="read-more" aria-label={`Read more: ${article.title}`}>
-                      <Button variant="ghost">
-                        Read More
-                        <ExternalLink className="w-4 h-4 ml-2" />
-                      </Button>
-                    </a>
-                  ) : (
-                    <>
-                      <Button variant="ghost" className="read-more" disabled>
-                        Read More
-                        <ExternalLink className="w-4 h-4 ml-2" />
-                      </Button>
-                      {/* TODO: Supply real article URLs for Read More links */}
-                    </>
-                  )}
-                </div>
-              </motion.article>
+                id={article.id}
+                image={article.image}
+                category={article.category}
+                date={article.date}
+                title={article.title}
+                excerpt={article.excerpt}
+                link={article.link}
+              />
             ))}
           </div>
         </section>
@@ -272,7 +263,9 @@ export default function News() {
             <h2>Stay Updated</h2>
             <p>Subscribe to our newsletter for the latest news and project updates</p>
             <div className="newsletter-form">
+              <label htmlFor="newsletter-email" style={{ position: 'absolute', left: '-9999px' }}>Email address</label>
               <input 
+                id="newsletter-email"
                 type="email" 
                 placeholder="Enter your email address"
                 className="email-input"

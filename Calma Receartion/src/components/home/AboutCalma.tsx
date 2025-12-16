@@ -1,5 +1,6 @@
 import { motion, circOut } from 'framer-motion'
 import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
+import ImageWithFallback from '@/components/ui/ImageWithFallback'
 
 const fadeInLeft = {
   hidden: { opacity: 0, x: -60 },
@@ -48,33 +49,40 @@ export default function AboutCalma() {
           <motion.div className="content-text" variants={fadeInLeft}>
             <span className="section-badge">ABOUT CALMA</span>
             <h2 className="section-title luxury-section-title">
-              Architecting the Future of Urban Living
+              From Principles to Outcomes
             </h2>
             <p className="section-description">
-              A distilled snapshot of our ethos — grounded sustainability, uncompromising quality, and thoughtful urban innovation.
+              Tangible results of our ethos — sustainable systems, premium materials, and human‑centered urban design.
             </p>
             <div className="snapshot-cards">
               <div className="snapshot-card">
                 <SustainabilityIcon />
-                <h3 className="snapshot-title">Sustainability</h3>
-                <p className="snapshot-text">Responsible stewardship and future-facing systems embedded in design.</p>
+                <h3 className="snapshot-title">High‑Efficiency Systems</h3>
+                <p className="snapshot-text">Solar readiness, efficient HVAC, and optimized water usage.</p>
               </div>
               <div className="snapshot-card">
                 <PremiumIcon />
-                <h3 className="snapshot-title">Premium Quality</h3>
-                <p className="snapshot-text">Crafted precision and material honesty at every scale.</p>
+                <h3 className="snapshot-title">Enduring Materials</h3>
+                <p className="snapshot-text">Stone, hardwoods, and premium finishes selected for longevity.</p>
               </div>
               <div className="snapshot-card">
                 <InnovationIcon />
-                <h3 className="snapshot-title">Urban Innovation</h3>
-                <p className="snapshot-text">Elegant solutions that elevate daily living within the city fabric.</p>
+                <h3 className="snapshot-title">Walkable Urban Design</h3>
+                <p className="snapshot-text">Pedestrian‑first layouts and connected community amenities.</p>
               </div>
             </div>
           </motion.div>
           <motion.div className="content-image" variants={fadeInRight}>
             <picture>
               <source srcSet={aboutHeaderImage} type="image/jpeg" />
-              <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" loading="lazy" decoding="async" />
+              <ImageWithFallback
+                src={aboutHeaderImage}
+                alt="Calma Development"
+                className="luxury-image"
+                loading="lazy"
+                decoding="async"
+                fallbackSrc={'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 4 3\"><rect width=\"4\" height=\"3\" fill=\"%23edebe2\"/></svg>'}
+              />
             </picture>
           </motion.div>
         </motion.div>
@@ -82,4 +90,3 @@ export default function AboutCalma() {
     </motion.section>
   )
 }
-

@@ -2,28 +2,32 @@ import { StrictMode, Suspense, lazy } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import './styles/navbar.css'
+import './styles/theme.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
+import ErrorBoundary from '@/components/util/ErrorBoundary'
 
 // English Pages
 const EnglishHome = lazy(() => import('./pages/english/Home/Home'))
-const AboutImproved = lazy(() => import('./pages/english/About/AboutImproved'))
+const AboutPageShared = lazy(() => import('./pages/english/About/AboutShared'))
 const News = lazy(() => import('./pages/english/News/News'))
-const ProjectsPage = lazy(() => import('./pages/english/Projects/ProjectsPage'))
+const ProjectsShared = lazy(() => import('./pages/english/Projects/ProjectsShared'))
 const ProjectPage = lazy(() => import('./pages/ProjectPage'))
 const Register = lazy(() => import('./pages/english/Register/Register'))
-const Contact = lazy(() => import('./pages/english/Contact/Contact'))
+const ContactShared = lazy(() => import('./pages/english/Contact/ContactShared'))
+const ReportsPage = lazy(() => import('./pages/english/Reports/ReportsPage'))
 
 // Arabic Pages
 const ArabicHome = lazy(() => import('./pages/arabic/الرئيسية/الرئيسية'))
-const ArabicAbout = lazy(() => import('./pages/arabic/عن كالما/عن كالما'))
-const ArabicProjects = lazy(() => import('./pages/arabic/المشاريع/عرض المشاريع'))
-const ArabicContact = lazy(() => import('./pages/arabic/تواصل معنا/تواصل معنا'))
+const ArabicAboutShared = lazy(() => import('./pages/arabic/عن كالما/عن كالما.shared'))
+const ArabicProjectsShared = lazy(() => import('./pages/arabic/المشاريع/المشاريع.shared'))
+const ArabicContactShared = lazy(() => import('./pages/arabic/تواصل معنا/ContactShared'))
 const ArabicNews = lazy(() => import('./pages/arabic/الأخبار/الأخبار'))
 const ArabicRegister = lazy(() => import('./pages/arabic/التسجيل/التسجيل'))
 const ArabicCommercials = lazy(() => import('./pages/arabic/المشاريع/تجارية'))
 const ArabicResidential = lazy(() => import('./pages/arabic/المشاريع/سكنية'))
 const ArabicCalmaTower = lazy(() => import('./pages/arabic/المشاريع/برج كالما'))
+const ArabicReportsPage = lazy(() => import('./pages/arabic/Reports/ReportsPage'))
 const ProjectsVilla = lazy(() => import('./pages/english/Projects/categories/Villa'))
 const ProjectsFloor = lazy(() => import('./pages/english/Projects/categories/Floor'))
 const ProjectsTownHouse = lazy(() => import('./pages/english/Projects/categories/TownHouse'))
@@ -55,38 +59,40 @@ createRoot(document.getElementById('root')!).render(
               <Routes>
                 <Route element={<AppLayout />}>
                   {/* English Routes */}
-                  <Route path="/" element={<EnglishHome />} />
-                  <Route path="/about" element={<AboutImproved />} />
-                  <Route path="/news" element={<News />} />
-                  <Route path="/projects" element={<ProjectsPage />} />
-                  <Route path="/projects/:slug" element={<ProjectPage />} />
-                  <Route path="/projects/villa" element={<ProjectsVilla />} />
-                  <Route path="/projects/floor" element={<ProjectsFloor />} />
-                  <Route path="/projects/townhouse" element={<ProjectsTownHouse />} />
-                  <Route path="/projects/office" element={<ProjectsOffice />} />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/register" element={<Register />} />
+                  <Route path="/" element={<ErrorBoundary><EnglishHome /></ErrorBoundary>} />
+                  <Route path="/about" element={<ErrorBoundary><AboutPageShared /></ErrorBoundary>} />
+                  <Route path="/news" element={<ErrorBoundary><News /></ErrorBoundary>} />
+                  <Route path="/projects" element={<ErrorBoundary><ProjectsShared /></ErrorBoundary>} />
+                  <Route path="/projects/:slug" element={<ErrorBoundary><ProjectPage /></ErrorBoundary>} />
+                  <Route path="/projects/villa" element={<ErrorBoundary><ProjectsVilla /></ErrorBoundary>} />
+                  <Route path="/projects/floor" element={<ErrorBoundary><ProjectsFloor /></ErrorBoundary>} />
+                  <Route path="/projects/townhouse" element={<ErrorBoundary><ProjectsTownHouse /></ErrorBoundary>} />
+                  <Route path="/projects/office" element={<ErrorBoundary><ProjectsOffice /></ErrorBoundary>} />
+                  <Route path="/contact" element={<ErrorBoundary><ContactShared /></ErrorBoundary>} />
+                  <Route path="/register" element={<ErrorBoundary><Register /></ErrorBoundary>} />
+                  <Route path="/reports" element={<ErrorBoundary><ReportsPage /></ErrorBoundary>} />
 
                   {/* Arabic Routes */}
-                  <Route path="/ar" element={<ArabicHome />} />
-                  <Route path="/ar/عن كالـما" element={<ArabicAbout />} />
-                  <Route path="/ar/المشاريع" element={<ArabicProjects />} />
-                  <Route path="/ar/تواصل معنا" element={<ArabicContact />} />
+                  <Route path="/ar" element={<ErrorBoundary><ArabicHome /></ErrorBoundary>} />
+                  <Route path="/ar/عن كالـما" element={<ErrorBoundary><ArabicAboutShared /></ErrorBoundary>} />
+                  <Route path="/ar/المشاريع" element={<ErrorBoundary><ArabicProjectsShared /></ErrorBoundary>} />
+                  <Route path="/ar/تواصل معنا" element={<ErrorBoundary><ArabicContactShared /></ErrorBoundary>} />
                   {/* Arabic slug aliases for improved usability */}
-                  <Route path="/ar/about" element={<ArabicAbout />} />
-                  <Route path="/ar/projects" element={<ArabicProjects />} />
-                  <Route path="/ar/contact" element={<ArabicContact />} />
-                  <Route path="/ar/news" element={<ArabicNews />} />
-                  <Route path="/ar/التسجيل" element={<ArabicRegister />} />
-                  <Route path="/ar/register" element={<ArabicRegister />} />
+                  <Route path="/ar/about" element={<ErrorBoundary><ArabicAboutShared /></ErrorBoundary>} />
+                  <Route path="/ar/projects" element={<ErrorBoundary><ArabicProjectsShared /></ErrorBoundary>} />
+                  <Route path="/ar/contact" element={<ErrorBoundary><ArabicContactShared /></ErrorBoundary>} />
+                  <Route path="/ar/news" element={<ErrorBoundary><ArabicNews /></ErrorBoundary>} />
+                  <Route path="/ar/التسجيل" element={<ErrorBoundary><ArabicRegister /></ErrorBoundary>} />
+                  <Route path="/ar/register" element={<ErrorBoundary><ArabicRegister /></ErrorBoundary>} />
+                  <Route path="/ar/reports" element={<ErrorBoundary><ArabicReportsPage /></ErrorBoundary>} />
                   {/* Arabic projects subroutes mirroring EN */}
-                  <Route path="/ar/projects/commercials" element={<ArabicCommercials />} />
-                  <Route path="/ar/projects/residential" element={<ArabicResidential />} />
-                  <Route path="/ar/projects/calma-tower" element={<ArabicCalmaTower />} />
-                  <Route path="/ar/projects/villa" element={<ProjectsVilla />} />
-                  <Route path="/ar/projects/floor" element={<ProjectsFloor />} />
-                  <Route path="/ar/projects/townhouse" element={<ProjectsTownHouse />} />
-                  <Route path="/ar/projects/office" element={<ProjectsOffice />} />
+                  <Route path="/ar/projects/commercials" element={<ErrorBoundary><ArabicCommercials /></ErrorBoundary>} />
+                  <Route path="/ar/projects/residential" element={<ErrorBoundary><ArabicResidential /></ErrorBoundary>} />
+                  <Route path="/ar/projects/calma-tower" element={<ErrorBoundary><ArabicCalmaTower /></ErrorBoundary>} />
+                  <Route path="/ar/projects/villa" element={<ErrorBoundary><ProjectsVilla /></ErrorBoundary>} />
+                  <Route path="/ar/projects/floor" element={<ErrorBoundary><ProjectsFloor /></ErrorBoundary>} />
+                  <Route path="/ar/projects/townhouse" element={<ErrorBoundary><ProjectsTownHouse /></ErrorBoundary>} />
+                  <Route path="/ar/projects/office" element={<ErrorBoundary><ProjectsOffice /></ErrorBoundary>} />
 
                   {/* Test Routes */}
                 </Route>

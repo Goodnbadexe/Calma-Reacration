@@ -119,13 +119,13 @@
 }
 
 .embla__slide {
-  flex: 0 0 calc(33.333% - 16px);
+  flex: 0 0 100%;
 }
 
 @media (max-width: 1024px) and (min-width: 768px) {
   .carousel-container { padding: 0 clamp(16px, 3vw, 28px); }
   .embla { padding: 0 clamp(16px, 3vw, 28px); }
-  .embla__slide { flex: 0 0 calc(50% - 12px); }
+  .embla__slide { flex: 0 0 100%; }
 }
 @media (max-width: 767px) {
   .carousel-container { padding: 0 16px; }

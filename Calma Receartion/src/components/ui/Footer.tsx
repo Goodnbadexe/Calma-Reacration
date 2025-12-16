@@ -10,20 +10,16 @@ export default function Footer() {
           <div className="footer-brand">
             <img src={logoC} alt="Calma" className="footer-logo" />
             <div className="footer-title">Calma</div>
-            <div className="footer-subtitle">Where vision takes shape</div>
           </div>
-          <p className="footer-text">
-            Premium real estate crafted with precision, sustainability, and timeless elegance.
-          </p>
         </div>
         <nav className="footer-col" aria-label="Footer navigation">
-          <div className="footer-heading">Explore</div>
+          <div className="footer-heading">Quick Links</div>
           <ul className="footer-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/about">About</Link></li>
             <li><Link to="/projects">Projects</Link></li>
             <li><Link to="/news">News</Link></li>
-            <li><Link to="/register">Contact</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
           </ul>
         </nav>
         <div className="footer-col">
@@ -41,6 +37,9 @@ export default function Footer() {
             <a href="https://x.com" aria-label="X" className="footer-icon" target="_blank" rel="noreferrer">
               <Twitter />
             </a>
+          </div>
+          <div className="footer-contact" style={{ marginTop: 12 }}>
+            <a href="mailto:info@calma.sa">info@calma.sa</a>
           </div>
         </div>
       </div>

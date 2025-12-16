@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Star, Shield, Bell, Gift } from 'lucide-react';
 import { FormField, SelectField, TextareaField, Checkbox } from '../../../components/forms';
 import Button from '../../../components/ui/button';
+import SectionGroup from '@/components/ui/SectionGroup'
 import SEOHead from '../../../components/seo/SEOHead';
 import { submitLead } from '@/services/api'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -161,6 +162,7 @@ export default function Register() {
             </p>
           </motion.div>
 
+          <SectionGroup title="Personal Information">
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             <input
               type="text"
@@ -215,7 +217,10 @@ export default function Register() {
                 placeholder="+966 5X XXX XXXX"
               />
             </motion.div>
-
+          </form>
+          </SectionGroup>
+          <SectionGroup title="Preferences">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
             <motion.div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6" variants={itemVariants}>
               <FormField
                 label="City"
@@ -343,6 +348,7 @@ export default function Register() {
               {submitError && <p className="mt-3 text-sm text-accent-600" role="alert">{submitError}</p>}
             </motion.div>
           </form>
+          </SectionGroup>
         </motion.div>
       </section>
       <section className="mx-auto max-w-4xl px-6 pb-8">

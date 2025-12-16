@@ -10,6 +10,7 @@ export default function AppLayout() {
   const location = useLocation()
   const [overlayVisible, setOverlayVisible] = useState(false)
   const [reduceMotion, setReduceMotion] = useState(false)
+  const [needsSpacer, setNeedsSpacer] = useState(true)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -21,25 +22,33 @@ export default function AppLayout() {
 
   useEffect(() => {
     setOverlayVisible(true)
-    document.body.style.overflow = 'hidden'
     const timer = setTimeout(() => {
       setOverlayVisible(false)
-      document.body.style.overflow = ''
     }, reduceMotion ? 0 : 520)
     return () => {
       clearTimeout(timer)
-      document.body.style.overflow = ''
     }
-  }, [location.pathname, reduceMotion])
+  }, [])
 
   useEffect(() => {
     const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
     window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'auto' })
   }, [location.pathname])
 
+  useEffect(() => {
+    document.documentElement.style.setProperty('--nav-height', '56px')
+  })
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const hero = document.querySelector('#panorama, .hero, .hero-section, .news-hero')
+      setNeedsSpacer(!hero)
+    })
+  }, [location.pathname])
+
   return (
     <div className="page">
       <NavBar />
+      <div style={{ height: needsSpacer ? 'var(--nav-height, 64px)' : 0 }} />
       <div style={{ position: 'relative' }}>
         <AnimatePresence mode="wait">
           <motion.div

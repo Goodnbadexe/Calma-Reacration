@@ -10,6 +10,13 @@ type Props = {
 
 export default function ResponsiveImage({ src, alt, ratio = '16/9', sizes, sources = [] }: Props) {
   const resolved = resolveResponsiveSources(src, sources)
+  const [w, h] = (() => {
+    const parts = `${ratio}`.split('/')
+    const a = Number(parts[0])
+    const b = Number(parts[1])
+    if (!isNaN(a) && !isNaN(b) && a > 0 && b > 0) return [a, b]
+    return [16, 9]
+  })()
   return (
     <div style={{ position: 'relative', width: '100%', aspectRatio: ratio }}>
       <picture style={{ position: 'absolute', inset: 0 }}>
@@ -21,6 +28,8 @@ export default function ResponsiveImage({ src, alt, ratio = '16/9', sizes, sourc
           alt={alt}
           loading="lazy"
           decoding="async"
+          width={w}
+          height={h}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </picture>

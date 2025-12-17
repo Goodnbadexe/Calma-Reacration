@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'framer-motion'
 import { Button } from '../../../components/ui/button'
+import CeoPortrait from '@/components/about/CeoPortrait'
 import './About-responsive.css'
 
 // Import images
@@ -338,7 +339,7 @@ export default function AboutImproved() {
             animate={visionInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="section-title">Our Vision</h2>
+            <h2 className="section-title">VISION & VISIONARY</h2>
             <div className="dual-split-grid">
               <div className="dual-split-image">
                 <img 
@@ -377,13 +378,12 @@ export default function AboutImproved() {
             </h2>
             
             <div className="ceo-grid">
-              <div className="ceo-portrait">
-                <img 
-                  src={asset6Image} 
-                  alt="Musab Al-Majed, CEO of CALMA" 
-                  className="grid-image primary" 
-                  loading="lazy" 
-                  decoding="async" 
+              <div className="ceo-portrait metallic-card">
+                <span className="metallic-badge">METALLIC</span>
+                <CeoPortrait
+                  src={asset6Image}
+                  alt="Musab Al-Majed, CEO of CALMA"
+                  ratio="4/3"
                 />
               </div>
               <div className="ceo-text">
@@ -419,7 +419,7 @@ export default function AboutImproved() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="section-title">
-              VISIONARY & PROGRESSIVE LEADERSHIP
+              PROGRESSIVE LEADERSHIP
             </h2>
             <p className="section-subtitle">
               BUILDING TOMORROW'S COMMUNITIES TODAY
@@ -435,7 +435,7 @@ export default function AboutImproved() {
                   initial={{ opacity: 0, y: 50 }}
                   animate={leadershipInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.8, delay: index * 0.2 }}
-                  className="leadership-card"
+                  className={`leadership-card ${index === 0 ? 'leadership-card--primary' : ''}`}
                 >
                   <img src={pillar.image} alt={pillar.title} className="leadership-card-image" loading="lazy" decoding="async" />
                   <h3 className="leadership-title">{pillar.title}</h3>

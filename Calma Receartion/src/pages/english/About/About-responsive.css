@@ -249,17 +249,18 @@
   height: auto;
   border-radius: 1rem;
   object-fit: cover;
+  aspect-ratio: 4 / 3;
 }
 
 .ceo-text {
-  color: #ffffff;
+  color: var(--color-text-primary);
 }
 
 .ceo-message {
   font-size: 1.125rem;
   line-height: 1.8;
   margin-bottom: 1.5rem;
-  color: #e0e0e0;
+  color: var(--color-text-secondary);
 }
 
 .ceo-signature {
@@ -285,6 +286,21 @@
   border-left: 3px solid var(--color-accent);
   color: var(--color-text-secondary);
   font-style: italic;
+}
+
+/* Prevent Home page grid-image styles from bleeding into About CEO section */
+.ceo-grid .grid-image.primary,
+.ceo-grid .grid-image.secondary,
+.ceo-grid .grid-image.tertiary {
+  position: static;
+  inset: auto;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 1rem;
+  box-shadow: none;
+  transform: none;
+  z-index: auto;
 }
 /* Leadership Section */
 .leadership-section {
@@ -313,6 +329,10 @@
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
+.leadership-card--primary {
+  grid-column: span 2;
+  padding: 2.5rem;
+}
 
 .leadership-card:hover {
   transform: translateY(-5px);
@@ -320,21 +340,21 @@
 
 .leadership-card-image {
   width: 100%;
-  height: 160px;
+  height: 200px;
   object-fit: cover;
   border-radius: 0.75rem;
   margin-bottom: 1rem;
 }
 
 .leadership-title {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   color: #071e1f;
 }
 
 .leadership-description {
-  line-height: 1.6;
+  line-height: 1.5;
   color: #666;
 }
 
@@ -455,7 +475,7 @@
   font-size: clamp(2rem, 5vw, 3.5rem);
   font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   line-height: 1.2;
   color: var(--color-text-primary);
 }

@@ -141,6 +141,15 @@
   --transition-normal: 300ms ease-in-out;
   --transition-slow: 500ms ease-in-out;
 
+  /* Motion tokens */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.0, 0, 0.2, 1);
+  --dur-fast: 160ms;
+  --dur-medium: 240ms;
+  --dur-slow: 300ms;
+  --dur-entrance: 600ms;
+
   /* Vertical Rhythm */
   --section-vr-desktop: 72px;
   --section-vr-tablet: 56px;
@@ -149,6 +158,14 @@
   /* Section Spacing (Homepage) */
   --section-padding-desktop: 80px;
   --section-padding-mobile: 48px;
+
+  /* Extended Vertical Rhythm */
+  --section-vr-xl: 96px;
+  --section-vr-xxl: 120px;
+
+  /* Layout Gaps */
+  --gap-lg: 60px;
+  --gap-xl: 80px;
 
   /* Z-Index */
   --z-dropdown: 1000;

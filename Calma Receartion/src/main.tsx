@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { HelmetProvider } from 'react-helmet-async'
 
 // English Pages
-const EnglishHome = lazy(() => import('./pages/english/Home/Home'))
+import EnglishHome from './pages/english/Home/Home'
 const AboutImproved = lazy(() => import('./pages/english/About/AboutImproved'))
 const News = lazy(() => import('./pages/english/News/News'))
 const ProjectsPage = lazy(() => import('./pages/english/Projects/ProjectsPage'))

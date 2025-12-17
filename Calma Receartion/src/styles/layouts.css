@@ -3,7 +3,8 @@
 .dual-split-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  gap: var(--gap-xl);
+  padding-inline: var(--spacing-xl);
   align-items: center;
 }
 .dual-split-title {

@@ -2,6 +2,7 @@ import { motion, circOut } from 'framer-motion'
 import brandValuesImage from '@/assets/Images/About/Brand-Values-1.JPG'
 import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.JPG'
 import statsImage2 from '@/assets/Images/About/Stats130000-sqm.JPG'
+import { shuffle } from '@/utils/shuffle'
 import { Button } from '@/components/ui/button'
 
 const fadeInLeft = {
@@ -18,6 +19,12 @@ const staggerContainer = {
 }
 
 export default function Excellence() {
+  const images = [
+    { src: brandValuesImage, alt: 'Excellence Showcase', cls: 'primary', delay: 0 },
+    { src: statsImage1, alt: 'Development Excellence', cls: 'secondary', delay: 0.2 },
+    { src: statsImage2, alt: 'Project Innovation', cls: 'tertiary', delay: 0.4 },
+  ]
+  const shuffled = shuffle(images, 20251217)
   return (
     <motion.section 
       className="section content-section luxury-content-section showcase-strips reveal-block"
@@ -40,20 +47,20 @@ export default function Excellence() {
               Expanding across the KSA, we set new benchmarks in luxury development, creating 
               landmarks that inspire and endure for generations.
             </p>
-            <div className="excellence-highlights">
-              <div className="highlight-item">
-                <span className="highlight-number">28+</span>
-                <span className="highlight-text">Delivered Projects</span>
+              <div className="excellence-highlights">
+                <div className="highlight-item">
+                  <span className="highlight-number">28+</span>
+                  <span className="highlight-text">Delivered Projects</span>
+                </div>
+                <div className="highlight-item">
+                  <span className="highlight-number">+2,000</span>
+                  <span className="highlight-text">Families Served</span>
+                </div>
+                <div className="highlight-item">
+                  <span className="highlight-number">3</span>
+                  <span className="highlight-text">Major Cities</span>
+                </div>
               </div>
-              <div className="highlight-item">
-                <span className="highlight-number">2,000+</span>
-                <span className="highlight-text">Families Served</span>
-              </div>
-              <div className="highlight-item">
-                <span className="highlight-number">3</span>
-                <span className="highlight-text">Major Cities</span>
-              </div>
-            </div>
             <div className="cta-row">
               <a className="button-link" href="/projects">
                 <Button variant="secondary" className="luxury-button">
@@ -64,36 +71,19 @@ export default function Excellence() {
           </motion.div>
           <motion.div className="showcase-images" variants={fadeInRight}>
             <div className="image-grid">
-              <motion.img 
-                src={brandValuesImage} 
-                alt="Excellence Showcase" 
-                className="grid-image primary"
-                loading="lazy"
-                decoding="async"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: 'easeOut' }}
-              />
-              <motion.img 
-                src={statsImage1} 
-                alt="Development Excellence" 
-                className="grid-image secondary"
-                loading="lazy"
-                decoding="async"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.2 }}
-              />
-              <motion.img 
-                src={statsImage2} 
-                alt="Project Innovation" 
-                className="grid-image tertiary"
-                loading="lazy"
-                decoding="async"
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 }}
-              />
+              {shuffled.map((img, i) => (
+                <motion.img
+                  key={img.alt}
+                  src={img.src}
+                  alt={img.alt}
+                  className={`grid-image ${img.cls}`}
+                  loading="lazy"
+                  decoding="async"
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 1.2, ease: 'easeOut', delay: img.delay }}
+                />
+              ))}
             </div>
           </motion.div>
         </motion.div>
@@ -101,4 +91,3 @@ export default function Excellence() {
     </motion.section>
   )
 }
-

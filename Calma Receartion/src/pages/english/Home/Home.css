@@ -723,7 +723,25 @@
   width: 100%;
 }
 
-.grid-image.primary {
+/* Horizontal 4x1 image grid override for Excellence */
+.image-grid.horizontal-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  height: auto;
+  width: 100%;
+}
+.image-grid.horizontal-4 .grid-image {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+  transform: none !important;
+}
+
+.showcase-images .grid-image.primary {
   position: absolute;
   top: 0;
   left: 0;
@@ -742,7 +760,7 @@
   transform: rotate(0deg) scale(1.02);
 }
 
-.grid-image.secondary {
+.showcase-images .grid-image.secondary {
   position: absolute;
   top: 20%;
   right: 0;
@@ -761,7 +779,7 @@
   transform: rotate(1deg) scale(1.05);
 }
 
-.grid-image.tertiary {
+.showcase-images .grid-image.tertiary {
   position: absolute;
   bottom: 0;
   right: 15%;
@@ -835,29 +853,29 @@
   .showcase-content {
     padding: 0 2rem;
     text-align: center;
-    order: 2;
+    order: 1;
   }
   
   .showcase-images {
     height: 500px;
-    order: 1;
+    order: 2;
   }
   
-  .grid-image.primary {
+  .showcase-images .grid-image.primary {
     width: 70%;
     height: 70%;
     left: 5%;
     transition: all 0.4s ease;
   }
   
-  .grid-image.secondary {
+  .showcase-images .grid-image.secondary {
     width: 50%;
     height: 45%;
     right: 5%;
     transition: all 0.4s ease;
   }
   
-  .grid-image.tertiary {
+  .showcase-images .grid-image.tertiary {
     width: 45%;
     height: 40%;
     right: 20%;
@@ -912,7 +930,7 @@
   .showcase-content {
     padding: 0 1rem;
     text-align: center;
-    order: 2;
+    order: 1;
     max-width: 100%;
   }
   
@@ -941,17 +959,17 @@
   .showcase-images {
     height: 400px;
     margin: 0 1rem;
-    order: 1;
+    order: 2;
   }
   
-  .grid-image.primary {
+  .showcase-images .grid-image.primary {
     width: 75%;
     height: 65%;
     left: 0;
     transform: rotate(-1deg);
   }
   
-  .grid-image.secondary {
+  .showcase-images .grid-image.secondary {
     width: 55%;
     height: 40%;
     right: 0;
@@ -959,7 +977,7 @@
     transform: rotate(2deg);
   }
   
-  .grid-image.tertiary {
+  .showcase-images .grid-image.tertiary {
     width: 50%;
     height: 35%;
     right: 15%;

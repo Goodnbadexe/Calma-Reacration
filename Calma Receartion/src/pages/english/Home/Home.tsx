@@ -59,33 +59,13 @@ import Pillars from '@/components/home/Pillars'
 import KPIStats from '@/components/home/KPIStats'
 
 export default function EnglishHome() {
-  const panoRef = useRef<HTMLElement | null>(null)
   const heroVideoRef = useRef<HTMLVideoElement | null>(null)
   const [heroReady, setHeroReady] = useState(false)
-  const [videoSrc, setVideoSrc] = useState<string | undefined>(undefined)
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(calmaTV)
   const [contentVisible, setContentVisible] = useState(false)
   // keep src stable; signal splash readiness on media load
   const { signalReady } = useSplash()
   const showMicroContent = true
-
-  // Image rotation state
-  const [currentImageSet, setCurrentImageSet] = useState(0)
-  
-  // Define image sets for rotation
-  const imageSets = [
-    { primary: brandValuesImage, secondary: statsImage1, tertiary: statsImage2 },
-    { primary: asset1Image, secondary: asset2Image, tertiary: asset3Image },
-    { primary: asset4Image, secondary: asset5Image, tertiary: asset6Image }
-  ]
-
-  // Auto-rotate images every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageSet((prev) => (prev + 1) % imageSets.length)
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [imageSets.length])
 
   useEffect(() => {
     const el = heroVideoRef.current
@@ -144,6 +124,12 @@ export default function EnglishHome() {
     io.observe(el)
     return () => io.disconnect()
   }, [videoSrc])
+  useEffect(() => {
+    const id = setTimeout(() => {
+      if (!contentVisible) setContentVisible(true)
+    }, 1500)
+    return () => clearTimeout(id)
+  }, [contentVisible])
 
   // Animation variants
   const fadeInUp = {
@@ -184,15 +170,6 @@ export default function EnglishHome() {
     }
   }
 
-  const floatingAnimation = {
-    y: [0, -10, 0],
-    transition: {
-      duration: 3,
-      repeat: Infinity,
-      ease: easeInOut
-    }
-  }
-
   return (
     <div className="home-page">
       {/* Hero Section with Video */}
@@ -212,7 +189,7 @@ export default function EnglishHome() {
             loop
             muted
             playsInline
-            preload="none"
+            preload="metadata"
             poster={aboutHeaderImage}
             aria-label="Calma TV hero video"
             onLoadedData={() => {
@@ -259,16 +236,59 @@ export default function EnglishHome() {
         </div>
       </motion.section>
 
+      {/* Redefining Luxury Living — Dual Split (placed directly below hero) */}
+      <motion.section 
+        className="dual-split section showcase-strips"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={staggerContainer}
+      >
+        <div className="dual-split-grid">
+          <motion.div className="dual-split-text" variants={fadeInLeft}>
+            <h2 className="dual-split-title">Redefining Luxury Living</h2>
+            <p className="dual-split-description">
+              We ground bold vision in crafted realism — designing spaces that feel poetic yet purposeful.
+              Every decision balances material truth with human experience.
+            </p>
+            <div className="cta-row">
+              <a className="button-link" href="/projects">
+                <Button variant="secondary" className="luxury-button">
+                  Explore Our Projects
+                </Button>
+              </a>
+            </div>
+          </motion.div>
+          <motion.div 
+            className="dual-split-image" 
+            variants={fadeInRight}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <picture>
+              <source srcSet={homeImpactImage} type="image/jpeg" />
+              <img src={homeImpactImage} alt="Calma impact" className="dual-image" loading="lazy" decoding="async" width={1600} height={1200} />
+            </picture>
+          </motion.div>
+        </div>
+        {showMicroContent && (
+          <motion.div className="micro-tagline" variants={fadeInUp}>
+            Designed for elegant living.
+          </motion.div>
+        )}
+      </motion.section>
+
       <main className={`main-content ${contentVisible ? 'reveal-visible' : 'reveal-hidden'}`}>
         <AboutCalma />
         <Excellence />
         <Pillars />
-        <KPIStats />
-        <FeaturedProjectsCarousel />
-        <TrustStrip />
-        <TestimonialsBand />
-        <ProjectPreviewGrid />
         <MissionVision />
+        <KPIStats />
+        {/* Temporarily hide cluttered band to streamline home page */}
+        {/* <TrustStrip /> */}
+        {/* <TestimonialsBand /> */}
+        <ProjectPreviewGrid />
       </main>
     </div>
   )

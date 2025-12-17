@@ -74,7 +74,7 @@ export default function AboutCalma() {
           <motion.div className="content-image" variants={fadeInRight}>
             <picture>
               <source srcSet={aboutHeaderImage} type="image/jpeg" />
-              <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" loading="lazy" decoding="async" />
+              <img src={aboutHeaderImage} alt="Calma Development" className="luxury-image" loading="lazy" decoding="async" width={1600} height={1200} />
             </picture>
           </motion.div>
         </motion.div>

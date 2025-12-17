@@ -2,7 +2,7 @@
 
 :root {
   --easing-luxury: cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-luxury: all 0.4s var(--easing-luxury);
+  --transition-luxury: transform 0.4s var(--easing-luxury), opacity 0.4s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), box-shadow 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
   --shadow-glass: 0 8px 32px rgba(7, 30, 31, 0.1);
   --shadow-luxury: 0 10px 40px rgba(7, 30, 31, 0.15);
   --shadow-subtle: 0 2px 8px rgba(7, 30, 31, 0.1);
@@ -18,7 +18,7 @@
   left: 16px;
   right: 16px;
   z-index: 1000;
-  transition: all 0.4s var(--easing-luxury);
+  transition: transform 0.4s var(--easing-luxury), opacity 0.4s var(--easing-luxury);
   border: 1px solid rgba(7, 30, 31, 0.2);
   border-radius: 50px;
   will-change: transform, opacity;
@@ -201,7 +201,7 @@
   padding: 20px;
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-luxury);
+  transition: opacity 0.24s var(--easing-luxury);
 }
 
 .mobile-menu.open {
@@ -221,7 +221,7 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
   transform: translateX(100%);
-  transition: var(--transition-luxury);
+  transition: transform 0.24s var(--easing-luxury);
   position: relative;
   overflow: hidden;
 }
@@ -274,7 +274,7 @@
   padding: 16px 20px;
   border-radius: 16px;
   cursor: pointer;
-  transition: all var(--transition-luxury);
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   text-decoration: none;
@@ -334,7 +334,7 @@
   padding: 12px 20px 12px 40px;
   border-radius: 12px;
   cursor: pointer;
-  transition: all var(--transition-luxury);
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.05);
   text-decoration: none;
@@ -355,7 +355,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 8px;
-  transition: all var(--transition-luxury);
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
 }
 
 .mobile-menu .close-button:hover {
@@ -393,7 +393,7 @@
   color: var(--color-primary-dark);
   font-weight: 500;
   cursor: pointer;
-  transition: var(--transition-luxury);
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), box-shadow 0.3s var(--easing-luxury);
   border: none;
   background: none;
   width: 100%;
@@ -558,13 +558,13 @@
  }
 
  .mobile-action-btn {
-   background: rgba(255, 255, 255, 0.08);
-   border: 1px solid rgba(255, 255, 255, 0.15);
-   border-radius: 16px;
-   padding: 16px;
-   color: white;
-   transition: all var(--transition-luxury);
-   backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+  color: white;
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
+  backdrop-filter: blur(12px);
    
    &:hover {
      background: rgba(255, 255, 255, 0.12);
@@ -575,18 +575,18 @@
  }
 
  .mobile-language-btn {
-   background: rgba(255, 255, 255, 0.08);
-   border: 1px solid rgba(255, 255, 255, 0.15);
-   border-radius: 16px;
-   padding: 12px 20px;
-   color: white;
-   font-size: 0.9rem;
-   font-weight: 500;
-   transition: all var(--transition-luxury);
-   backdrop-filter: blur(12px);
-   display: flex;
-   align-items: center;
-   gap: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 12px 20px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
    
    &:hover {
      background: rgba(255, 255, 255, 0.12);
@@ -597,16 +597,16 @@
  }
 
  .mobile-register-btn {
-   background: linear-gradient(135deg, var(--color-accent-gold), #d4af37);
-   border: 1px solid rgba(255, 255, 255, 0.2);
-   border-radius: 16px;
-   padding: 16px 24px;
-   color: white;
-   font-weight: 600;
-   font-size: 1.1rem;
-   transition: all var(--transition-luxury);
-   backdrop-filter: blur(12px);
-   box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
+  background: linear-gradient(135deg, var(--color-accent-gold), #d4af37);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 16px 24px;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: transform 0.3s var(--easing-luxury), box-shadow 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.3);
    
    &:hover {
      background: linear-gradient(135deg, #d4af37, var(--color-accent-gold));
@@ -620,7 +620,7 @@
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: var(--color-neutral-light);
-  transition: var(--transition-luxury);
+  transition: transform 0.3s var(--easing-luxury), color 0.3s var(--easing-luxury), background-color 0.3s var(--easing-luxury), border-color 0.3s var(--easing-luxury), box-shadow 0.3s var(--easing-luxury);
 }
 
 .glass-nav .theme-toggle-nav:hover {

@@ -1,62 +1,26 @@
 import { useRef, useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import VisionCounter from '@/components/ui/VisionCounter'
-import AnimatedNumber from '@/components/ui/AnimatedNumber'
-import panoramaImage from '@/assets/Backgrounds/Abou-1-p-1600.jpg'
-import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
-import brandValuesImage from '@/assets/Images/About/Brand-Values-1.JPG'
-import statsImage1 from '@/assets/Images/About/Stats-77097-sqm.JPG'
-import statsImage2 from '@/assets/Images/About/Stats130000-sqm.JPG'
-
-// Additional images for rotation
-import asset1Image from '@/assets/Images/About/Asset-1.JPG'
-import asset2Image from '@/assets/Images/About/Asset-2.JPG'
-import asset3Image from '@/assets/Images/About/Asset-3.JPG'
-import asset4Image from '@/assets/Images/About/Asset-4.JPG'
-import asset5Image from '@/assets/Images/About/Asset-5.jpg'
-import asset6Image from '@/assets/Images/About/Asset-6.JPG'
 import homeImpactImage from '@/assets/Images/Home/Calma_KSR_ex03_Final02_2025-05-28.JPG'
+import aboutHeaderImage from '@/assets/Images/About/About-Header.jpg'
 
 //import React from 'react'
-import { motion, circOut, easeInOut } from 'framer-motion'
+import { motion, circOut } from 'framer-motion'
 import anime from 'animejs'
 import { useSplash } from '@/components/system/SplashProvider'
 
-import fullLockupLogo from '@/assets/Logos/BRANDMARK_01-p-2000.png'
-//import group270Logo from '@/assets/Images/About/Group-270.png'
-import possibilitiesIcon from '@/assets/Icons/500000-sqm-of-possibilities-unfolding..png'
-//import heroImage from '@/assets/Backgrounds/About-Header-p-1600.jpg'
 import calmaTV from '@/assets/Videos/Calma_TV.mp4'
 import { homeEn } from '@/pages/content/home.en'
 import './Home.css'
-// inline SVG icons for snapshot cards
-const SustainabilityIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path d="M12 3c4.5 2.5 7 6.5 7 10a7 7 0 0 1-14 0c0-3.5 2.5-7.5 7-10Z" stroke="#64523D" strokeWidth="1.5"/>
-    <path d="M12 8c-2 1.2-3 3-3 5 1.5-1 3-1.5 4.5-1.3" stroke="#8B7355" strokeWidth="1.5" strokeLinecap="round"/>
-  </svg>
-)
-const PremiumIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path d="M12 3l3.5 6 5.5.8-4 4.3 1 6.1-6-3.3-6 3.3 1-6.1-4-4.3 5.5-.8L12 3Z" stroke="#C5A46D" strokeWidth="1.5" strokeLinejoin="round"/>
-  </svg>
-)
-const InnovationIcon = () => (
-  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <rect x="5" y="10" width="4" height="9" stroke="#64523D" strokeWidth="1.5"/>
-    <rect x="10" y="7" width="4" height="12" stroke="#8B7355" strokeWidth="1.5"/>
-    <rect x="15" y="4" width="4" height="15" stroke="#C5A46D" strokeWidth="1.5"/>
-  </svg>
-)
+
 import FeaturedProjectsCarousel from '@/components/home/FeaturedProjectsCarousel'
 import TrustStrip from '@/components/home/TrustStrip'
-import TestimonialsBand from '@/components/home/TestimonialsBand'
 import ProjectPreviewGrid from '@/components/home/ProjectPreviewGrid'
 import MissionVision from '@/components/home/MissionVision'
 import AboutCalma from '@/components/home/AboutCalma'
 import Excellence from '@/components/home/Excellence'
 import Pillars from '@/components/home/Pillars'
 import KPIStats from '@/components/home/KPIStats'
+import TestimonialsBand from '@/components/home/TestimonialsBand'
 
 export default function EnglishHome() {
   const heroVideoRef = useRef<HTMLVideoElement | null>(null)
@@ -286,8 +250,8 @@ export default function EnglishHome() {
         <MissionVision />
         <KPIStats />
         {/* Temporarily hide cluttered band to streamline home page */}
-        {/* <TrustStrip /> */}
-        {/* <TestimonialsBand /> */}
+        <TrustStrip />
+        <TestimonialsBand />
         <ProjectPreviewGrid />
       </main>
     </div>

@@ -11,10 +11,13 @@ export function runPreflight() {
   const missing: string[] = []
   required.forEach((f) => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-var-requires
-      // @ts-ignore
-      const ok = !!f
-    } catch (e) {
+      // In Vite we can't easily check file existence synchronously without node modules in browser
+      // This logic was flawed anyway as it was just checking string truthiness
+      // We'll skip the check or use a dynamic import if needed, but for now let's just assume they exist
+      // or implement a better check if this is node environment.
+      // Since this runs in browser, we can't use fs.
+      if (!f) missing.push(f)
+    } catch {
       missing.push(f)
     }
   })

@@ -9,7 +9,7 @@ export type ApiError = {
 type RequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
   headers?: Record<string, string>
-  body?: any
+  body?: unknown
   timeoutMs?: number
   retries?: number
   retryDelayMs?: number
@@ -52,13 +52,14 @@ async function request<T>(path: string, opts: RequestOptions = {}): Promise<T> {
         return (await res.json()) as T
       }
       return (await res.text()) as unknown as T
-    } catch (e: any) {
+    } catch (e: unknown) {
       clearTimeout(t)
       attempt++
-      const isAbort = e?.name === 'AbortError'
+      const isAbort = e instanceof Error && e.name === 'AbortError'
       if (attempt > retries || isAbort) {
-        if (e && typeof e.status === 'number') throw e as ApiError
-        const err: ApiError = { status: 0, message: String(e?.message || 'Network error') }
+        if (e && typeof (e as ApiError).status === 'number') throw e as ApiError
+        const msg = e instanceof Error ? e.message : 'Network error'
+        const err: ApiError = { status: 0, message: msg }
         throw err
       }
       await sleep(retryDelayMs * attempt)
@@ -79,7 +80,7 @@ export const apiClient = {
   get<T>(path: string, opts?: Omit<RequestOptions, 'method' | 'body'>) {
     return request<T>(path, { ...(opts || {}), method: 'GET' })
   },
-  post<T>(path: string, body?: any, opts?: Omit<RequestOptions, 'method' | 'body'>) {
+  post<T>(path: string, body?: unknown, opts?: Omit<RequestOptions, 'method' | 'body'>) {
     return request<T>(path, { ...(opts || {}), method: 'POST', body })
   },
 }

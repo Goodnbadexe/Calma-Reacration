@@ -1,81 +1,142 @@
-import { motion } from 'framer-motion'
-import Button from '@/components/ui/button'
-import SEOHead from '@/components/seo/SEOHead'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { motion } from 'framer-motion';
+import Button from '@/components/ui/button';
+import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import './Contact.css';
 
 export default function Contact() {
-  const { t } = useLanguage()
   return (
-    <main className="bg-neutral-50">
-      <SEOHead
-        title="Contact CALMA"
-        description="Get in touch with CALMA for enquiries about our luxury developments, partnerships, or media."
-        locale="en"
-        canonical="/contact"
-        alternates={[
-          { hrefLang: 'ar', href: '/ar/contact' },
-          { hrefLang: 'en', href: '/contact' }
-        ]}
-      />
-      <section className="mx-auto max-w-3xl px-6 py-16 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <h1 className="text-4xl font-serif text-neutral-900">Contact CALMA</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-neutral-700">
-            We’re here to help. Reach out to our team for enquiries or assistance.
-          </p>
-        </motion.div>
+    <main className="contact-page">
+      {/* Hero Section */}
+      <section className="contact-hero">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="hero-content"
+          >
+            <h1>Contact Us</h1>
+            <p>We are here to help you realize your residential dream</p>
+          </motion.div>
+        </div>
       </section>
-      <section className="mx-auto max-w-4xl px-6 pb-24">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="rounded-xl bg-white p-6 shadow-luxury">
-            <h2 className="text-xl font-semibold text-neutral-900">Call Us</h2>
-            <p className="mt-2 text-neutral-700">Saudi Arabia</p>
-            <p className="mt-1 text-neutral-900 font-mono">+966 9200 06553</p>
-            <Button
-              variant="ghost"
-              className="mt-4 rounded-full"
-              aria-label={t('actions.call')}
-              onClick={() => {
-                if (window.confirm('Do you want to dial now?')) {
-                  window.location.href = 'tel:+966920006553'
-                }
-              }}
+
+      {/* Contact Information */}
+      <section className="contact-info">
+        <div className="container">
+          <div className="contact-grid">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              className="contact-card"
             >
-              {t('actions.call')}
-            </Button>
-          </div>
-          <div className="rounded-xl bg-white p-6 shadow-luxury">
-            <h2 className="text-xl font-semibold text-neutral-900">WhatsApp</h2>
-            <p className="mt-2 text-neutral-700">Chat with our team</p>
-            <Button
-              variant="ghost"
-              className="mt-4 rounded-full"
-              aria-label={t('actions.whatsapp')}
-              onClick={() => {
-                if (window.confirm('Open WhatsApp chat?')) {
-                  window.open('https://wa.me/966920006553', '_blank')
-                }
-              }}
+              <MapPin className="contact-icon" />
+              <h3>Address</h3>
+              <p>Riyadh, Saudi Arabia</p>
+              <p>Al Malqa District, King Fahd Road</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="contact-card"
             >
-              {t('actions.whatsapp')}
-            </Button>
+              <Phone className="contact-icon" />
+              <h3>Phone</h3>
+              <p>+966 92 000 6553</p>
+              <p>Available 24/7</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="contact-card"
+            >
+              <Mail className="contact-icon" />
+              <h3>Email</h3>
+              <p>info@calma.sa</p>
+              <p>sales@calma.sa</p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="contact-card"
+            >
+              <Clock className="contact-icon" />
+              <h3>Working Hours</h3>
+              <p>Sunday - Thursday: 9:00 - 18:00</p>
+              <p>Friday - Saturday: Closed</p>
+            </motion.div>
           </div>
         </div>
-        <div className="mt-8 rounded-xl bg-white p-6 shadow-luxury">
-          <h2 className="text-xl font-semibold text-neutral-900">Email</h2>
-          <p className="mt-2 text-neutral-700">For formal enquiries</p>
-          <a
-            className="mt-1 inline-block font-mono text-primary"
-            href="mailto:info@calma.sa"
+      </section>
+
+      {/* Contact Form */}
+      <section className="contact-form-section">
+        <div className="container">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="form-container"
           >
-            info@calma.sa
-          </a>
+            <h2>Send us a message</h2>
+            <form className="contact-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Full Name</label>
+                  <input type="text" id="name" name="name" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address</label>
+                  <input type="email" id="email" name="email" required />
+                </div>
+              </div>
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="phone">Phone Number</label>
+                  <input type="tel" id="phone" name="phone" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="subject">Subject</label>
+                  <select id="subject" name="subject" required>
+                    <option value="">Select Subject</option>
+                    <option value="residential">Residential Projects</option>
+                    <option value="commercial">Commercial Projects</option>
+                    <option value="investment">Investment</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea id="message" name="message" rows={6} required></textarea>
+              </div>
+              <Button type="submit" className="submit-btn">
+                Send Message
+              </Button>
+            </form>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Map Section */}
+      <section className="map-section">
+        <div className="container">
+          <h2>Our Location</h2>
+          <div className="map-container">
+            <div className="map-placeholder">
+              <p>Site Map</p>
+              <p>Riyadh, Saudi Arabia</p>
+            </div>
+          </div>
         </div>
       </section>
     </main>
-  )
+  );
 }

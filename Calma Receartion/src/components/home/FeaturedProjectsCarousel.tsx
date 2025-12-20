@@ -1,12 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import useEmblaCarousel, { type EmblaOptionsType } from 'embla-carousel-react'
+import useEmblaCarousel from 'embla-carousel-react'
+import type { EmblaOptionsType } from 'embla-carousel'
 import ProjectCard, { type Project } from '@/components/home/ProjectCard'
 import { projectsData } from '@/data/projects.data'
 
 const pickPreviewImage = (glob: string): string => {
   try {
     const mods = import.meta.glob('/src/assets/Images/Projects/**/*.{png,jpg,jpeg,webp}', { eager: true }) as Record<string, any>
-    const match = Object.entries(mods).find(([k]) => k.includes(glob.split('/src/assets/Images/Projects/')[1] || ''))
+    // Remove the wildcard part to match against actual file paths
+    // e.g. "Folder/Subfolder/*.{png...}" -> "Folder/Subfolder/"
+    const folderPart = glob.split('/src/assets/Images/Projects/')[1]?.split('*')[0]
+    if (!folderPart) return ''
+
+    const match = Object.entries(mods).find(([k]) => k.includes(folderPart))
     const url = match ? (typeof match[1] === 'string' ? match[1] : match[1]?.default) : undefined
     return url || ''
   } catch {
@@ -73,10 +79,25 @@ export default function FeaturedProjectsCarousel() {
         emblaApi.scrollPrev()
       }
     }
-    const root = emblaRef.current as unknown as HTMLElement | null
+    // emblaRef is a callback ref in recent versions, not a RefObject with .current
+    // But embla-carousel-react returns [EmblaViewportRefType, EmblaCarouselType]
+    // where EmblaViewportRefType is <ViewportElement extends HTMLElement>(instance: ViewportElement | null) => void
+    // So we can't attach listeners to it directly here easily if we don't have the node.
+    // However, usually we attach keyboard listeners to window or document for carousel control,
+    // or we need to capture the node via the ref callback.
+    // For simplicity here, let's attach to window, or just rely on embla's internal keyboard plugin if used.
+    // Given the code tries to access emblaRef.current, let's just use document for now
+    // or if we really want the root node, we can get it from emblaApi.rootNode() if initialized.
+    
+    if (!emblaApi) return
+
+    const root = emblaApi.rootNode()
     if (root) root.addEventListener('keydown', onKey)
-    return () => root && root.removeEventListener('keydown', onKey)
-  }, [emblaApi, emblaRef])
+    
+    return () => {
+      if (root) root.removeEventListener('keydown', onKey)
+    }
+  }, [emblaApi])
 
   useEffect(() => {
     const toPreload = slides.slice(0, 3)

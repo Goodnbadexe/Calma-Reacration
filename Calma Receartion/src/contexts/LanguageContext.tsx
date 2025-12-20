@@ -59,7 +59,21 @@ const translations = {
     'nav.allProjects': 'All Projects',
     'nav.commercials': 'Commercials',
     'nav.residential': 'Residential',
-    'nav.calmaTower': 'Calma Tower'
+    'nav.calmaTower': 'Calma Tower',
+    
+    // Footer
+    'footer.vision': 'Where vision takes shape',
+    'footer.description': 'Premium real estate crafted with precision, sustainability, and timeless elegance.',
+    'footer.explore': 'Explore',
+    'footer.connect': 'Connect',
+    'footer.newsletter': 'Newsletter',
+    'footer.subscribeDesc': 'Subscribe to receive updates on our latest projects.',
+    'footer.emailPlaceholder': 'Email address',
+    'footer.subscribe': 'Subscribe',
+    'footer.rights': 'Calma. All rights reserved.',
+    'footer.privacy': 'Privacy Policy',
+    'footer.terms': 'Terms of Service',
+    'footer.cookies': 'Cookie Settings'
   },
   ar: {
     // Navigation
@@ -98,6 +112,20 @@ const translations = {
     'actions.call': 'اتصل',
     'actions.whatsapp': 'واتساب',
     'actions.register': 'سجل اهتمامك',
+    
+    // Footer
+    'footer.vision': 'حيث تتشكل الرؤية',
+    'footer.description': 'عقارات فاخرة مصممة بدقة واستدامة وأناقة خالدة.',
+    'footer.explore': 'استكشف',
+    'footer.connect': 'تواصل معنا',
+    'footer.newsletter': 'النشرة البريدية',
+    'footer.subscribeDesc': 'اشترك لاستلام آخر تحديثات مشاريعنا.',
+    'footer.emailPlaceholder': 'البريد الإلكتروني',
+    'footer.subscribe': 'اشترك',
+    'footer.rights': 'كالما. جميع الحقوق محفوظة.',
+    'footer.privacy': 'سياسة الخصوصية',
+    'footer.terms': 'شروط الخدمة',
+    'footer.cookies': 'إعدادات ملفات تعريف الارتباط',
     'actions.openMenu': 'فتح القائمة',
     'actions.closeMenu': 'إغلاق القائمة',
     // Projects menu
